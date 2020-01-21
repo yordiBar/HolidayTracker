@@ -66,7 +66,15 @@ namespace HolidayTracker
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            CreateRoles(services).Wait();
+            try
+            {
+                CreateRoles(services).Wait();
+            }
+            catch(AggregateException ae)
+            {
+                throw ae;
+            }
+            
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)
@@ -85,7 +93,7 @@ namespace HolidayTracker
             //here we are assigning the Admin role to the User that we have registered above 
             //Now, we are assinging admin role to this user("Ali@gmail.com"). When will we run this project then it will
             //be assigned to that user.
-            IdentityUser user = await UserManager.FindByEmailAsync("Ali@gmail.com");
+            IdentityUser user = await UserManager.FindByEmailAsync("user1@user1.com");
             var User = new IdentityUser();
             await UserManager.AddToRoleAsync(user, "Admin");
         }
