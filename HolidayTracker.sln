@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HolidayTracker", "HolidayTracker.csproj", "{A3060D78-6257-4421-A753-A9E662BF254A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A3060D78-6257-4421-A753-A9E662BF254A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3060D78-6257-4421-A753-A9E662BF254A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3060D78-6257-4421-A753-A9E662BF254A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3060D78-6257-4421-A753-A9E662BF254A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BAF61621-EC9A-40E3-BA1E-B0F3F5B50DD8}
+	EndGlobalSection
+EndGlobal
