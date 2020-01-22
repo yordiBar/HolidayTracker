@@ -18,9 +18,8 @@
 
 
   <ItemGroup>
-    <Folder Include="Views\Employees\" />
-    <Folder Include="Views\Departments\" />
-    <Folder Include="Views\Companies\" />
+    <Folder Include="Models\Allowance\" />
+    <Folder Include="Views\Company\" />
   </ItemGroup>
 
 </Project>

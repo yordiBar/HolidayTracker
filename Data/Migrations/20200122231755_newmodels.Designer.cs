@@ -4,14 +4,16 @@ using HolidayTracker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HolidayTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200122231755_newmodels")]
+    partial class newmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,105 +151,6 @@ namespace HolidayTracker.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmployeeWorkingDays");
-                });
-
-            modelBuilder.Entity("HolidayTracker.Models.Gender.Gender", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CompanyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Genders");
-                });
-
-            modelBuilder.Entity("HolidayTracker.Models.Location.Location", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CompanyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LocationCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LocationName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Locations");
-                });
-
-            modelBuilder.Entity("HolidayTracker.Models.Request.Request", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CompanyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("From")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RequestAmount")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RequestCreatedByEmployeeId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RequestTypeId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("To")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Requests");
-                });
-
-            modelBuilder.Entity("HolidayTracker.Models.RequestType.RequestType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CompanyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RequestTypeCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RequestTypeName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RequestTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
