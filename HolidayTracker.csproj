@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Models\Allowance\" />
-    <Folder Include="Views\Companies\" />
   </ItemGroup>
 
 </Project>

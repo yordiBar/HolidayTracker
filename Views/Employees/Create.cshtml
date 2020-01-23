@@ -1,0 +1,82 @@
+﻿@page
+@model HolidayTracker.Views.Employees.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Employee.LocationId" class="control-label"></label>
+                <input asp-for="Employee.LocationId" class="form-control" />
+                <span asp-validation-for="Employee.LocationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.DepartmentId" class="control-label"></label>
+                <input asp-for="Employee.DepartmentId" class="form-control" />
+                <span asp-validation-for="Employee.DepartmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.StartDate" class="control-label"></label>
+                <input asp-for="Employee.StartDate" class="form-control" />
+                <span asp-validation-for="Employee.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.LeavingDate" class="control-label"></label>
+                <input asp-for="Employee.LeavingDate" class="form-control" />
+                <span asp-validation-for="Employee.LeavingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.EmployeeTypeId" class="control-label"></label>
+                <input asp-for="Employee.EmployeeTypeId" class="form-control" />
+                <span asp-validation-for="Employee.EmployeeTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.EmployeeNumber" class="control-label"></label>
+                <input asp-for="Employee.EmployeeNumber" class="form-control" />
+                <span asp-validation-for="Employee.EmployeeNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.JobTitle" class="control-label"></label>
+                <input asp-for="Employee.JobTitle" class="form-control" />
+                <span asp-validation-for="Employee.JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.GenderId" class="control-label"></label>
+                <input asp-for="Employee.GenderId" class="form-control" />
+                <span asp-validation-for="Employee.GenderId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Employee.IsLocked" /> @Html.DisplayNameFor(model => model.Employee.IsLocked)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Employee.IsDeleted" /> @Html.DisplayNameFor(model => model.Employee.IsDeleted)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.CompanyId" class="control-label"></label>
+                <input asp-for="Employee.CompanyId" class="form-control" />
+                <span asp-validation-for="Employee.CompanyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+

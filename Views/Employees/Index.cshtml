@@ -1,8 +1,97 @@
-﻿
+﻿@page
+@model HolidayTracker.Views.Employees.IndexModel
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>This is the Employee page</h1>
+<h1>Index</h1>
 
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].LocationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].DepartmentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].LeavingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].EmployeeTypeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].EmployeeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].JobTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].GenderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].IsLocked)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee[0].CompanyId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Employee) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartmentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeavingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GenderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsLocked)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyId)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
