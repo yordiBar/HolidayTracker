@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using HolidayTracker.Models.Allowance;
 using HolidayTracker.Models.Company;
 using HolidayTracker.Models.Department;
 using HolidayTracker.Models.Employee;
@@ -29,5 +30,6 @@ namespace HolidayTracker.Data
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<RequestType> RequestTypes { get; set; }
+        public DbSet<Allowance> Allowances { get; set; }
     }
 }
