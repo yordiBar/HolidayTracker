@@ -91,9 +91,9 @@ namespace HolidayTracker
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
             }
             //here we are assigning the Admin role to the User that we have registered above 
-            //Now, we are assinging admin role to this user("admin@admin.com"). When will we run this project then it will
+            //Now, we are assinging admin role to this user("luke@luke.com"). When will we run this project then it will
             //be assigned to that user.
-            IdentityUser user = await UserManager.FindByEmailAsync("admin@admin.com");
+            IdentityUser user = await UserManager.FindByEmailAsync("luke@luke.com");
             var User = new IdentityUser();
             await UserManager.AddToRoleAsync(user, "Admin");
         }
