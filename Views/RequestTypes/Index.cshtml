@@ -1,0 +1,55 @@
+﻿@page
+@model HolidayTracker.Views.RequestTypes.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestType[0].CompanyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestType[0].RequestTypeCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestType[0].RequestTypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestType[0].Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.RequestType) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestTypeCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
