@@ -70,7 +70,7 @@ namespace HolidayTracker
             {
                 CreateRoles(services).Wait();
             }
-            catch(AggregateException ae)
+            catch(Exception ae)
             {
                 throw ae;
             }
