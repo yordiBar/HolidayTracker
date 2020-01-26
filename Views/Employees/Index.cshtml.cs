@@ -19,11 +19,24 @@ namespace HolidayTracker.Views.Employees
             _context = context;
         }
 
-        public IList<Employee> Employee { get;set; }
+        public string IdSort { get; set; }
+        public string LocationIdSort { get; set; }
+        public string DepartmentIdSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
+        public string StartDateSort { get; set; }
+        public string LeavingDateSort { get; set; }
+        public string EmployeeTypeIdSort { get; set; }
+        public string EmployeeNumberSort { get; set; }
+        public string JobTitleSort { get; set; }
+        public string GenderIdSort { get; set; }
+        public string CompanyIdSort { get; set; }
+
+        public IList<Employee> Employees { get;set; }
 
         public async Task OnGetAsync()
         {
-            Employee = await _context.Employees.ToListAsync();
+            Employees = await _context.Employees.ToListAsync();
         }
     }
 }

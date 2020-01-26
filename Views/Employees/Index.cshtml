@@ -2,7 +2,7 @@
 @model HolidayTracker.Views.Employees.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Employees";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,43 +15,43 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].LocationId)
+                @Html.DisplayNameFor(model => model.Employees[0].LocationId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].DepartmentId)
+                @Html.DisplayNameFor(model => model.Employees[0].DepartmentId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].StartDate)
+                @Html.DisplayNameFor(model => model.Employees[0].StartDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].LeavingDate)
+                @Html.DisplayNameFor(model => model.Employees[0].LeavingDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].EmployeeTypeId)
+                @Html.DisplayNameFor(model => model.Employees[0].EmployeeTypeId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].EmployeeNumber)
+                @Html.DisplayNameFor(model => model.Employees[0].EmployeeNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].JobTitle)
+                @Html.DisplayNameFor(model => model.Employees[0].JobTitle)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].GenderId)
+                @Html.DisplayNameFor(model => model.Employees[0].GenderId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].IsLocked)
+                @Html.DisplayNameFor(model => model.Employees[0].IsLocked)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].IsDeleted)
+                @Html.DisplayNameFor(model => model.Employees[0].IsDeleted)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].CompanyId)
+                @Html.DisplayNameFor(model => model.Employees[0].CompanyId)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Employee) {
+@foreach (var item in Model.Employees) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.LocationId)
