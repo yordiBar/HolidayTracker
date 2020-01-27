@@ -11,14 +11,13 @@ namespace HolidayTracker.Models.EmployeeWorkingDay
         public int EmployeeId { get; set; }
         public string CompanyId { get; set; }
         
-        // should be bool?
-        public string Mon { get; set; }
-        public string Tue { get; set; }
-        public string Wed { get; set; }
-        public string Thu { get; set; }
-        public string Fri { get; set; }
-        public string Sat { get; set; }
-        public string Sun { get; set; }
+        public bool Mon { get; set; }
+        public bool Tue { get; set; }
+        public bool Wed { get; set; }
+        public bool Thu { get; set; }
+        public bool Fri { get; set; }
+        public bool Sat { get; set; }
+        public bool Sun { get; set; }
 
     }
 }
