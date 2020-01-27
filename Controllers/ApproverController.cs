@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HolidayTracker.Controllers
 {
-    [Authorize(Roles = "Approver")]
+    [Authorize(Roles = "Approver,Admin,Manager")]
     public class ApproverController : Controller
     {
         public IActionResult Index()

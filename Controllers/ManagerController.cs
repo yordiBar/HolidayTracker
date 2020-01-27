@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HolidayTracker.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class ManagerController : Controller
     {
-        [Authorize(Roles="Manager")]
+        
         public IActionResult Index()
         {
             return View();

@@ -30,7 +30,7 @@ namespace HolidayTracker
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
@@ -84,18 +84,54 @@ namespace HolidayTracker
 
             IdentityResult roleResult;
             //here in this line we are adding Admin Role
-            var roleCheck = await RoleManager.RoleExistsAsync("Admin");
-            if (!roleCheck)
+
+            var systemAdmin = await RoleManager.RoleExistsAsync("SystemAdmin");
+            if (!systemAdmin)
+            {
+                //here in this line we are creating admin role and seed it to the database
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("SystemAdmin"));
+            }
+
+            var adminRole = await RoleManager.RoleExistsAsync("Admin");
+            if (!adminRole)
             {
                 //here in this line we are creating admin role and seed it to the database
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
             }
+
             //here we are assigning the Admin role to the User that we have registered above 
             //Now, we are assinging admin role to this user("luke@luke.com"). When will we run this project then it will
             //be assigned to that user.
-            IdentityUser user = await UserManager.FindByEmailAsync("luke@luke.com");
-            var User = new IdentityUser();
-            await UserManager.AddToRoleAsync(user, "Admin");
+            IdentityUser user = await UserManager.FindByEmailAsync("admin@admin.com");
+            if(user == null)
+            {
+                var newuser = new IdentityUser { UserName = "admin@admin.com", Email = "admin@admin.com" };
+                var result = await UserManager.CreateAsync(newuser, "Admin0!");
+                user = await UserManager.FindByEmailAsync("admin@admin.com");
+            }
+            
+            await UserManager.AddToRoleAsync(user, "SystemAdmin");
+
+            var managerRole = await RoleManager.RoleExistsAsync("Manager");
+            if (!managerRole)
+            {
+                //here in this line we are creating admin role and seed it to the database
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Manager"));
+            }
+
+            var approverRole = await RoleManager.RoleExistsAsync("Approver");
+            if (!approverRole)
+            {
+                //here in this line we are creating admin role and seed it to the database
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Approver"));
+            }
+
+            var employeeRole = await RoleManager.RoleExistsAsync("Employee");
+            if (!employeeRole)
+            {
+                //here in this line we are creating admin role and seed it to the database
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Employee"));
+            }
         }
 
 

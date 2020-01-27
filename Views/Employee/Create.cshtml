@@ -1,12 +1,12 @@
 ﻿@page
-@model HolidayTracker.Views.Employees.EditModel
+@model HolidayTracker.Views.Employees.CreateModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>Create</h1>
 
 <h4>Employee</h4>
 <hr />
@@ -14,7 +14,16 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Employee.Id" />
+            <div class="form-group">
+                <label asp-for="Employee.DisplayName" class="control-label"></label>
+                <input asp-for="Employee.DisplayName" class="form-control" />
+                <span asp-validation-for="Employee.DisplayName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.Email" class="control-label"></label>
+                <input asp-for="Employee.Email" class="form-control" />
+                <span asp-validation-for="Employee.Email" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Employee.LocationId" class="control-label"></label>
                 <input asp-for="Employee.LocationId" class="form-control" />
@@ -71,13 +80,13 @@
                 <span asp-validation-for="Employee.CompanyId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="Index">Back to List</a>
 </div>
 

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using HolidayTracker.Models.Company;
+using HolidayTracker.Models.Employee;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +21,11 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
+
+        private readonly HolidayTracker.Data.ApplicationDbContext _context;
+
+        
+
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
@@ -28,12 +35,14 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            HolidayTracker.Data.ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
@@ -45,6 +54,16 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [Display(Name ="Company Name")]
+            public string CompanyName { get; set; }
+            public string Address { get; set; }
+            [Required]
+            [Display(Name = "Phone No.")]
+            public string PhoneNumber { get; set; }
+            [Required]
+            public string ContactName { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -74,11 +93,38 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+
+                Company company = new Company();
+                company.Address = Input.Address;
+                company.CompanyName = Input.CompanyName;
+                company.ContactEmail = Input.Email;
+                company.PhoneNumber = Input.PhoneNumber;
+                
+                var c =_context.Companies.Add(company);
+                await _context.SaveChangesAsync();
+
+                Employee employee = new Employee();
+                employee.DisplayName = Input.ContactName;
+                employee.Email = Input.Email;
+                employee.IsDeleted = false;
+                employee.IsLocked = false;
+                employee.CompanyId = company.Id.ToString();
+
+                var e = _context.Employees.Add(employee);
+                await _context.SaveChangesAsync();
+
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    //add user to the admin role
+                    IdentityUser newuser = await _userManager.FindByEmailAsync(Input.Email);
+                    var User = new IdentityUser();
+                    await _userManager.AddToRoleAsync(newuser, "Admin");
+                    await _userManager.AddToRoleAsync(newuser, "Manager");
+                    await _userManager.AddToRoleAsync(newuser, "Approver");
+                    await _userManager.AddToRoleAsync(newuser, "Employee");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -90,6 +136,10 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+
+                    //code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+                    //await _userManager.ConfirmEmailAsync(user, code);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
