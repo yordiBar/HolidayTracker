@@ -27,14 +27,14 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
 
         
 
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             HolidayTracker.Data.ApplicationDbContext context)
@@ -121,7 +121,7 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
                     //add user to the admin role
-                    IdentityUser newuser = await _userManager.FindByEmailAsync(Input.Email);
+                    ApplicationUser newuser = await _userManager.FindByEmailAsync(Input.Email);
                     //var User = new IdentityUser();
                     await _userManager.AddToRoleAsync(newuser, "Admin");
                     await _userManager.AddToRoleAsync(newuser, "Manager");
