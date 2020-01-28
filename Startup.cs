@@ -81,7 +81,7 @@ namespace HolidayTracker
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             IdentityResult roleResult;
             //here in this line we are adding Admin Role
@@ -103,10 +103,10 @@ namespace HolidayTracker
             //here we are assigning the Admin role to the User that we have registered above 
             //Now, we are assinging admin role to this user("luke@luke.com"). When will we run this project then it will
             //be assigned to that user.
-            IdentityUser user = await UserManager.FindByEmailAsync("admin@admin.com");
+            ApplicationUser user = await UserManager.FindByEmailAsync("admin@admin.com");
             if(user == null)
             {
-                var newuser = new IdentityUser { UserName = "admin@admin.com", Email = "admin@admin.com" };
+                var newuser = new ApplicationUser { UserName = "admin@admin.com", Email = "admin@admin.com" };
                 var result = await UserManager.CreateAsync(newuser, "Admin0!");
                 user = await UserManager.FindByEmailAsync("admin@admin.com");
             }
