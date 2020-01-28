@@ -8,7 +8,7 @@ namespace HolidayTracker.Models.Location
     public class Location
     {
         public int Id { get; set; }
-        public string CompanyId { get; set; }
+        public int CompanyId { get; set; }
         public string LocationCode { get; set; }
         public string LocationName { get; set; }
     }

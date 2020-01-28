@@ -1,58 +1,68 @@
-﻿@page
-@model HolidayTracker.Views.Employees.IndexModel
+﻿@model IEnumerable<HolidayTracker.Models.Employee.Employee>
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table-sm table-hover table-dark">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].LocationId)
+                @Html.DisplayNameFor(model => model.DisplayName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].DepartmentId)
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].StartDate)
+                @Html.DisplayNameFor(model => model.LocationId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].LeavingDate)
+                @Html.DisplayNameFor(model => model.DepartmentId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].EmployeeTypeId)
+                @Html.DisplayNameFor(model => model.StartDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].EmployeeNumber)
+                @Html.DisplayNameFor(model => model.LeavingDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].JobTitle)
+                @Html.DisplayNameFor(model => model.EmployeeTypeId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].GenderId)
+                @Html.DisplayNameFor(model => model.EmployeeNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].IsLocked)
+                @Html.DisplayNameFor(model => model.JobTitle)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].IsDeleted)
+                @Html.DisplayNameFor(model => model.GenderId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee[0].CompanyId)
+                @Html.DisplayNameFor(model => model.IsLocked)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyId)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Employee) {
+@foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LocationId)
             </td>
@@ -87,9 +97,9 @@
                 @Html.DisplayFor(modelItem => item.CompanyId)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

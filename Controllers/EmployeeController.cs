@@ -21,7 +21,7 @@ namespace HolidayTracker.Controllers
         {
             List<Employee> data = new List<Employee>();
             //logged in users company id
-            string userCompanyId = "1";
+            int userCompanyId = 1;
             data = _context.Employees.Where(row => row.CompanyId == userCompanyId).ToList();
 
             return View(data);

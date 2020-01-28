@@ -13,6 +13,6 @@ namespace HolidayTracker.Models.Allowance
         public int Amount { get; set; }
         public int CarryOver { get; set; }
         public int EmployeeId { get; set; }
-        public string CompanyId { get; set; }
+        public int CompanyId { get; set; }
     }
 }

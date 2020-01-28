@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using HolidayTracker.Extensions;
 using HolidayTracker.Models.Company;
 using HolidayTracker.Models.Employee;
 using Microsoft.AspNetCore.Authentication;
@@ -108,19 +109,20 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
                 employee.Email = Input.Email;
                 employee.IsDeleted = false;
                 employee.IsLocked = false;
-                employee.CompanyId = company.Id.ToString();
+                employee.CompanyId = company.Id;
 
                 var e = _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
 
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                //var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CompanyId = company.Id };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
                     //add user to the admin role
                     IdentityUser newuser = await _userManager.FindByEmailAsync(Input.Email);
-                    var User = new IdentityUser();
+                    //var User = new IdentityUser();
                     await _userManager.AddToRoleAsync(newuser, "Admin");
                     await _userManager.AddToRoleAsync(newuser, "Manager");
                     await _userManager.AddToRoleAsync(newuser, "Approver");

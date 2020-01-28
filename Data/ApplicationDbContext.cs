@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using HolidayTracker.Extensions;
 using HolidayTracker.Models.Allowance;
 using HolidayTracker.Models.Company;
 using HolidayTracker.Models.Department;
@@ -15,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser> //IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

@@ -9,7 +9,7 @@ namespace HolidayTracker.Models.EmployeeWorkingDay
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }
-        public string CompanyId { get; set; }
+        public int CompanyId { get; set; }
         
         public bool Mon { get; set; }
         public bool Tue { get; set; }

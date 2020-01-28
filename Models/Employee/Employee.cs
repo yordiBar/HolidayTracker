@@ -18,7 +18,7 @@ namespace HolidayTracker.Models.Employee
         public string GenderId { get; set; }
         public bool IsLocked { get; set; }
         public bool IsDeleted { get; set; }
-        public string CompanyId { get; set; }
+        public int CompanyId { get; set; }
         public string DisplayName { get; set; }
         public string Email { get; set; }
     }

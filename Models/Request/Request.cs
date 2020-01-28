@@ -8,9 +8,9 @@ namespace HolidayTracker.Models.Request
     public class Request
     {
         public int Id { get; set; }
-        public string CompanyId { get; set; }
-        public string RequestTypeId { get; set; }
-        public string EmployeeId { get; set; }
+        public int CompanyId { get; set; }
+        public int RequestTypeId { get; set; }
+        public int EmployeeId { get; set; }
         public string RequestCreatedByEmployeeId { get; set; }
         public string From { get; set; }
         public string To { get; set; }
