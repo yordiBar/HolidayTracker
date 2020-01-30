@@ -36,6 +36,7 @@ namespace HolidayTracker
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,7 +90,7 @@ namespace HolidayTracker
             var systemAdmin = await RoleManager.RoleExistsAsync("SystemAdmin");
             if (!systemAdmin)
             {
-                //here in this line we are creating admin role and seed it to the database
+                //here in this line we are creating SystemAdmin role and seed it to the database
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("SystemAdmin"));
             }
 
@@ -101,7 +102,7 @@ namespace HolidayTracker
             }
 
             //here we are assigning the Admin role to the User that we have registered above 
-            //Now, we are assinging admin role to this user("luke@luke.com"). When will we run this project then it will
+            //Now, we are assigning admin role to this user("admin@admin.com"). When will we run this project then it will
             //be assigned to that user.
             ApplicationUser user = await UserManager.FindByEmailAsync("admin@admin.com");
             if(user == null)
@@ -116,21 +117,21 @@ namespace HolidayTracker
             var managerRole = await RoleManager.RoleExistsAsync("Manager");
             if (!managerRole)
             {
-                //here in this line we are creating admin role and seed it to the database
+                //here in this line we are creating Manager role and seed it to the database
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("Manager"));
             }
 
             var approverRole = await RoleManager.RoleExistsAsync("Approver");
             if (!approverRole)
             {
-                //here in this line we are creating admin role and seed it to the database
+                //here in this line we are creating Approver role and seed it to the database
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("Approver"));
             }
 
             var employeeRole = await RoleManager.RoleExistsAsync("Employee");
             if (!employeeRole)
             {
-                //here in this line we are creating admin role and seed it to the database
+                //here in this line we are creating Employee role and seed it to the database
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("Employee"));
             }
         }

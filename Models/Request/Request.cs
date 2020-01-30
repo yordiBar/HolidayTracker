@@ -11,10 +11,10 @@ namespace HolidayTracker.Models.Request
         public int CompanyId { get; set; }
         public int RequestTypeId { get; set; }
         public int EmployeeId { get; set; }
-        public string RequestCreatedByEmployeeId { get; set; }
+        public int RequestCreatedByEmployeeId { get; set; }
         public string From { get; set; }
         public string To { get; set; }
         public string Status { get; set; }
-        public string RequestAmount { get; set; }
+        public double RequestAmount { get; set; }
     }
 }

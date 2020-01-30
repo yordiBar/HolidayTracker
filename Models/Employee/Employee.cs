@@ -9,13 +9,13 @@ namespace HolidayTracker.Models.Employee
     {
         public int Id { get; set; }
         public string LocationId { get; set; }
-        public string DepartmentId { get; set; }
-        public string StartDate { get; set; }
-        public string LeavingDate { get; set; }
-        public string EmployeeTypeId { get; set; }
+        public int DepartmentId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime LeavingDate { get; set; }
+        public int EmployeeTypeId { get; set; }
         public string EmployeeNumber { get; set; }
         public string JobTitle { get; set; }
-        public string GenderId { get; set; }
+        public int GenderId { get; set; }
         public bool IsLocked { get; set; }
         public bool IsDeleted { get; set; }
         public int CompanyId { get; set; }

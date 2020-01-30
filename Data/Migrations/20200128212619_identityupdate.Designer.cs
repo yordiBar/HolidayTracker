@@ -4,14 +4,16 @@ using HolidayTracker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HolidayTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200128212619_identityupdate")]
+    partial class identityupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,8 +177,8 @@ namespace HolidayTracker.Data.Migrations
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
+                    b.Property<string>("DepartmentId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -187,11 +189,11 @@ namespace HolidayTracker.Data.Migrations
                     b.Property<string>("EmployeeNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmployeeTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("EmployeeTypeId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GenderId")
-                        .HasColumnType("int");
+                    b.Property<string>("GenderId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -202,14 +204,14 @@ namespace HolidayTracker.Data.Migrations
                     b.Property<string>("JobTitle")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LeavingDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("LeavingDate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LocationId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("StartDate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -310,11 +312,11 @@ namespace HolidayTracker.Data.Migrations
                     b.Property<string>("From")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("RequestAmount")
-                        .HasColumnType("float");
+                    b.Property<string>("RequestAmount")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RequestCreatedByEmployeeId")
-                        .HasColumnType("int");
+                    b.Property<string>("RequestCreatedByEmployeeId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RequestTypeId")
                         .HasColumnType("int");
