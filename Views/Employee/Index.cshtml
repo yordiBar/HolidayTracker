@@ -9,6 +9,50 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+@*<form asp-page="./index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter"/>
+            <input type="submit" value="Search" class="btn btn-primary"/>
+            <a asp-page=".Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="=table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model = Model.Employee[0].DisplayName)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model = Model.Employee[0].StartDate)
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Employee)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>*@
+
+
+
 <table class="table-sm table-hover table-dark">
     <thead>
         <tr>
