@@ -19,6 +19,7 @@ namespace HolidayTracker.Views.Departments
             _context = context;
         }
 
+        
         public IList<Department> Department { get;set; }
 
         public async Task OnGetAsync()

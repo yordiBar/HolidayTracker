@@ -32,5 +32,6 @@ namespace HolidayTracker.Data
         public DbSet<Request> Requests { get; set; }
         public DbSet<RequestType> RequestTypes { get; set; }
         public DbSet<Allowance> Allowances { get; set; }
+        public IEnumerable<object> Department { get; internal set; }
     }
 }
