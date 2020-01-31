@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HolidayTracker.Models.Employee;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
@@ -17,14 +18,51 @@ namespace HolidayTracker.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string sortOrder,
+            string currentFilter, string searchString, int? pageIndex)
         {
-            List<Employee> data = new List<Employee>();
-            //logged in users company id
-            int userCompanyId = 1;
-            data = _context.Employees.Where(row => row.CompanyId == userCompanyId).ToList();
+            HolidayTracker.Views.Employees.IndexModel pageData = new Views.Employees.IndexModel(_context);
+            int currentUsersCompanyId = 1;
+            pageData.CurrentSort = sortOrder;
+            pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            pageData.DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
-            return View(data);
+            pageData.CurrentFilter = searchString;
+
+            IQueryable<Employee> employeeIQ = _context.Employees.Where(x => x.CompanyId == currentUsersCompanyId);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                employeeIQ = employeeIQ.Where(s => s.DisplayName.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    employeeIQ = employeeIQ.OrderByDescending(s => s.DisplayName);
+                    break;
+                case "Date":
+                    employeeIQ = employeeIQ.OrderBy(s => s.StartDate);
+                    break;
+                case "date_desc":
+                    employeeIQ = employeeIQ.OrderByDescending(s => s.StartDate);
+                    break;
+                default:
+                    employeeIQ = employeeIQ.OrderBy(s => s.DisplayName);
+                    break;
+            }
+
+            int pageSize = 3;
+            pageData.Employee = await PaginatedList<Employee>.CreateAsync(
+                employeeIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+
+            return View(pageData);
         }
     }
 }
