@@ -2,40 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace HolidayTracker.Controllers
 {
-    [Authorize(Roles = "Manager")]
-    public class DepartmentController : Controller
+    public class GenderController : Controller
     {
+        // GET: /<controller>/
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
-        public DepartmentController(HolidayTracker.Data.ApplicationDbContext context)
+        public GenderController(HolidayTracker.Data.ApplicationDbContext context)
         {
             _context = context;
         }
-
         public IActionResult Index()
         {
             return View();
-        }
-
-        [HttpPost]
-        public IActionResult Create()
-        {
-            return RedirectToAction("Create");
         }
         public IActionResult Edit()
         {
             return View();
         }
-        public IActionResult Delete()
+        public IActionResult Create()
         {
             return View();
         }
         public IActionResult Details()
+        {
+            return View();
+        }
+        public IActionResult Delete()
         {
             return View();
         }
