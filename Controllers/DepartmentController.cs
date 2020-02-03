@@ -21,9 +21,11 @@ namespace HolidayTracker.Controllers
         {
             return View();
         }
+
+        [HttpPost]
         public IActionResult Create()
         {
-            return View();
+            return RedirectToAction("Create");
         }
         public IActionResult Edit()
         {

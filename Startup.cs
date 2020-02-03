@@ -84,7 +84,8 @@ namespace HolidayTracker
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            IdentityResult roleResult;            
+            IdentityResult roleResult;
+            //here in this line we are adding Admin Role
 
             var systemAdmin = await RoleManager.RoleExistsAsync("SystemAdmin");
             if (!systemAdmin)
