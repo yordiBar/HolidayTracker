@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HolidayTracker.Extensions;
 using HolidayTracker.Models.Employee;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -65,10 +66,59 @@ namespace HolidayTracker.Controllers
             return View(pageData);
         }
 
-        public IActionResult Edit()
+        [HttpGet]
+
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId); //FirstOrDefaultAsync(m => m.Id == id );
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return View(employee);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Employee emp)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(emp);
+            }
+
+            _context.Attach(emp).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EmployeeExists(emp.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToPage("./Index");
+        }
+
+        private bool EmployeeExists(int id)
+        {
+            return _context.Employees.Any(e => e.Id == id);
+        }
+
         public IActionResult Create()
         {
             return View();
