@@ -23,6 +23,7 @@ namespace HolidayTracker.Controllers
             string currentFilter, string searchString, int? pageIndex)
         {
             HolidayTracker.Views.Employees.IndexModel pageData = new Views.Employees.IndexModel(_context);
+            //var user = new ApplicationUser { CompanyId = model.CompanyId };
             int currentUsersCompanyId = 1;
             pageData.CurrentSort = sortOrder;
             pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";

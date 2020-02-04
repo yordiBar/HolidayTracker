@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using HolidayTracker.Extensions;
+using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
 namespace HolidayTracker
 {
@@ -31,9 +33,20 @@ namespace HolidayTracker
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            //    .AddRoles<IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddClaimsPrincipalFactory<MysUserClaimsPrincipalFactory>();
+            //    //.AddDefaultTokenProviders();
+
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
+                .AddClaimsPrincipalFactory<MysUserClaimsPrincipalFactory>()
+                .AddDefaultTokenProviders();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddMvc();
@@ -136,5 +149,22 @@ namespace HolidayTracker
         }
 
 
+    }
+
+    public class MysUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser>
+    {
+        public MysUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager, 
+            IOptions<IdentityOptions> optionsAssessor)
+            : base(userManager, optionsAssessor)
+        {
+        }
+
+        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
+        {
+            var identity = await base.GenerateClaimsAsync(user);
+            identity.AddClaim(new Claim("CompanyId", user.CompanyId.ToString()));
+            return identity;
+        }
+        
     }
 }

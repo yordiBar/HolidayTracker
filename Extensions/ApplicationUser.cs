@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HolidayTracker.Data;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,15 +17,17 @@ namespace HolidayTracker.Extensions
     /// 
     public class ApplicationUser : IdentityUser
     {
+        public string ContactName { get; set; }
         public int CompanyId { get; set; }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
-        {
-            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            userIdentity.AddClaim(new Claim("CompanyId",this.CompanyId.ToString()));
-            return userIdentity;
+        //public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        //{
+        //    ApplicationDbContext db = new ApplicationDbContext();
+        //    var managerx = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+        //    var currentUser = managerx.FindById(User.Indentity.GetUserId());
+        //    var newProperty = currentUser.CompanyId;
 
-        }
+        //}
     }
 
     public static class IdentityExtensions
