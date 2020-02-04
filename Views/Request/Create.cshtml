@@ -1,5 +1,4 @@
-﻿@page
-@model HolidayTracker.Views.Requests.CreateModel
+﻿@model HolidayTracker.Models.Request.Request
 
 @{
     ViewData["Title"] = "Create";
@@ -12,47 +11,47 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Request.CompanyId" class="control-label"></label>
-                <input asp-for="Request.CompanyId" class="form-control" />
-                <span asp-validation-for="Request.CompanyId" class="text-danger"></span>
+                <label asp-for="CompanyId" class="control-label"></label>
+                <input asp-for="CompanyId" class="form-control" />
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Request.RequestTypeId" class="control-label"></label>
-                <input asp-for="Request.RequestTypeId" class="form-control" />
-                <span asp-validation-for="Request.RequestTypeId" class="text-danger"></span>
+                <label asp-for="RequestTypeId" class="control-label"></label>
+                <input asp-for="RequestTypeId" class="form-control" />
+                <span asp-validation-for="RequestTypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Request.EmployeeId" class="control-label"></label>
-                <input asp-for="Request.EmployeeId" class="form-control" />
-                <span asp-validation-for="Request.EmployeeId" class="text-danger"></span>
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <input asp-for="EmployeeId" class="form-control" />
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Request.RequestCreatedByEmployeeId" class="control-label"></label>
-                <input asp-for="Request.RequestCreatedByEmployeeId" class="form-control" />
-                <span asp-validation-for="Request.RequestCreatedByEmployeeId" class="text-danger"></span>
+                <label asp-for="RequestCreatedByEmployeeId" class="control-label"></label>
+                <input asp-for="RequestCreatedByEmployeeId" class="form-control" />
+                <span asp-validation-for="RequestCreatedByEmployeeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Request.From" class="control-label"></label>
-                <input asp-for="Request.From" class="form-control" />
-                <span asp-validation-for="Request.From" class="text-danger"></span>
+                <label asp-for="From" class="control-label"></label>
+                <input asp-for="From" class="form-control" />
+                <span asp-validation-for="From" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Request.To" class="control-label"></label>
-                <input asp-for="Request.To" class="form-control" />
-                <span asp-validation-for="Request.To" class="text-danger"></span>
+                <label asp-for="To" class="control-label"></label>
+                <input asp-for="To" class="form-control" />
+                <span asp-validation-for="To" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Request.Status" class="control-label"></label>
-                <input asp-for="Request.Status" class="form-control" />
-                <span asp-validation-for="Request.Status" class="text-danger"></span>
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Request.RequestAmount" class="control-label"></label>
-                <input asp-for="Request.RequestAmount" class="form-control" />
-                <span asp-validation-for="Request.RequestAmount" class="text-danger"></span>
+                <label asp-for="RequestAmount" class="control-label"></label>
+                <input asp-for="RequestAmount" class="form-control" />
+                <span asp-validation-for="RequestAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -62,6 +61,6 @@
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
