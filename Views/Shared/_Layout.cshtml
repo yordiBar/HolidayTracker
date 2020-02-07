@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - HolidayTracker</title>
+    <title>HT - @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -28,68 +28,57 @@
                         <li class="nav-item">
 
                         <li>
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                if (User.IsInRole("SuperAdmin"))
+                            @*@if (User.Identity.IsAuthenticated)
                                 {
-                                    @*<a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Dashboard</a>*@
-                                }
+                                    if (User.IsInRole("Employee"))
+                                    {*@
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Dashboard</a>
+                            @*}
 
-                            }
-                        </li>
-
-                        <li>
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                if (User.IsInRole("Employee"))
-                                {
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Dashboard</a>
-                                }
-
-                            }
+                                }*@
                         </li>
                         <li>
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                if (User.IsInRole("Approver"))
+                            @*@if (User.Identity.IsAuthenticated)
                                 {
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Approver" asp-action="Index">Requests</a>
-                                }
+                                    if (User.IsInRole("Approver"))
+                                    {*@
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Approver" asp-action="Index">Requests</a>
+                            @*}
 
-                            }
+                                }*@
                         </li>
                         <li>
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                if (User.IsInRole("Admin"))
+                            @*@if (User.Identity.IsAuthenticated)
                                 {
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Billing</a>
-                                }
+                                    if (User.IsInRole("Admin"))
+                                    {*@
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Billing</a>
+                            @*}
 
-                            }
+                                }*@
                         </li>
 
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            if (User.IsInRole("Manager"))
+                        @*@if (User.Identity.IsAuthenticated)
                             {
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDown" data-toggle="dropdown">Company Settings</a>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
-                                    
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="Department" asp-action="Index">Departments</a>
-                                    
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="Location" asp-action="Index">Location</a>
-                                    
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="Gender" asp-action="Index">Genders</a>
-                                    
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="RequestType" asp-action="Index">Request Type</a>
-                                    </div>
+                                if (User.IsInRole("SystemAdmin,Manager"))
+                                {*@
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDown" data-toggle="dropdown">Company Settings</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
 
-                                </li>
-                            }
-                        }
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Department" asp-action="Index">Departments</a>
+
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Location" asp-action="Index">Location</a>
+
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Gender" asp-action="Index">Genders</a>
+
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="RequestType" asp-action="Index">Request Type</a>
+                            </div>
+
+                        </li>
+                        @*}
+                            }*@
 
 
                     </ul>

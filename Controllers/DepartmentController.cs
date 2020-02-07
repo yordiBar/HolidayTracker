@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HolidayTracker.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "SystemAdmin,Manager")]
     public class DepartmentController : Controller
     {
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
