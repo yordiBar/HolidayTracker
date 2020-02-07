@@ -43,10 +43,28 @@ namespace HolidayTracker
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddRoleManager<RoleManager<IdentityRole>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultUI()
-                .AddClaimsPrincipalFactory<MysUserClaimsPrincipalFactory>()
-                .AddDefaultTokenProviders();
+                .AddDefaultUI();
+                //.AddClaimsPrincipalFactory<MysUserClaimsPrincipalFactory>()
+                //.AddDefaultTokenProviders();
 
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+
+               
+                options.AddPolicy("ManagerAccess", policy =>
+                    policy.RequireAssertion(context =>
+                                context.User.IsInRole("Admin")
+                                || context.User.IsInRole("Manager")));
+                
+                
+                options.AddPolicy("Employee", policy =>
+                    policy.RequireAssertion(context =>
+                                context.User.IsInRole("Admin")
+                                || context.User.IsInRole("Manager")
+                                || context.User.IsInRole("Employee")));
+            });
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddMvc(options => options.EnableEndpointRouting = false);
@@ -87,73 +105,73 @@ namespace HolidayTracker
             //        pattern: "{controller=Home}/{action=Index}/{id?}");
             //    endpoints.MapRazorPages();
             //});
-            try
-            {
-                CreateRoles(services).Wait();
-            }
-            catch(Exception ae)
-            {
-                throw ae;
-            }
+            //try
+            //{
+            //    CreateRoles(services).Wait();
+            //}
+            //catch(Exception ae)
+            //{
+            //    throw ae;
+            //}
             
         }
 
-        private async Task CreateRoles(IServiceProvider serviceProvider)
-        {
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        //private async Task CreateRoles(IServiceProvider serviceProvider)
+        //{
+        //    var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        //    var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            IdentityResult roleResult;
-            //here in this line we are adding Admin Role
+        //    IdentityResult roleResult;
+        //    //here in this line we are adding Admin Role
 
-            var systemAdmin = await RoleManager.RoleExistsAsync("SystemAdmin");
-            if (!systemAdmin)
-            {
-                //here in this line we are creating SystemAdmin role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("SystemAdmin"));
-            }
+        //    var systemAdmin = await RoleManager.RoleExistsAsync("SystemAdmin");
+        //    if (!systemAdmin)
+        //    {
+        //        //here in this line we are creating SystemAdmin role and seed it to the database
+        //        roleResult = await RoleManager.CreateAsync(new IdentityRole("SystemAdmin"));
+        //    }
 
-            var adminRole = await RoleManager.RoleExistsAsync("Admin");
-            if (!adminRole)
-            {
-                //here in this line we are creating admin role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
-            }
+        //    var adminRole = await RoleManager.RoleExistsAsync("Admin");
+        //    if (!adminRole)
+        //    {
+        //        //here in this line we are creating admin role and seed it to the database
+        //        roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+        //    }
 
-            //here we are assigning the Admin role to the User that we have registered above 
-            //Now, we are assigning admin role to this user("admin@admin.com"). When will we run this project then it will
-            //be assigned to that user.
-            ApplicationUser user = await UserManager.FindByEmailAsync("admin@admin.com");
-            if(user == null)
-            {
-                var newuser = new ApplicationUser { UserName = "admin@admin.com", Email = "admin@admin.com" };
-                var result = await UserManager.CreateAsync(newuser, "Admin0!");
-                user = await UserManager.FindByEmailAsync("admin@admin.com");
-            }
+        //    //here we are assigning the Admin role to the User that we have registered above 
+        //    //Now, we are assigning admin role to this user("admin@admin.com"). When will we run this project then it will
+        //    //be assigned to that user.
+        //    ApplicationUser user = await UserManager.FindByEmailAsync("admin@admin.com");
+        //    if(user == null)
+        //    {
+        //        var newuser = new ApplicationUser { UserName = "admin@admin.com", Email = "admin@admin.com" };
+        //        var result = await UserManager.CreateAsync(newuser, "Admin0!");
+        //        user = await UserManager.FindByEmailAsync("admin@admin.com");
+        //    }
             
-            await UserManager.AddToRoleAsync(user, "SystemAdmin");
+        //    await UserManager.AddToRoleAsync(user, "SystemAdmin");
 
-            var managerRole = await RoleManager.RoleExistsAsync("Manager");
-            if (!managerRole)
-            {
-                //here in this line we are creating Manager role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Manager"));
-            }
+        //    var managerRole = await RoleManager.RoleExistsAsync("Manager");
+        //    if (!managerRole)
+        //    {
+        //        //here in this line we are creating Manager role and seed it to the database
+        //        roleResult = await RoleManager.CreateAsync(new IdentityRole("Manager"));
+        //    }
 
-            var approverRole = await RoleManager.RoleExistsAsync("Approver");
-            if (!approverRole)
-            {
-                //here in this line we are creating Approver role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Approver"));
-            }
+        //    var approverRole = await RoleManager.RoleExistsAsync("Approver");
+        //    if (!approverRole)
+        //    {
+        //        //here in this line we are creating Approver role and seed it to the database
+        //        roleResult = await RoleManager.CreateAsync(new IdentityRole("Approver"));
+        //    }
 
-            var employeeRole = await RoleManager.RoleExistsAsync("Employee");
-            if (!employeeRole)
-            {
-                //here in this line we are creating Employee role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Employee"));
-            }
-        }
+        //    var employeeRole = await RoleManager.RoleExistsAsync("Employee");
+        //    if (!employeeRole)
+        //    {
+        //        //here in this line we are creating Employee role and seed it to the database
+        //        roleResult = await RoleManager.CreateAsync(new IdentityRole("Employee"));
+        //    }
+        //}
 
 
     }
