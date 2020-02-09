@@ -11,7 +11,6 @@ namespace HolidayTracker.Controllers
 {
     public class LocationController : Controller
     {
-        // GET: /<controller>/
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
         public LocationController(HolidayTracker.Data.ApplicationDbContext context)
         {

@@ -19,7 +19,7 @@ namespace HolidayTracker.Controllers
         public async Task<IActionResult> Index(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
-            HolidayTracker.Views.Locations.IndexModel pageData = new Views.Locations.IndexModel(_context);
+            HolidayTracker.Views.Genders.IndexModel pageData = new Views.Genders.IndexModel(_context);
             //var user = new ApplicationUser { CompanyId = model.CompanyId };
             int currentUsersCompanyId = 1;
             pageData.CurrentSort = sortOrder;
@@ -57,9 +57,9 @@ namespace HolidayTracker.Controllers
                     break;
             }
 
-            //int pageSize = 10;
-            //pageData.Gender = await PaginatedList<Gender>.CreateAsync(
-            //    dbdata.AsNoTracking(), pageIndex ?? 1, pageSize);
+            int pageSize = 10;
+            pageData.Gender = await PaginatedList<Gender>.CreateAsync(
+                dbdata.AsNoTracking(), pageIndex ?? 1, pageSize);
 
             return View(pageData);
         }
