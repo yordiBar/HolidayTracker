@@ -11,5 +11,6 @@ namespace HolidayTracker.Models.Department
         public string DepartmentName { get; set; }
         public int CompanyId { get; set; }
         public string DepartmentCode { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

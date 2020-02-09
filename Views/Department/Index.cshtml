@@ -1,7 +1,7 @@
 ﻿@model HolidayTracker.Views.Departments.IndexModel;
 
 @{
-    //ViewData["Title"] = "Index";
+    ViewData["Title"] = "List of Departments";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,20 +10,32 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Department" asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <a asp-controller="Department" asp-action="Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                <a asp-controller="Department" asp-action="Index"></a>
+                <a asp-controller="Department" asp-action="Index" asp-route-sortOrder="@Model.NameSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
                 @Html.DisplayNameFor(model => Model.Department[0].DepartmentName)
+            </th>
+            <th>
+                <a asp-controller="Department" asp-action="Index" asp-route-sortOrder="@Model.CodeSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
+                @Html.DisplayNameFor(model => Model.Department[0].DepartmentCode)
             </th>
             <th>
                 <a asp-controller="Department" asp-action="Index"></a>
                 @Html.DisplayNameFor(model => Model.Department[0].CompanyId)
-            </th>
-            <th>
-                <a asp-controller="Department" asp-action="Index"></a>
-                @Html.DisplayNameFor(model => Model.Department[0].DepartmentCode)
             </th>
             <th></th>
         </tr>
@@ -42,9 +54,9 @@
                     @Html.DisplayFor(modelItem => item.DepartmentCode)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.DepartmentName">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.DepartmentName">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.DepartmentName">Delete</a>
                 </td>
             </tr>
         }

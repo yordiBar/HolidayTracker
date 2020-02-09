@@ -59,29 +59,165 @@ namespace HolidayTracker.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 10;
             pageData.Department = await PaginatedList<Department>.CreateAsync(
                 dbdata.AsNoTracking(), pageIndex ?? 1, pageSize);
 
             return View(pageData);
         }
 
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+
+            Department department = await _context.Departments.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return View(department);
+        }
+
         [HttpPost]
+        public async Task<IActionResult> Edit(Department dept)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dept);
+            }
+
+            _context.Attach(dept).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DepartmentExists(dept.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        private bool DepartmentExists(int id)
+        {
+            return _context.Departments.Any(d => d.Id == id);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+
+            Department department = await _context.Departments.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId); //FirstOrDefaultAsync(m => m.Id == id );
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return View(department);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Department dept)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dept);
+            }
+
+            dept.IsDeleted = true;
+
+            _context.Attach(dept).State = EntityState.Modified;                        
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DepartmentExists(dept.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        //HttpGet and HTTPPost methods to create a new Department
+        [HttpGet]
         public IActionResult Create()
         {
-            return RedirectToAction("Create");
+            return View(new Department());
         }
-        public IActionResult Edit()
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Department dept)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(dept);
+            }
+
+            _context.Departments.Add(dept);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DepartmentExists(dept.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }                
+            }
+
+            return RedirectToAction("Index");
         }
-        public IActionResult Delete()
+        
+        public async Task<IActionResult> Details(int? id)
         {
-            return View();
-        }
-        public IActionResult Details()
-        {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+
+            Department department = await _context.Departments.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return View(department);
         }
     }
 }

@@ -69,10 +69,5 @@ namespace HolidayTracker.Views.Employees
             Employee = await PaginatedList<Employee>.CreateAsync(
                 employeeIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
         }
-
-        //public async Task OnGetAsync()
-        //{
-        //    Employee = await _context.Employees.ToListAsync();
-        //}
     }
 }

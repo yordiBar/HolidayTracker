@@ -1,8 +1,7 @@
-﻿@page
-@model HolidayTracker.Views.Departments.EditModel
+﻿@model HolidayTracker.Models.Department.Department
 
 @{
-    //ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,23 +11,23 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Department.Id" />
+            <input type="hidden" asp-for="DepartmentName" />
             <div class="form-group">
-                <label asp-for="Department.DepartmentName" class="control-label"></label>
-                <input asp-for="Department.DepartmentName" class="form-control" />
-                <span asp-validation-for="Department.DepartmentName" class="text-danger"></span>
+                <label asp-for="DepartmentName" class="control-label"></label>
+                <input asp-for="DepartmentName" class="form-control" />
+                <span asp-validation-for="DepartmentName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Department.CompanyId" class="control-label"></label>
-                <input asp-for="Department.CompanyId" class="form-control" />
-                <span asp-validation-for="Department.CompanyId" class="text-danger"></span>
+                <label asp-for="CompanyId" class="control-label"></label>
+                <input asp-for="CompanyId" class="form-control" />
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Department.DepartmentCode" class="control-label"></label>
-                <input asp-for="Department.DepartmentCode" class="form-control" />
-                <span asp-validation-for="Department.DepartmentCode" class="text-danger"></span>
+                <label asp-for="DepartmentCode" class="control-label"></label>
+                <input asp-for="DepartmentCode" class="form-control" />
+                <span asp-validation-for="DepartmentCode" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -38,6 +37,6 @@
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 

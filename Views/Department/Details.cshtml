@@ -1,5 +1,4 @@
-﻿@page
-@model HolidayTracker.Views.Departments.DetailsModel
+﻿@model HolidayTracker.Models.Department.Department
 
 @{
     ViewData["Title"] = "Details";
@@ -12,27 +11,33 @@
     <h4>Department</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Department.DepartmentName)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DepartmentName)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Department.DepartmentName)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DepartmentName)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Department.CompanyId)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CompanyId)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Department.CompanyId)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CompanyId)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Department.DepartmentCode)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DepartmentCode)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Department.DepartmentCode)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DepartmentCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsDeleted)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Department.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+@*<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>*@

@@ -60,7 +60,7 @@ namespace HolidayTracker.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 10;
             pageData.Employee = await PaginatedList<Employee>.CreateAsync(
                 employeeIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
 
@@ -183,7 +183,7 @@ namespace HolidayTracker.Controllers
                 return View(emp);
             }
 
-            _context.Employees.Add(emp);//easier
+            _context.Employees.Add(emp);
 
             try
             {
@@ -203,12 +203,7 @@ namespace HolidayTracker.Controllers
 
             return RedirectToAction("Index");
         }
-        
-        
-        
-
-        
-
+                                        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -217,7 +212,8 @@ namespace HolidayTracker.Controllers
             }
 
             int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
-            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false); //FirstOrDefaultAsync(m => m.Id == id );
+
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
 
             if (employee == null)
             {
