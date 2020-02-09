@@ -66,9 +66,10 @@ namespace HolidayTracker.Controllers
             return View(pageData);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -127,7 +128,7 @@ namespace HolidayTracker.Controllers
 
             int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
 
-            Department department = await _context.Departments.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId); //FirstOrDefaultAsync(m => m.Id == id );
+            Department department = await _context.Departments.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
             if (department == null)
             {

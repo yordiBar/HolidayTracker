@@ -10,5 +10,6 @@ namespace HolidayTracker.Models.Gender
         public int Id { get; set; }
         public int CompanyId { get; set; }
         public string Name { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

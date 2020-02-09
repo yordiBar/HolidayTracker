@@ -1,5 +1,4 @@
-﻿@page
-@model HolidayTracker.Views.Locations.EditModel
+﻿@model HolidayTracker.Models.Location.Location
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,23 +11,28 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Location.Id" />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Location.CompanyId" class="control-label"></label>
-                <input asp-for="Location.CompanyId" class="form-control" />
-                <span asp-validation-for="Location.CompanyId" class="text-danger"></span>
+                <label asp-for="CompanyId" class="control-label"></label>
+                <input asp-for="CompanyId" class="form-control" />
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Location.LocationCode" class="control-label"></label>
-                <input asp-for="Location.LocationCode" class="form-control" />
-                <span asp-validation-for="Location.LocationCode" class="text-danger"></span>
+                <label asp-for="LocationCode" class="control-label"></label>
+                <input asp-for="LocationCode" class="form-control" />
+                <span asp-validation-for="LocationCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Location.LocationName" class="control-label"></label>
-                <input asp-for="Location.LocationName" class="form-control" />
-                <span asp-validation-for="Location.LocationName" class="text-danger"></span>
+                <label asp-for="LocationName" class="control-label"></label>
+                <input asp-for="LocationName" class="form-control" />
+                <span asp-validation-for="LocationName" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+                </label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -38,6 +42,6 @@
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 

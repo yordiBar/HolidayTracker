@@ -11,5 +11,6 @@ namespace HolidayTracker.Models.Location
         public int CompanyId { get; set; }
         public string LocationCode { get; set; }
         public string LocationName { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -19,16 +19,11 @@ namespace HolidayTracker.Views.Departments
             _context = context;
         }
 
-          public string NameSort { get; set; }
+        public string NameSort { get; set; }
         public string CodeSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
         public PaginatedList<Department> Department { get;set; }
-
-        //public async Task OnGetAsync()
-        //{
-        //    Department = await _context.Departments.ToListAsync();
-        //}
     }
 }

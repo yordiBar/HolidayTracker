@@ -1,5 +1,4 @@
-﻿@page
-@model HolidayTracker.Views.Genders.EditModel
+﻿@model HolidayTracker.Models.Gender.Gender
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,18 +11,18 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Gender.Id" />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Gender.CompanyId" class="control-label"></label>
-                <input asp-for="Gender.CompanyId" class="form-control" />
-                <span asp-validation-for="Gender.CompanyId" class="text-danger"></span>
+                <label asp-for="CompanyId" class="control-label"></label>
+                <input asp-for="CompanyId" class="form-control" />
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Gender.Name" class="control-label"></label>
-                <input asp-for="Gender.Name" class="form-control" />
-                <span asp-validation-for="Gender.Name" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -33,6 +32,6 @@
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HolidayTracker.Models.Gender;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
@@ -16,25 +16,205 @@ namespace HolidayTracker.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string sortOrder,
+            string currentFilter, string searchString, int? pageIndex)
         {
-            return View();
+            HolidayTracker.Views.Locations.IndexModel pageData = new Views.Locations.IndexModel(_context);
+            //var user = new ApplicationUser { CompanyId = model.CompanyId };
+            int currentUsersCompanyId = 1;
+            pageData.CurrentSort = sortOrder;
+            pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            pageData.CodeSort = sortOrder == "Code" ? "code_desc" : "Code";
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            pageData.CurrentFilter = searchString;
+
+            IQueryable<Gender> dbdata = _context.Genders.Where(x => x.CompanyId == currentUsersCompanyId);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                dbdata = dbdata.Where(s => s.Name.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    dbdata = dbdata.OrderByDescending(s => s.Name);
+                    break;
+                case "Code":
+                    dbdata = dbdata.OrderBy(s => s.Id);
+                    break;
+                case "code_desc":
+                    dbdata = dbdata.OrderByDescending(s => s.Id);
+                    break;
+                default:
+                    dbdata = dbdata.OrderBy(s => s.Name);
+                    break;
+            }
+
+            //int pageSize = 10;
+            //pageData.Gender = await PaginatedList<Gender>.CreateAsync(
+            //    dbdata.AsNoTracking(), pageIndex ?? 1, pageSize);
+
+            return View(pageData);
         }
-        public IActionResult Edit()
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+
+            Gender gender = await _context.Genders.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
+
+            if (gender == null)
+            {
+                return NotFound();
+            }
+            return View(gender);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Gender gen)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(gen);
+            }
+
+            _context.Attach(gen).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!GenderExists(gen.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        private bool GenderExists(int id)
+        {
+            return _context.Genders.Any(g => g.Id == id);
+        }
+
+        //HttpGet and HTTPPost methods to create a new Gender
+        [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new Gender());
         }
-        public IActionResult Details()
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Gender gen)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(gen);
+            }
+
+            _context.Genders.Add(gen);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!GenderExists(gen.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
         }
-        public IActionResult Delete()
+        public async Task<IActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+
+            Gender gender = await _context.Genders.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
+
+            if (gender == null)
+            {
+                return NotFound();
+            }
+            return View(gender);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+
+            Gender gender = await _context.Genders.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
+
+            if (gender == null)
+            {
+                return NotFound();
+            }
+            return View(gender);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Gender gen)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(gen);
+            }
+
+            gen.IsDeleted = true;
+
+            _context.Attach(gen).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!GenderExists(gen.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
         }
     }
 }

@@ -18,12 +18,11 @@ namespace HolidayTracker.Views.Genders
         {
             _context = context;
         }
+        public string NameSort { get; set; }
+        public string CodeSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
-        public IList<Gender> Gender { get;set; }
-
-        public async Task OnGetAsync()
-        {
-            Gender = await _context.Genders.ToListAsync();
-        }
+        public PaginatedList<Gender> Gender { get; set; }
     }
 }

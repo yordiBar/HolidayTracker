@@ -19,11 +19,12 @@ namespace HolidayTracker.Views.Locations
             _context = context;
         }
 
-        public IList<Location> Location { get;set; }
+        public string NameSort { get; set; }
+        public string CodeSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
-        public async Task OnGetAsync()
-        {
-            Location = await _context.Locations.ToListAsync();
-        }
+
+        public PaginatedList<Location> Location { get; set; }
     }
 }
