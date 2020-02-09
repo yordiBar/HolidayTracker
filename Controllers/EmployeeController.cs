@@ -77,7 +77,7 @@ namespace HolidayTracker.Controllers
             }
 
             int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
-            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId); //FirstOrDefaultAsync(m => m.Id == id );
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false); //FirstOrDefaultAsync(m => m.Id == id );
 
             if (employee == null)
             {
@@ -112,7 +112,7 @@ namespace HolidayTracker.Controllers
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToAction("Index");
         }
 
         private bool EmployeeExists(int id)
@@ -120,17 +120,110 @@ namespace HolidayTracker.Controllers
             return _context.Employees.Any(e => e.Id == id);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId); //FirstOrDefaultAsync(m => m.Id == id );
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return View(employee);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Employee emp)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(emp);
+            }
+
+            emp.IsDeleted = true;
+            _context.Attach(emp).State = EntityState.Modified;
+
+            //_context.Employees.Remove(emp);// kee
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EmployeeExists(emp.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return  View(new Employee()); 
         }
-        public IActionResult Details()
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Employee emp)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(emp);
+            }
+
+            _context.Employees.Add(emp);//easier
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EmployeeExists(emp.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction("Index");
         }
-        public IActionResult Delete()
+        
+        
+        
+
+        
+
+        public async Task<IActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false); //FirstOrDefaultAsync(m => m.Id == id );
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return View(employee);
         }
     }
 }
