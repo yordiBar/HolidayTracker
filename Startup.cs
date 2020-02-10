@@ -73,20 +73,20 @@ namespace HolidayTracker
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
-
-            //app.UseEndpoints(endpoints =>
+            //app.UseMvc(routes =>
             //{
-            //    endpoints.MapControllerRoute(
+            //    routes.MapRoute(
             //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //    endpoints.MapRazorPages();
+            //        template: "{controller=Home}/{action=Index}/{id?}");
             //});
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
             try
             {
                 CreateRoles(services).Wait();
