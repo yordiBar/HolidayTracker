@@ -19,11 +19,11 @@ namespace HolidayTracker.Views.RequestTypes
             _context = context;
         }
 
-        public IList<RequestType> RequestType { get;set; }
+        public string NameSort { get; set; }
+        public string CodeSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
-        public async Task OnGetAsync()
-        {
-            RequestType = await _context.RequestTypes.ToListAsync();
-        }
+        public PaginatedList<RequestType> RequestType { get; set; }
     }
 }

@@ -100,6 +100,7 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
                 company.CompanyName = Input.CompanyName;
                 company.ContactEmail = Input.Email;
                 company.PhoneNumber = Input.PhoneNumber;
+                company.ContactName = Input.ContactName;
                 
                 var c =_context.Companies.Add(company);
                 await _context.SaveChangesAsync();
