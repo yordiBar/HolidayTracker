@@ -66,21 +66,162 @@ namespace HolidayTracker.Controllers
 
             return View(pageData);
         }
-        public IActionResult Edit()
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+
+            RequestType requestType = await _context.RequestTypes.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
+
+            if (requestType == null)
+            {
+                return NotFound();
+            }
+
+            return View(requestType);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(RequestType reqType)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(reqType);
+            }
+
+            _context.Attach(reqType).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!RequestTypeExists(reqType.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }                
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        private bool RequestTypeExists(int id)
+        {
+            return _context.RequestTypes.Any(d => d.Id == id);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+
+            RequestType requestType = await _context.RequestTypes.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
+
+            if (requestType == null)
+            {
+                return NotFound();
+            }
+            return View(requestType);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(RequestType reqType)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(reqType);
+            }
+
+            reqType.IsDeleted = true;
+
+            _context.Attach(reqType).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!RequestTypeExists(reqType.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        //HttpGet and HTTPPost methods to create a new Department
+        [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new RequestType());
         }
-        public IActionResult Details()
+
+        [HttpPost]
+        public async Task<IActionResult> Create(RequestType reqType)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(reqType);
+            }
+
+            _context.RequestTypes.Add(reqType);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!RequestTypeExists(reqType.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction("Index");
         }
-        public IActionResult Delete()
+
+        public async Task<IActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+
+            RequestType requestType = await _context.RequestTypes.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
+
+            if (requestType == null)
+            {
+                return NotFound();
+            }
+            return View(requestType);
         }
     }
 }

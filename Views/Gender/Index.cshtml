@@ -13,10 +13,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th style="display:none">
                 @Html.DisplayNameFor(model => model.Gender[0].CompanyId)
             </th>
             <th>
+                <a asp-controller="Department" asp-action="Index" asp-route-sortOrder="@Model.NameSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
                 @Html.DisplayNameFor(model => model.Gender[0].Name)
             </th>
             <th></th>
@@ -25,7 +26,7 @@
     <tbody>
 @foreach (var item in Model.Gender) {
         <tr>
-            <td>
+            <td style="display:none">
                 @Html.DisplayFor(modelItem => item.CompanyId)
             </td>
             <td>

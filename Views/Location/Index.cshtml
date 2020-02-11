@@ -10,16 +10,31 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Location" asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <a asp-controller="Location" asp-action="Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th style="display:none">
+                <a asp-controller="Location" asp-action="Index"></a>
                 @Html.DisplayNameFor(model => model.Location[0].CompanyId)
             </th>
             <th>
+                <a asp-controller="Location" asp-action="Index" asp-route-sortOrder="@Model.CodeSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
                 @Html.DisplayNameFor(model => model.Location[0].LocationCode)
             </th>
             <th>
+                <a asp-controller="Location" asp-action="Index" asp-route-sortOrder="@Model.NameSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
                 @Html.DisplayNameFor(model => model.Location[0].LocationName)
             </th>
             <th></th>
@@ -28,7 +43,7 @@
     <tbody>
 @foreach (var item in Model.Location) {
         <tr>
-            <td>
+            <td style="display:none">
                 @Html.DisplayFor(modelItem => item.CompanyId)
             </td>
             <td>

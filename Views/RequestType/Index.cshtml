@@ -24,7 +24,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th style="display:none">
                 <a asp-controller="RequestType" asp-action="Index"></a>
                 @Html.DisplayNameFor(model => model.RequestType[0].CompanyId)
             </th>
@@ -45,7 +45,7 @@
     <tbody>
 @foreach (var item in Model.RequestType) {
         <tr>
-            <td>
+            <td style="display:none">
                 @Html.DisplayFor(modelItem => item.CompanyId)
             </td>
             <td>

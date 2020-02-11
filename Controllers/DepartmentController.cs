@@ -82,6 +82,7 @@ namespace HolidayTracker.Controllers
             {
                 return NotFound();
             }
+
             return View(department);
         }
 
@@ -110,6 +111,7 @@ namespace HolidayTracker.Controllers
                     throw;
                 }
             }
+
             return RedirectToAction("Index");
         }
 
@@ -134,6 +136,7 @@ namespace HolidayTracker.Controllers
             {
                 return NotFound();
             }
+
             return View(department);
         }
 
@@ -164,6 +167,7 @@ namespace HolidayTracker.Controllers
                     throw;
                 }
             }
+
             return RedirectToAction("Index");
         }
 
@@ -218,6 +222,7 @@ namespace HolidayTracker.Controllers
             {
                 return NotFound();
             }
+
             return View(department);
         }
     }

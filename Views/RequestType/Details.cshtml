@@ -1,5 +1,4 @@
-﻿@page
-@model HolidayTracker.Views.RequestTypes.DetailsModel
+﻿@model HolidayTracker.Models.RequestType.RequestType
 
 @{
     ViewData["Title"] = "Details";
@@ -12,33 +11,39 @@
     <h4>RequestType</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RequestType.CompanyId)
+        <dt class = "col-sm-2" style="display:none">
+            @Html.DisplayNameFor(model => model.CompanyId)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RequestType.CompanyId)
+        <dd class = "col-sm-10" style="display:none">
+            @Html.DisplayFor(model => model.CompanyId)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RequestType.RequestTypeCode)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RequestTypeCode)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RequestType.RequestTypeCode)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RequestTypeCode)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RequestType.RequestTypeName)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RequestTypeName)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RequestType.RequestTypeName)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RequestTypeName)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RequestType.Description)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RequestType.Description)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2" style="display:none">
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+        <dd class = "col-sm-10" style="display:none">
+            @Html.DisplayFor(model => model.IsDeleted)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.RequestType.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
 </div>

@@ -33,7 +33,7 @@
                 <a asp-controller="Department" asp-action="Index" asp-route-sortOrder="@Model.CodeSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
                 @Html.DisplayNameFor(model => Model.Department[0].DepartmentCode)
             </th>
-            <th>
+            <th style="display:none">
                 <a asp-controller="Department" asp-action="Index"></a>
                 @Html.DisplayNameFor(model => Model.Department[0].CompanyId)
             </th>
@@ -50,7 +50,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DepartmentCode)
                 </td>
-                <td>
+                <td style="display:none">
                     @Html.DisplayFor(modelItem => item.CompanyId)
                 </td>
                 <td>
