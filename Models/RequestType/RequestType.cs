@@ -13,5 +13,6 @@ namespace HolidayTracker.Models.RequestType
         public string RequestTypeName { get; set; }
         public string Description { get; set; }
         public bool IsDeleted { get; set; }
+        public bool TakesFromAllowance { get; set; }
     }
 }
