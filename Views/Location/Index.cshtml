@@ -30,12 +30,12 @@
                 @Html.DisplayNameFor(model => model.Location[0].CompanyId)
             </th>
             <th>
-                <a asp-controller="Location" asp-action="Index" asp-route-sortOrder="@Model.CodeSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
-                @Html.DisplayNameFor(model => model.Location[0].LocationCode)
-            </th>
-            <th>
                 <a asp-controller="Location" asp-action="Index" asp-route-sortOrder="@Model.NameSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
                 @Html.DisplayNameFor(model => model.Location[0].LocationName)
+            </th>
+            <th>
+                <a asp-controller="Location" asp-action="Index" asp-route-sortOrder="@Model.CodeSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
+                @Html.DisplayNameFor(model => model.Location[0].LocationCode)
             </th>
             <th></th>
         </tr>
@@ -47,10 +47,10 @@
                 @Html.DisplayFor(modelItem => item.CompanyId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LocationCode)
+                @Html.DisplayFor(modelItem => item.LocationName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LocationName)
+                @Html.DisplayFor(modelItem => item.LocationCode)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
