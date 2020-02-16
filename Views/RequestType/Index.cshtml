@@ -29,15 +29,15 @@
                 @Html.DisplayNameFor(model => model.RequestType[0].CompanyId)
             </th>
             <th>
-                <a asp-controller="RequestType" asp-action="Index" asp-route-sortOrder="@Model.CodeSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
-                @Html.DisplayNameFor(model => model.RequestType[0].RequestTypeCode)
-            </th>
-            <th>
                 <a asp-controller="RequestType" asp-action="Index" asp-route-sortOrder="@Model.NameSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
                 @Html.DisplayNameFor(model => model.RequestType[0].RequestTypeName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RequestType[0].Description)
+            </th>
+            <th>
+                <a asp-controller="RequestType" asp-action="Index" asp-route-sortOrder="@Model.CodeSort" asp-route-currentFilter="@Model.CurrentFilter"></a>
+                @Html.DisplayNameFor(model => model.RequestType[0].RequestTypeCode)
             </th>
             <th></th>
         </tr>
@@ -49,13 +49,13 @@
                 @Html.DisplayFor(modelItem => item.CompanyId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RequestTypeCode)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.RequestTypeName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestTypeCode)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
