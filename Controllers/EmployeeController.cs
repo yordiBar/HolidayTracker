@@ -78,16 +78,20 @@ namespace HolidayTracker.Controllers
 
             int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false); //FirstOrDefaultAsync(m => m.Id == id );
+            EmployeeView returndata = (EmployeeView)employee;
+
+            //set roles in returndata with result from actual user role
+            //returndata.IsApprover = User.IsInRole("Approver")
 
             if (employee == null)
             {
                 return NotFound();
             }
-            return View(employee);
+            return View(returndata);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Employee emp)
+        public async Task<IActionResult> Edit(EmployeeView emp)
         {
             if (!ModelState.IsValid)
             {
@@ -99,6 +103,15 @@ namespace HolidayTracker.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+
+                // set the roles the emplyoee has
+                //like what is done when you create a company and set the roles for the user that created company
+                //everyone should have an employee
+                //check for each role 
+                //if is role checked add approval role
+                //else check if user has role remove role from user
+
+                //also check if there is an allowance for the current year for the employee if not create
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -172,11 +185,11 @@ namespace HolidayTracker.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return  View(new Employee()); 
+            return  View(new EmployeeView()); 
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Employee emp)
+        public async Task<IActionResult> Create(EmployeeView emp)
         {
             if (!ModelState.IsValid)
             {
@@ -188,6 +201,17 @@ namespace HolidayTracker.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+
+
+                // set the roles the emplyoee has
+                //like what is done when you create a company and set the roles for the user that created company
+                //everyone should have an employee
+                //check for each role 
+                //if is role checked add approval role
+                //else check if user has role remove role from user
+
+                //also check if there is an allowance for the current year for the employee if not create
+
             }
             catch (DbUpdateConcurrencyException)
             {
