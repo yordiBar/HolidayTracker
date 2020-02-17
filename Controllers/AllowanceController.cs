@@ -63,5 +63,59 @@ namespace HolidayTracker.Controllers
 
             return View(pageData);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = 1; //User.Identity.GetCompanyId();
+
+            Allowance allowance = await _context.Allowances.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
+
+            if (allowance == null)
+            {
+                return NotFound();
+            }
+
+            return View(allowance);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Allowance all)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(all);
+            }
+
+            _context.Attach(all).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AllowanceExists(all.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        private bool AllowanceExists(int id)
+        {
+            return _context.Allowances.Any(d => d.Id == id);
+        }
     }
 }
