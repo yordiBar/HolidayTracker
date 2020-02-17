@@ -23,4 +23,13 @@ namespace HolidayTracker.Models.Employee
         public string Email { get; set; }
         public int ApproverId { get; set; }
     }
+
+
+    public class EmployeeView : Employee
+    {
+        public bool IsApprover { get; set; }
+        public bool IsManager { get; set; }
+
+        public bool IsAdmin { get; set; }
+    }
 }
