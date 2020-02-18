@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using HolidayTracker.Extensions;
 using HolidayTracker.Models.Employee;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
@@ -14,9 +19,20 @@ namespace HolidayTracker.Controllers
     public class EmployeeController : Controller
     {
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
-        public EmployeeController(HolidayTracker.Data.ApplicationDbContext context)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
+
+        public EmployeeController(HolidayTracker.Data.ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender
+            )
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
         }
 
         public async Task<IActionResult> Index(string sortOrder,
@@ -79,10 +95,14 @@ namespace HolidayTracker.Controllers
             int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false); //FirstOrDefaultAsync(m => m.Id == id );
             EmployeeView returndata = (EmployeeView)employee;
+            ApplicationUser newuser = await _userManager.FindByEmailAsync(employee.Email);
 
-            //set roles in returndata with result from actual user role
-            //returndata.IsApprover = User.IsInRole("Approver")
+            returndata.IsAdmin = await _userManager.IsInRoleAsync(newuser, "Admin");
 
+            returndata.IsApprover = await _userManager.IsInRoleAsync(newuser, "Approver");
+
+            returndata.IsManager = await _userManager.IsInRoleAsync(newuser, "Manager");
+                       
             if (employee == null)
             {
                 return NotFound();
@@ -197,23 +217,97 @@ namespace HolidayTracker.Controllers
                 return View(emp);
             }
 
+            int currentUsersCompanyId = 1;
+            emp.CompanyId = currentUsersCompanyId;
             _context.Employees.Add(emp);
 
             try
             {
                 await _context.SaveChangesAsync();
 
+                var user = new ApplicationUser { UserName = emp.Email, Email = emp.Email, CompanyId = emp.CompanyId };
+                string password = Guid.NewGuid().ToString();
 
-                // set the roles the emplyoee has
-                //like what is done when you create a company and set the roles for the user that created company
-                //everyone should have an employee
-                //check for each role 
-                //if is role checked add approval role
-                //else check if user has role remove role from user
+                var result = await _userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    if (emp.IsAdmin)
+                    {
+                        if (!await _userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            await _userManager.AddToRoleAsync(user, "Admin");
+                        }
 
-                //also check if there is an allowance for the current year for the employee if not create
+                    }
+                    else
+                    {
+                        if (await _userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, "Admin");
+                        }
+                    }
+                
+                    if (emp.IsApprover)
+                    {
+                        if (!await _userManager.IsInRoleAsync(user, "Approver"))
+                        {
+                            await _userManager.AddToRoleAsync(user, "Approver");
+                        }
 
-            }
+                    }
+                    else
+                    {
+                        if (await _userManager.IsInRoleAsync(user, "Approver"))
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, "Approver");
+                        }
+                    }
+
+                    if (emp.IsManager)
+                    {
+                        if (!await _userManager.IsInRoleAsync(user, "Manager"))
+                        {
+                            await _userManager.AddToRoleAsync(user, "Manager");
+                        }
+
+                    }
+                    else
+                    {
+                        if (await _userManager.IsInRoleAsync(user, "Manager"))
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, "Manager");
+                        }
+                    }
+
+                    if (!await _userManager.IsInRoleAsync(user, "Employee"))
+                    {
+                        await _userManager.AddToRoleAsync(user, "Employee");
+                    }                                                                                
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = user.Id, code = code },
+                        protocol: Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(emp.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                }
+
+
+                    // set the roles the emplyoee has
+                    //like what is done when you create a company and set the roles for the user that created company
+                    //everyone should have an employee
+                    //check for each role 
+                    //if is role checked add approval role
+                    //else check if user has role remove role from user
+
+                    //also check if there is an allowance for the current year for the employee if not create
+
+                }
             catch (DbUpdateConcurrencyException)
             {
                 if (!EmployeeExists(emp.Id))
