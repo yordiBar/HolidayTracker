@@ -29,7 +29,6 @@ namespace HolidayTracker.Models.Employee
     {
         public bool IsApprover { get; set; }
         public bool IsManager { get; set; }
-
         public bool IsAdmin { get; set; }
     }
 }

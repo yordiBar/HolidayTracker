@@ -93,8 +93,11 @@ namespace HolidayTracker.Controllers
             }
 
             int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+            
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false); //FirstOrDefaultAsync(m => m.Id == id );
+            
             EmployeeView returndata = (EmployeeView)employee;
+            
             ApplicationUser newuser = await _userManager.FindByEmailAsync(employee.Email);
 
             returndata.IsAdmin = await _userManager.IsInRoleAsync(newuser, "Admin");
@@ -118,11 +121,77 @@ namespace HolidayTracker.Controllers
                 return View(emp);
             }
 
+            int currentUserCompanyId = 1;
+            
+            emp.CompanyId = currentUserCompanyId;
+            
             _context.Attach(emp).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
+
+                var user = new ApplicationUser { UserName = emp.Email, Email = emp.Email, CompanyId = emp.CompanyId };
+                
+                string password = Guid.NewGuid().ToString();
+
+                var result = await _userManager.CreateAsync(user, password);
+                
+                if (result.Succeeded)
+                {
+                    if (emp.IsAdmin)
+                    {
+                        if (!await _userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            await _userManager.AddToRoleAsync(user, "Admin");
+                        }
+
+                    }
+                    else
+                    {
+                        if (await _userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, "Admin");
+                        }
+                    }
+
+                    if (emp.IsApprover)
+                    {
+                        if (!await _userManager.IsInRoleAsync(user, "Approver"))
+                        {
+                            await _userManager.AddToRoleAsync(user, "Approver");
+                        }
+
+                    }
+                    else
+                    {
+                        if (await _userManager.IsInRoleAsync(user, "Approver"))
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, "Approver");
+                        }
+                    }
+
+                    if (emp.IsManager)
+                    {
+                        if (!await _userManager.IsInRoleAsync(user, "Manager"))
+                        {
+                            await _userManager.AddToRoleAsync(user, "Manager");
+                        }
+
+                    }
+                    else
+                    {
+                        if (await _userManager.IsInRoleAsync(user, "Manager"))
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, "Manager");
+                        }
+                    }
+
+                    if (!await _userManager.IsInRoleAsync(user, "Employee"))
+                    {
+                        await _userManager.AddToRoleAsync(user, "Employee");
+                    }
+                }
 
 
                 // set the roles the emplyoee has
@@ -163,6 +232,7 @@ namespace HolidayTracker.Controllers
             }
 
             int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+            
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId); //FirstOrDefaultAsync(m => m.Id == id );
 
             if (employee == null)
@@ -181,6 +251,7 @@ namespace HolidayTracker.Controllers
             }
 
             emp.IsDeleted = true;
+            
             _context.Attach(emp).State = EntityState.Modified;
 
             //_context.Employees.Remove(emp);// kee
@@ -218,7 +289,9 @@ namespace HolidayTracker.Controllers
             }
 
             int currentUsersCompanyId = 1;
+            
             emp.CompanyId = currentUsersCompanyId;
+            
             _context.Employees.Add(emp);
 
             try
@@ -226,9 +299,11 @@ namespace HolidayTracker.Controllers
                 await _context.SaveChangesAsync();
 
                 var user = new ApplicationUser { UserName = emp.Email, Email = emp.Email, CompanyId = emp.CompanyId };
+                
                 string password = Guid.NewGuid().ToString();
 
                 var result = await _userManager.CreateAsync(user, password);
+                
                 if (result.Succeeded)
                 {
                     if (emp.IsAdmin)
@@ -285,7 +360,9 @@ namespace HolidayTracker.Controllers
                     }                                                                                
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
