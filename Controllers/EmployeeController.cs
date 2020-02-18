@@ -104,6 +104,7 @@ namespace HolidayTracker.Controllers
             {
                 await _context.SaveChangesAsync();
 
+
                 // set the roles the emplyoee has
                 //like what is done when you create a company and set the roles for the user that created company
                 //everyone should have an employee
