@@ -79,9 +79,21 @@
                     <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
                 </label>
             </div>
-
-
-            @*Display Checkbox's for the user roles IsApprover, IsManager, IsAdmin*@
+            <div class=" form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsManager" /> @Html.DisplayNameFor(model => model.IsManager)
+                </label>
+            </div>
+            <div class=" form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsApprover" /> @Html.DisplayNameFor(model => model.IsApprover)
+                </label>
+            </div>
+            <div class=" form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
+                </label>
+            </div>
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
