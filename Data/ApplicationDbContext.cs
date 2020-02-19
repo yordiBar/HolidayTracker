@@ -6,7 +6,6 @@ using HolidayTracker.Models.Allowance;
 using HolidayTracker.Models.Company;
 using HolidayTracker.Models.Department;
 using HolidayTracker.Models.Employee;
-using HolidayTracker.Models.EmployeeWorkingDay;
 using HolidayTracker.Models.Gender;
 using HolidayTracker.Models.Location;
 using HolidayTracker.Models.Request;
@@ -25,8 +24,7 @@ namespace HolidayTracker.Data
 
         public DbSet<Company> Companies { get; set; }
         public DbSet<Department> Departments { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<EmployeeWorkingDay> EmployeeWorkingDays { get; set; }
+        public DbSet<Employee> Employees { get; set; }        
         public DbSet<Location> Locations { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Request> Requests { get; set; }

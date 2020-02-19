@@ -22,13 +22,18 @@ namespace HolidayTracker.Models.Employee
         public string DisplayName { get; set; }
         public string Email { get; set; }
         public int ApproverId { get; set; }
-    }
-
-
-    public class EmployeeView : Employee
-    {
         public bool IsApprover { get; set; }
         public bool IsManager { get; set; }
         public bool IsAdmin { get; set; }
+        public bool Mon { get; set; }
+        public bool Tue { get; set; }
+        public bool Wed { get; set; }
+        public bool Thu { get; set; }
+        public bool Fri { get; set; }
+        public bool Sat { get; set; }
+        public bool Sun { get; set; }
     }
+
+
+    
 }

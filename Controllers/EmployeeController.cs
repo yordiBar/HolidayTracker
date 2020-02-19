@@ -96,25 +96,25 @@ namespace HolidayTracker.Controllers
             
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false); //FirstOrDefaultAsync(m => m.Id == id );
             
-            EmployeeView returndata = (EmployeeView)employee;
+            
             
             ApplicationUser newuser = await _userManager.FindByEmailAsync(employee.Email);
 
-            returndata.IsAdmin = await _userManager.IsInRoleAsync(newuser, "Admin");
+            employee.IsAdmin = await _userManager.IsInRoleAsync(newuser, "Admin");
 
-            returndata.IsApprover = await _userManager.IsInRoleAsync(newuser, "Approver");
+            employee.IsApprover = await _userManager.IsInRoleAsync(newuser, "Approver");
 
-            returndata.IsManager = await _userManager.IsInRoleAsync(newuser, "Manager");
+            employee.IsManager = await _userManager.IsInRoleAsync(newuser, "Manager");
                        
             if (employee == null)
             {
                 return NotFound();
             }
-            return View(returndata);
+            return View(employee);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EmployeeView emp)
+        public async Task<IActionResult> Edit(Employee emp)
         {
             if (!ModelState.IsValid)
             {
@@ -277,11 +277,11 @@ namespace HolidayTracker.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return  View(new EmployeeView()); 
+            return  View(new Employee()); 
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(EmployeeView emp)
+        public async Task<IActionResult> Create(Employee emp)
         {
             if (!ModelState.IsValid)
             {
@@ -300,7 +300,7 @@ namespace HolidayTracker.Controllers
 
                 var user = new ApplicationUser { UserName = emp.Email, Email = emp.Email, CompanyId = emp.CompanyId };
                 
-                string password = Guid.NewGuid().ToString();
+                string password = Guid.NewGuid().ToString()+"A";
 
                 var result = await _userManager.CreateAsync(user, password);
                 
