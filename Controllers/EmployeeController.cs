@@ -193,14 +193,6 @@ namespace HolidayTracker.Controllers
                     }
                 }
 
-
-                // set the roles the emplyoee has
-                //like what is done when you create a company and set the roles for the user that created company
-                //everyone should have an employee
-                //check for each role 
-                //if is role checked add approval role
-                //else check if user has role remove role from user
-
                 //also check if there is an allowance for the current year for the employee if not create
             }
             catch (DbUpdateConcurrencyException)
@@ -253,8 +245,6 @@ namespace HolidayTracker.Controllers
             emp.IsDeleted = true;
             
             _context.Attach(emp).State = EntityState.Modified;
-
-            //_context.Employees.Remove(emp);// kee
 
             try
             {
@@ -373,14 +363,6 @@ namespace HolidayTracker.Controllers
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 }
-
-
-                    // set the roles the emplyoee has
-                    //like what is done when you create a company and set the roles for the user that created company
-                    //everyone should have an employee
-                    //check for each role 
-                    //if is role checked add approval role
-                    //else check if user has role remove role from user
 
                     //also check if there is an allowance for the current year for the employee if not create
 
