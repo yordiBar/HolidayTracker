@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HolidayTracker.Controllers
 {
-    [Authorize(Roles = "SystemAdmin,Manager")]
+    //[Authorize(Roles = "SystemAdmin,Manager")]
     public class ManagerController : Controller
     {
 
