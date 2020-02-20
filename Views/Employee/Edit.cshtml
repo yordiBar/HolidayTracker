@@ -14,7 +14,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            <div class="form-group" style="display:none">
                 <label asp-for="CompanyId" class="control-label"></label>
                 <input asp-for="CompanyId" class="form-control" />
                 <span asp-validation-for="CompanyId" class="text-danger"></span>
@@ -79,6 +79,8 @@
                     <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
                 </label>
             </div>
+            <h6>Assign Roles</h6>
+            <hr />
             <div class=" form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsManager" /> @Html.DisplayNameFor(model => model.IsManager)
@@ -92,6 +94,43 @@
             <div class=" form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
+                </label>
+            </div>
+            <h6>Choose Working Days</h6>
+            <hr />
+            <div class=" form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Mon" /> @Html.DisplayNameFor(model => model.Mon)
+                </label>
+            </div>
+            <div class=" form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Tue" /> @Html.DisplayNameFor(model => model.Tue)
+                </label>
+            </div>
+            <div class=" form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Wed" /> @Html.DisplayNameFor(model => model.Wed)
+                </label>
+            </div>
+            <div class=" form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Thu" /> @Html.DisplayNameFor(model => model.Thu)
+                </label>
+            </div>
+            <div class=" form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Fri" /> @Html.DisplayNameFor(model => model.Fri)
+                </label>
+            </div>
+            <div class=" form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Sat" /> @Html.DisplayNameFor(model => model.Sat)
+                </label>
+            </div>
+            <div class=" form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Sun" /> @Html.DisplayNameFor(model => model.Sun)
                 </label>
             </div>
 
