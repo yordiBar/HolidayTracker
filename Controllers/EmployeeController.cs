@@ -290,7 +290,7 @@ namespace HolidayTracker.Controllers
 
                 var user = new ApplicationUser { UserName = emp.Email, Email = emp.Email, CompanyId = emp.CompanyId };
                 
-                string password = Guid.NewGuid().ToString()+"A";
+                string password = Guid.NewGuid().ToString();
 
                 var result = await _userManager.CreateAsync(user, password);
                 
