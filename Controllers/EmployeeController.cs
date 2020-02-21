@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using HolidayTracker.Extensions;
+using HolidayTracker.Models.Allowance;
 using HolidayTracker.Models.Employee;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -381,6 +382,40 @@ namespace HolidayTracker.Controllers
 
             return RedirectToAction("Index");
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> CreateAllowance()
+        //{
+        //    return View(new Allowance());
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> CreateAllowance(Allowance all)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(all);
+        //    }
+
+        //    int currentUsersCompanyId = 1;
+
+        //    all.CompanyId = currentUsersCompanyId;
+
+        //    //need to add check if allowance exists for user
+        //    _context.Allowances.Add(all);
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+
+        //        var allowance = new Allowance { Amount = all.Amount, }
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
                                         
         public async Task<IActionResult> Details(int? id)
         {
