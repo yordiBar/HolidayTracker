@@ -122,9 +122,9 @@ namespace HolidayTracker.Controllers
                 return View(emp);
             }
 
-            int currentUserCompanyId = 1;
+            int currentUsersCompanyId = 1;
             
-            emp.CompanyId = currentUserCompanyId;
+            emp.CompanyId = currentUsersCompanyId;
             
             _context.Attach(emp).State = EntityState.Modified;
 
@@ -195,6 +195,7 @@ namespace HolidayTracker.Controllers
                 }
 
                 //also check if there is an allowance for the current year for the employee if not create
+                await CreateAllowanceIfRequired(emp, currentUsersCompanyId);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -290,11 +291,11 @@ namespace HolidayTracker.Controllers
                 await _context.SaveChangesAsync();
 
                 var user = new ApplicationUser { UserName = emp.Email, Email = emp.Email, CompanyId = emp.CompanyId };
-                
+
                 string password = Guid.NewGuid().ToString();
 
                 var result = await _userManager.CreateAsync(user, password);
-                
+
                 if (result.Succeeded)
                 {
                     if (emp.IsAdmin)
@@ -312,7 +313,7 @@ namespace HolidayTracker.Controllers
                             await _userManager.RemoveFromRoleAsync(user, "Admin");
                         }
                     }
-                
+
                     if (emp.IsApprover)
                     {
                         if (!await _userManager.IsInRoleAsync(user, "Approver"))
@@ -348,12 +349,12 @@ namespace HolidayTracker.Controllers
                     if (!await _userManager.IsInRoleAsync(user, "Employee"))
                     {
                         await _userManager.AddToRoleAsync(user, "Employee");
-                    }                                                                                
+                    }
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    
+
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    
+
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
@@ -365,9 +366,12 @@ namespace HolidayTracker.Controllers
 
                 }
 
-                    //also check if there is an allowance for the current year for the employee if not create
 
-                }
+                //also check if there is an allowance for the current year for the employee if not create
+
+                await CreateAllowanceIfRequired(emp, currentUsersCompanyId);
+
+            }
             catch (DbUpdateConcurrencyException)
             {
                 if (!EmployeeExists(emp.Id))
@@ -382,6 +386,48 @@ namespace HolidayTracker.Controllers
 
             return RedirectToAction("Index");
         }
+
+        private async Task CreateAllowanceIfRequired(Employee emp, int currentUsersCompanyId)
+        {
+            if (_context.Allowances.Where(x => x.EmployeeId == emp.Id && x.CompanyId == currentUsersCompanyId).Count() == 0)
+            {
+                _context.Allowances.Add(new Allowance
+                {
+                    From = new DateTime(2020, 1, 1),
+                    To = new DateTime(2020, 12, 31),
+                    EmployeeId = emp.Id,
+                    CompanyId = currentUsersCompanyId,
+                    Amount = 20,
+                    CarryOver = 0
+                });
+
+                _context.Allowances.Add(new Allowance
+                {
+                    From = new DateTime(2021, 1, 1),
+                    To = new DateTime(2021, 12, 31),
+                    EmployeeId = emp.Id,
+                    CompanyId = currentUsersCompanyId,
+                    Amount = 20,
+                    CarryOver = 0
+                });
+
+                _context.Allowances.Add(new Allowance
+                {
+                    From = new DateTime(2022, 1, 1),
+                    To = new DateTime(2022, 12, 31),
+                    EmployeeId = emp.Id,
+                    CompanyId = currentUsersCompanyId,
+                    Amount = 20,
+                    CarryOver = 0
+                });
+
+                await _context.SaveChangesAsync();
+            };
+        }
+
+
+
+
 
         //[HttpGet]
         //public async Task<IActionResult> CreateAllowance()
@@ -416,7 +462,7 @@ namespace HolidayTracker.Controllers
         //        throw;
         //    }
         //}
-                                        
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
