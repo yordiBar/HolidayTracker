@@ -8,8 +8,8 @@ namespace HolidayTracker.Models.Allowance
     public class Allowance
     {
         public int Id { get; set; }
-        public string From { get; set; }
-        public string To { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
         public int Amount { get; set; }
         public int CarryOver { get; set; }
         public int EmployeeId { get; set; }
