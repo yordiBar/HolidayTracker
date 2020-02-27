@@ -194,7 +194,7 @@ namespace HolidayTracker.Controllers
                     }
                 }
 
-                //also check if there is an allowance for the current year for the employee if not create
+                // check if there is an allowance for the current year for the employee if not create
                 await CreateAllowanceIfRequired(emp, currentUsersCompanyId);
             }
             catch (DbUpdateConcurrencyException)
@@ -367,7 +367,7 @@ namespace HolidayTracker.Controllers
                 }
 
 
-                //also check if there is an allowance for the current year for the employee if not create
+                //check if there is an allowance for the current year for the employee if not create
 
                 await CreateAllowanceIfRequired(emp, currentUsersCompanyId);
 
