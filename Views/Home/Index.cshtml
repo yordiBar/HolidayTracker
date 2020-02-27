@@ -1,8 +1,129 @@
-﻿@{
+﻿@model HolidayTracker.Models.RequestType.RequestType;
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h2 class="display-4">HOME PAGE</h2>
-    <p>This is a Home page. It will be made to look nice :D</p>
+
+<h4>Add Your Request</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RequestTypeName" class="control-label"></label>
+                <input asp-for="RequestTypeName" id="reqType" class="form-control" />
+                <span asp-validation-for="RequestTypeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label @*asp-for="From"*@ class="control-label">From</label>
+                <input type="text" @*asp-for="From"*@ id="datepicker1" class="form-control" />
+                <span @*asp-validation-for="From"*@ class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label @*asp-for="To"*@ class="control-label">To</label>
+                <input type="text" @*asp-for="To"*@ id="datepicker2" class="form-control" />
+                <span @*asp-validation-for="To"*@ class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none">
+                <label asp-for="CompanyId" class="control-label"></label>
+                <input asp-for="CompanyId" class="form-control" />
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" id="desc" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" id="save" value="Save" class="btn btn-primary" />
+                <input type="reset" value="Cancel" class="btn btn-secondary" />
+            </div>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        $("#hiddenHtmlInput").select2({
+            initSelection: function (element, callback) {
+                var elementText = "@ViewBag.currentItemName";
+                callback({ "name": elementText });
+            },
+            placeholder: "Select and Item",
+            allowClear: true,
+            style: "display: inline-block",
+            minimumInputLength: 2,
+            ajax: {
+                cache: false,
+                dataType: "json",
+                type: "GET",
+                url: "@Url.Action("CreateRequest", "HomeController")",
+                data: function (searchTerm) {
+                    return { query: searchTerm };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            },
+            formatResult: itemFormatResult,
+            formatSelection: function (result) {
+                return result.name;
+            },
+            escapeMarkup: function (m) { return m;}
+        });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            //function will be called on button click having id btnsave
+            $("#save").click(function () {
+                $.ajax(
+                    {
+                        type: "POST", //HTTP POST Method
+                        url: "Home/Home", // Controller/View
+                        data: { //Passing data
+                            RequestType: $("#reqType").val(), //Reading text box values using Jquery
+                            From: $("#from").val(),
+                            To: $("#to").val(),
+                            Description: $("#desc").val()
+                        }
+
+                    });
+
+            });
+        });
+
+    </script>
+
+    <script>
+        $(function () {
+            $("#datepicker1").datepicker({ dateFormat: "dd/mm/yy"}).datepicker("setDate", new Date());
+            $("#datepicker1").datepicker({
+                dateFormat: "dd/mm/yy",
+            });
+            $("#datepicker1").datepicker("hide");
+        });
+    </script>
+    <script>
+        $(function () {
+            $("#datepicker2").datepicker({ dateFormat: "dd/mm/yy"}).datepicker("setDate", new Date());
+            $("#datepicker2").datepicker({
+                dateFormat: "dd/mm/yy"
+            });
+            $("#datepicker2").datepicker("hide");
+        });
+    </script>
+
+
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+          rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+
+}
