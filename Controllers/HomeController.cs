@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HolidayTracker.Models;
 using HolidayTracker.Models.RequestType;
+using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
@@ -34,6 +35,11 @@ namespace HolidayTracker.Controllers
         {
             return View();
         }
+
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
                 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -42,6 +48,30 @@ namespace HolidayTracker.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetRequestType()
+        {
+            RequestType requestType = await _context.RequestTypes.FirstOrDefaultAsync();
+
+            if (requestType == null)
+            {
+                return NotFound();
+            }
+            return View(requestType);
+
+            //RequestType requestType = new RequestType();
+
+            //var requests = requestType.RequestTypeName.ToList();
+
+            //var json = from RequestTypeName in requests
+            //           select new
+            //           {
+            //               name = RequestTypeName,
+            //           };
+            //return Json(json);
+        }
+
+        [HttpPost]
         public IActionResult CreateRequest(string query)
         {
             List<RequestType> requestList = _context.RequestTypes.ToList();
