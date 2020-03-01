@@ -1,4 +1,4 @@
-﻿@model HolidayTracker.Models.RequestType.RequestType;
+﻿@*@model HolidayTracker.Models.RequestType.RequestType; No ne*@
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -8,100 +8,120 @@
 <div class="row">
     <div class="col-md-4">
         <form>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="RequestTypeName" class="control-label"></label>
-                <input type="text" asp-for="RequestTypeName" id="selectrequest" class="form-control" />
-                <span asp-validation-for="RequestTypeName" class="text-danger"></span>
+                <label class="control-label">Request Type</label>
+                <input type="text" name="RequestTypeId" id="selectrequest" class="form-control" />
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label @*asp-for="From"*@ class="control-label">From</label>
-                <input type="text" @*asp-for="From"*@ id="datepicker1" class="form-control" />
-                <span @*asp-validation-for="From"*@ class="text-danger"></span>
+                <label class="control-label">From</label>
+                <input type="text" name="From" id="datepicker1" class="form-control" />
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label @*asp-for="To"*@ class="control-label">To</label>
-                <input type="text" @*asp-for="To"*@ id="datepicker2" class="form-control" />
-                <span @*asp-validation-for="To"*@ class="text-danger"></span>
+                <label class="control-label">To</label>
+                <input type="text" name="To" id="datepicker2" class="form-control" />
+                <span class="text-danger"></span>
             </div>
-            <div class="form-group" style="display:none">
-                <label asp-for="CompanyId" class="control-label"></label>
-                <input asp-for="CompanyId" class="form-control" />
-                <span asp-validation-for="CompanyId" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" id="desc" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label class="control-label">Description</label>
+                <textarea name="Description" id="desc" class="form-control"></textarea>
+                <span class="text-danger"></span>
             </div>
 
 
             <div class="form-group">
-                <input type="submit" action="/HomeController/CreateRequest" formmethod="post" id="save" value="Save" class="btn btn-primary" />
+                <input id="save" value="Save" class="btn btn-primary" />
                 <input type="reset" value="Cancel" class="btn btn-secondary" />
             </div>
         </form>
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        $("#selectrequest").select2({
-            initSelection: function (element, callback) {
-                var elementText = "@ViewBag.currentItemName";
-                callback({ "name": elementText });
-            },
-            placeholder: "Select and Item",
-            allowClear: true,
-            style: "display: inline-block",
-            minimumInputLength: 2,
-            ajax: {
-                cache: false,
-                dataType: "json",
-                type: "GET",
-                url: "@Url.Action("GetRequestType", "HomeController")",
-                data: function (searchTerm) {
-                    return { query: searchTerm };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            },
-            formatResult: itemFormatResult,
-            formatSelection: function (result) {
-                return result.name;
-            },
-            escapeMarkup: function (m) { return m;}
-        });
-    </script>
+<hr />
+<hr />
+<div class="row">
+    <div class="heading-block">
+        <h4>My Requests</h4>
+    </div>
+    <table style="width:100%">
+        <tr>
+            <th>Request Type</th>
+            <th>From</th>
+            <th>To</th>
+        </tr>
+        <tr>
+            <td>Sick</td>
+            <td>StartDate</td>
+            <td>EndDate</td>
+        </tr>
+        <tr>
+            <td>Holiday</td>
+            <td>StartDate</td>
+            <td>EndDate</td>
+        </tr>
+    </table>
+</div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
+
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@3.5.2-browserify/select2.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@3.5.2-browserify/select2.min.js"></script>
+    
+
 
     <script>
         $(document).ready(function () {
-            //function will be called on button click having id btnsave
+            $("#selectrequest").select2({
+                placeholder: "Select and Item",
+                allowClear: true,
+                ajax: {
+                    cache: false,
+                    dataType: "json",
+                    type: "GET",
+                    url: "@Url.Action("GetRequestType", "Home")",
+                    data: function (searchTerm) {
+                        return { query: searchTerm };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    },
+                },
+                formatSelection: function (result) {
+                    return result.name;
+                },
+                escapeMarkup: function (m) { return m;}
+            });
+
             $("#save").click(function () {
-                $.ajax(
-                    {
-                        type: "POST", //HTTP POST Method
-                        url: "Home/Dashboard", // Controller/View
-                        data: { //Passing data
-                            RequestType: $("#selectrequest").val(), //Reading text box values using Jquery
-                            From: $("#datepicker1").val(),
-                            To: $("#datepicker2").val(),
-                            Description: $("#desc").val()
-                        }
-
-                    });
-
+                $.ajax({
+                    type: "POST", //HTTP POST Method
+                    url: "@Url.Action("CreateRequest", "Home")", // Controller
+                    data: { //Passing data
+                        RequestTypeId: $("#selectrequest").select2("val"), //Reading text box values using Jquery
+                        From: $("#datepicker1").val(),
+                        To: $("#datepicker2").val(),
+                        Description: $("#desc").val()
+                    },
+                    success: function(response){ 
+                        alert('success!'); //clear down input values
+                    },
+                    error: function(e){
+                        alert('error!'); //display message of issue
+                    }
+                });
             });
         });
-
     </script>
 
     <script>
         $(function () {
-            $("#datepicker1").datepicker({ dateFormat: "dd/mm/yy"}).datepicker("setDate", new Date());
+            $("#datepicker1").datepicker({ dateFormat: "dd/mm/yy" }).datepicker("setDate", new Date());
             $("#datepicker1").datepicker({
                 dateFormat: "dd/mm/yy",
             });
@@ -110,7 +130,7 @@
     </script>
     <script>
         $(function () {
-            $("#datepicker2").datepicker({ dateFormat: "dd/mm/yy"}).datepicker("setDate", new Date());
+            $("#datepicker2").datepicker({ dateFormat: "dd/mm/yy" }).datepicker("setDate", new Date());
             $("#datepicker2").datepicker({
                 dateFormat: "dd/mm/yy"
             });
@@ -119,10 +139,9 @@
     </script>
 
 
-    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
-          rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 
 
 }
+
+
