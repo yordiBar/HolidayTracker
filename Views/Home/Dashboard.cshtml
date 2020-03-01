@@ -109,7 +109,11 @@
                         Description: $("#desc").val()
                     },
                     success: function(response){ 
-                        alert('success!'); //clear down input values
+                        alert('success!');
+                        $("form").trigger("reset"); //clear down input values
+                        //$('#save').each(function () {
+                        //    this.reset();
+                        //})
                     },
                     error: function(e){
                         alert('error!'); //display message of issue
