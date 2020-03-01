@@ -97,7 +97,7 @@ namespace HolidayTracker.Controllers
             // take data from CreateRequestDTO
             // insert it into new request
             // save request to db
-
+            int currentUsersCompanyId = 0;
 
             //public class Request
             //{
