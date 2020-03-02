@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,13 +14,27 @@ namespace HolidayTracker.Models.Request
         public int RequestTypeId { get; set; }
         public int EmployeeId { get; set; }
         public int RequestCreatedByEmployeeId { get; set; }
-        public string From { get; set; } //change to DateTime
-        public string To { get; set; } //change to DateTime
-        public string Status { get; set; }
+        public DateTime From { get; set; } //change to DateTime
+        public DateTime To { get; set; } //change to DateTime
+        public int Status { get; set; } //change to int
         public double RequestAmount { get; set; }
-
-        //add description
+        public string Description { get; set; }
     }
+
+    public enum RequestStatus
+    {
+        [Description("Pending")]
+        Pending = 0,
+        [Description("Approved")]
+        Approved = 1,
+        [Description("Taken")]
+        Taken = 2,
+        [Description("Cancelled")]
+        Cancelled = 3,
+        [Description("Rejected")]
+        Rejected = 4
+    }
+
 
     public class CreateRequestDTO
     {
@@ -44,9 +59,4 @@ namespace HolidayTracker.Models.Request
             }
         }
     }
-
-    //public class MyRequestsViewModel
-    //{
-    //    public List<Request> AllRequests { get; set; }
-    //}
 }
