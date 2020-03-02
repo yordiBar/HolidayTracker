@@ -88,19 +88,52 @@ namespace HolidayTracker.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateRequest(CreateRequestDTO data)
+        public async Task<IActionResult> CreateRequest(CreateRequestDTO data)
         {
 
             //save data to database
-            bool saveSuccess = true;
+            //bool saveSuccess = true;
 
             // take data from CreateRequestDTO
             // insert it into new request
             // save request to db
             int currentUsersCompanyId = 0;
+            int currentUserId = 1;
 
-            //public class Request
-            //{
+            Request request = new Request();
+
+            request.CompanyId = currentUsersCompanyId;
+            request.RequestTypeId = data.RequestTypeId;
+            request.EmployeeId = currentUserId;
+            request.RequestCreatedByEmployeeId = currentUserId;
+            request.From = data.RealFrom;
+            request.To = data.RealTo;
+            request.Status = (int)RequestStatus.Pending;
+            request.Description = data.Description;
+
+            _context.Requests.Add(request);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+
+                if (request.Id <= 0)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json("Failed");
+                }
+                else
+                {
+                    //  When I want to return sucess:
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json("Saved!");
+                }
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Failed"); ;
+            }
 
             //    public int CompanyId { get; set; } value in currentUsersCompanyId
             //    public int RequestTypeId { get; set; } value from CreateRequestDTO data
@@ -114,17 +147,7 @@ namespace HolidayTracker.Controllers
             //    //add description
             
 
-            if (!saveSuccess)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Failed");
-            }
-            else
-            {
-                //  When I want to return sucess:
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json("Saved!");
-            }
+            
         }
 
         //Global Errors ASP.net MVC --global.cs file method Error

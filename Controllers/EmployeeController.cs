@@ -275,9 +275,10 @@ namespace HolidayTracker.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Employee emp)
         {
+            // check if validation attibutes are met
             if (!ModelState.IsValid)
             {
-                return View(emp);
+                return View(emp); // if not return error to screen
             }
 
             int currentUsersCompanyId = 1;
