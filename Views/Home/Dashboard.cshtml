@@ -1,4 +1,4 @@
-﻿@model HolidayTracker.Models.RequestType.RequestType;
+﻿@model HolidayTracker.Controllers.HomeViewModel;
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -46,40 +46,44 @@
     <thead>
         <tr>
             <th>
-                <a asp-controller="RequestType" asp-action="Index"></a>
-                @Html.DisplayNameFor(model => Model.RequestTypeName)
+                @Html.DisplayNameFor(model => model.Requests[0].RequestTypeId)
             </th>
-            @*<th>
-                    <a asp-controller="Request" asp-action="Index"></a>
-                    @Html.DisplayNameFor(model => Model.From[0])
-                </th>*@
-            @*<th>
-                    <a asp-controller="Request" asp-action="Index"></a>
-                    @Html.DisplayNameFor(model => Model.To[0])
-                </th>
-                <th>
-                    <a asp-controller="Request" asp-action="Index"></a>
-                    @Html.DisplayNameFor(model => Model.Status[0])
-                </th>*@
+            <th>                
+                @Html.DisplayNameFor(model => model.Requests[0].From)
+            </th>
             <th>
-                <a asp-controller="Request" asp-action="Index"></a>
-                @Html.DisplayNameFor(model => Model.Description)
+                @Html.DisplayNameFor(model => model.Requests[0].To)
+            </th>
+            <th>                
+                @Html.DisplayNameFor(model => model.Requests[0].Status)
+            </th>
+            <th>                
+                @Html.DisplayNameFor(model => model.Requests[0].Description)
             </th>
         </tr>
     </thead>
-    @*<tbody>
-        @foreach (var item in Model)
-        {
+    <tbody>
+            @foreach (var item in Model.Requests)
+            {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RequestTypeName)
+                @Html.DisplayFor(modelItem => item.RequestTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.From)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.To)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
         </tr>
-        }
-    </tbody>*@
+            }
+        </tbody>
 </table>
 
 @section Scripts {
