@@ -18,15 +18,16 @@ namespace HolidayTracker.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, HolidayTracker.Data.ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, HolidayTracker.Data.ApplicationDbContext context, HolidayTracker.Controllers.HomeViewModel pageData)
         {
             _logger = logger;
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            HolidayTracker.Controllers.HomeViewModel pageData = new Controllers.HomeViewModel();
+            return View(pageData);
         }
 
         public IActionResult Privacy()
@@ -150,6 +151,14 @@ namespace HolidayTracker.Controllers
             
         }
 
+        
+
         //Global Errors ASP.net MVC --global.cs file method Error
+    }
+
+    public class HomeViewModel
+    {
+        // list of requests
+        public List<Request> Requests { get; set; }
     }
 }
