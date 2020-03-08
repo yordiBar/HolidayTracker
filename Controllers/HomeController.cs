@@ -16,18 +16,99 @@ namespace HolidayTracker.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly HolidayTracker.Data.ApplicationDbContext _context;
+        private readonly HolidayTracker.Data.ApplicationDbContext _context;//private readonly HomeViewModel _viewModel;
 
-        public HomeController(ILogger<HomeController> logger, HolidayTracker.Data.ApplicationDbContext context, HolidayTracker.Controllers.HomeViewModel pageData)
+        public HomeController(ILogger<HomeController> logger, HolidayTracker.Data.ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
+            //_viewModel = viewModel;
         }
 
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index(string sortOrder,
+        //    string currentFilter, string searchString, int? pageIndex)
+        //{
+        //    HolidayTracker.Controllers.HomeViewModel pageData = new Controllers.HomeViewModel(_context);
+        //    //var user = new ApplicationUser { CompanyId = model.CompanyId };
+        //    int currentUsersCompanyId = 1;
+        //    pageData.CurrentSort = sortOrder;
+        //    pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        //    pageData.CodeSort = sortOrder == "Code" ? "code_desc" : "Code";
+        //    if (searchString != null)
+        //    {
+        //        pageIndex = 1;
+        //    }
+        //    else
+        //    {
+        //        searchString = currentFilter;
+        //    }
+
+        //    pageData.CurrentFilter = searchString;
+
+        //    IQueryable<RequestType> dbdata = _context.RequestTypes.Where(x => x.CompanyId == currentUsersCompanyId);
+        //    if (!String.IsNullOrEmpty(searchString))
+        //    {
+        //        dbdata = dbdata.Where(s => s.RequestTypeName.Contains(searchString));
+        //    }
+        //    switch (sortOrder)
+        //    {
+        //        case "name_desc":
+        //            dbdata = dbdata.OrderByDescending(s => s.RequestTypeName);
+        //            break;
+        //        case "Code":
+        //            dbdata = dbdata.OrderBy(s => s.RequestTypeCode);
+        //            break;
+        //        case "code_desc":
+        //            dbdata = dbdata.OrderByDescending(s => s.RequestTypeCode);
+        //            break;
+        //        default:
+        //            dbdata = dbdata.OrderBy(s => s.RequestTypeName);
+        //            break;
+        //    }
+
+        //    int pageSize = 10;
+        //    pageData.RequestType = await PaginatedList<RequestType>.CreateAsync(
+        //        dbdata.AsNoTracking(), pageIndex ?? 1, pageSize);
+
+        //    return View(pageData);
+        //}
+
+        //public IActionResult Dashboard(HomeViewModel data)
+        //{
+        //    int currentUsersCompanyId = 0;
+        //    //int currentUserId = 1;
+
+        //    var viewModel = new List<Request>();
+
+        //    var request = new HomeViewModel();
+        //    //request.CompanyId = currentUsersCompanyId;
+        //    request.RequestTypeId = data.RequestTypeId;
+        //    request.From = data.From;
+        //    request.To = data.To;
+        //    request.Status = data.Status;
+        //    request.Description = data.Description;
+
+        //    return View(viewModel);
+        //}
+        [HttpGet]
+        public IActionResult Dashboard()
         {
-            HolidayTracker.Controllers.HomeViewModel pageData = new Controllers.HomeViewModel();
-            return View(pageData);
+            int currentUsersCompanyId = 0;
+            int currentUserId = 1;
+
+
+            HomeViewModel viewModel = new HomeViewModel();
+
+            //viewModel.CompanyId = currentUsersCompanyId;
+            //viewModel.RequestTypeId = viewModel.RequestTypeId;
+            //viewModel.EmployeeId = currentUserId;
+            //viewModel.RequestCreatedByEmployeeId = currentUserId;
+            //viewModel.From = viewModel.From;
+            //viewModel.To = viewModel.To;
+            //viewModel.Status = (int)RequestStatus.Pending;
+            //viewModel.Description = viewModel.Description;
+
+            return View(viewModel);
         }
 
         public IActionResult Privacy()
@@ -40,19 +121,10 @@ namespace HolidayTracker.Controllers
             return View();
         }
 
-        public IActionResult Dashboard()
+        public IActionResult Index()
         {
             return View();
-        }
-
-        //public ActionResult MyRequestViewModel()
-        //{
-        //    Data _requestData = new Data();
-        //    MyRequestsViewModel viewModel = new MyRequestsViewModel();
-        //    viewModel.AllRequests = _requestData.GetAllRequest();
-        //    return View(viewModel);
-        //}
-                
+        }                
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -64,7 +136,7 @@ namespace HolidayTracker.Controllers
         public async Task<IActionResult> GetRequestType(string query)
         {
 
-            int currentUsersCompanyId = 0;
+            int currentUsersCompanyId = 1;
 
             List<RequestType> requestList = _context.RequestTypes.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
             List<RequestType> requestResults = new List<RequestType>();
@@ -98,7 +170,7 @@ namespace HolidayTracker.Controllers
             // take data from CreateRequestDTO
             // insert it into new request
             // save request to db
-            int currentUsersCompanyId = 0;
+            int currentUsersCompanyId = 1;
             int currentUserId = 1;
 
             Request request = new Request();
@@ -160,5 +232,16 @@ namespace HolidayTracker.Controllers
     {
         // list of requests
         public List<Request> Requests { get; set; }
+
+        public int Id { get; set; }
+        public int CompanyId { get; set; }
+        public int RequestTypeId { get; set; }
+        public int EmployeeId { get; set; }
+        public int RequestCreatedByEmployeeId { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+        public int Status { get; set; }
+        public double RequestAmount { get; set; }
+        public string Description { get; set; }
     }
 }

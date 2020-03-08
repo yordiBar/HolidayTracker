@@ -14,9 +14,9 @@ namespace HolidayTracker.Models.Request
         public int RequestTypeId { get; set; }
         public int EmployeeId { get; set; }
         public int RequestCreatedByEmployeeId { get; set; }
-        public DateTime From { get; set; } //change to DateTime
-        public DateTime To { get; set; } //change to DateTime
-        public int Status { get; set; } //change to int
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+        public int Status { get; set; }
         public double RequestAmount { get; set; }
         public string Description { get; set; }
     }

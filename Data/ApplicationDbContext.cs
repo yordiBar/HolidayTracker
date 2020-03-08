@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser> //IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
