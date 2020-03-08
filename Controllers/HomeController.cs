@@ -93,7 +93,7 @@ namespace HolidayTracker.Controllers
         [HttpGet]
         public IActionResult Dashboard()
         {
-            int currentUsersCompanyId = 0;
+            int currentUsersCompanyId = 1;
             int currentUserId = 1;
 
 
