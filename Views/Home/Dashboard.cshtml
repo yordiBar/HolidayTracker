@@ -42,49 +42,49 @@
 
 <hr />
 <hr />
-<table class="table">
+@*<table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Requests[0].RequestTypeId)
             </th>
-            <th>                
+            <th>
                 @Html.DisplayNameFor(model => model.Requests[0].From)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Requests[0].To)
             </th>
-            <th>                
+            <th>
                 @Html.DisplayNameFor(model => model.Requests[0].Status)
             </th>
-            <th>                
+            <th>
                 @Html.DisplayNameFor(model => model.Requests[0].Description)
             </th>
         </tr>
     </thead>
     <tbody>
-            @foreach (var item in Model.Requests)
-            {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequestTypeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.From)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.To)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-        </tr>
-            }
-        </tbody>
-</table>
+        @foreach (var item in Model.Requests)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestTypeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.From)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.To)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>*@
 
 @section Scripts {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -130,7 +130,7 @@
                         Description: $("#desc").val()
                     },
                     success: function(response){
-                        alert('success!');
+                        alert('Request Sent!');
                         $("form").trigger("reset"); //clear down input values
                         //$('#save').each(function () {
                         //    this.reset();
