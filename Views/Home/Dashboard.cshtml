@@ -42,6 +42,48 @@
 
 <hr />
 <hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-controller="Home" asp-action="Dashboard"></a>
+                @Html.DisplayNameFor(model => Model.Requests[0].From)
+            </th>
+            <th>
+                <a asp-controller="Department" asp-action="Index"></a>
+                @Html.DisplayNameFor(model => Model.Requests[0].To)
+            </th>
+            <th style="display:none">
+                <a asp-controller="Department" asp-action="Index"></a>
+                @Html.DisplayNameFor(model => Model.Requests[0].CompanyId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Requests)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.From)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.To)
+                </td>
+                <td style="display:none">
+                    @Html.DisplayFor(modelItem => item.CompanyId)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
 @*<table class="table">
     <thead>
         <tr>
