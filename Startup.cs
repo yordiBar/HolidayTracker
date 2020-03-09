@@ -165,11 +165,12 @@ namespace HolidayTracker
 
     }
 
-    public class MysUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser>
+    public class MysUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
     {
-        public MysUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager, 
+        public MysUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             IOptions<IdentityOptions> optionsAssessor)
-            : base(userManager, optionsAssessor)
+            : base(userManager, roleManager, optionsAssessor)
         {
         }
 
