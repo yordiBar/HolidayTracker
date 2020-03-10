@@ -96,9 +96,9 @@ namespace HolidayTracker.Controllers
             int currentUsersCompanyId = 1;
             int currentUserId = 1;
 
-
+            
             HomeViewModel viewModel = new HomeViewModel();
-
+            viewModel.Requests = _context.Requests.Where(x => x.EmployeeId==1).ToList();
             //viewModel.CompanyId = currentUsersCompanyId;
             //viewModel.RequestTypeId = viewModel.RequestTypeId;
             //viewModel.EmployeeId = currentUserId;
