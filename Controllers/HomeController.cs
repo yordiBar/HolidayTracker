@@ -16,80 +16,14 @@ namespace HolidayTracker.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly HolidayTracker.Data.ApplicationDbContext _context;//private readonly HomeViewModel _viewModel;
+        private readonly HolidayTracker.Data.ApplicationDbContext _context;
 
         public HomeController(ILogger<HomeController> logger, HolidayTracker.Data.ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
-            //_viewModel = viewModel;
         }
 
-        //public async Task<IActionResult> Index(string sortOrder,
-        //    string currentFilter, string searchString, int? pageIndex)
-        //{
-        //    HolidayTracker.Controllers.HomeViewModel pageData = new Controllers.HomeViewModel(_context);
-        //    //var user = new ApplicationUser { CompanyId = model.CompanyId };
-        //    int currentUsersCompanyId = 1;
-        //    pageData.CurrentSort = sortOrder;
-        //    pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-        //    pageData.CodeSort = sortOrder == "Code" ? "code_desc" : "Code";
-        //    if (searchString != null)
-        //    {
-        //        pageIndex = 1;
-        //    }
-        //    else
-        //    {
-        //        searchString = currentFilter;
-        //    }
-
-        //    pageData.CurrentFilter = searchString;
-
-        //    IQueryable<RequestType> dbdata = _context.RequestTypes.Where(x => x.CompanyId == currentUsersCompanyId);
-        //    if (!String.IsNullOrEmpty(searchString))
-        //    {
-        //        dbdata = dbdata.Where(s => s.RequestTypeName.Contains(searchString));
-        //    }
-        //    switch (sortOrder)
-        //    {
-        //        case "name_desc":
-        //            dbdata = dbdata.OrderByDescending(s => s.RequestTypeName);
-        //            break;
-        //        case "Code":
-        //            dbdata = dbdata.OrderBy(s => s.RequestTypeCode);
-        //            break;
-        //        case "code_desc":
-        //            dbdata = dbdata.OrderByDescending(s => s.RequestTypeCode);
-        //            break;
-        //        default:
-        //            dbdata = dbdata.OrderBy(s => s.RequestTypeName);
-        //            break;
-        //    }
-
-        //    int pageSize = 10;
-        //    pageData.RequestType = await PaginatedList<RequestType>.CreateAsync(
-        //        dbdata.AsNoTracking(), pageIndex ?? 1, pageSize);
-
-        //    return View(pageData);
-        //}
-
-        //public IActionResult Dashboard(HomeViewModel data)
-        //{
-        //    int currentUsersCompanyId = 0;
-        //    //int currentUserId = 1;
-
-        //    var viewModel = new List<Request>();
-
-        //    var request = new HomeViewModel();
-        //    //request.CompanyId = currentUsersCompanyId;
-        //    request.RequestTypeId = data.RequestTypeId;
-        //    request.From = data.From;
-        //    request.To = data.To;
-        //    request.Status = data.Status;
-        //    request.Description = data.Description;
-
-        //    return View(viewModel);
-        //}
         [HttpGet]
         public IActionResult Dashboard()
         {
@@ -99,14 +33,6 @@ namespace HolidayTracker.Controllers
             
             HomeViewModel viewModel = new HomeViewModel();
             viewModel.Requests = _context.Requests.Where(x => x.EmployeeId==1).ToList();
-            //viewModel.CompanyId = currentUsersCompanyId;
-            //viewModel.RequestTypeId = viewModel.RequestTypeId;
-            //viewModel.EmployeeId = currentUserId;
-            //viewModel.RequestCreatedByEmployeeId = currentUserId;
-            //viewModel.From = viewModel.From;
-            //viewModel.To = viewModel.To;
-            //viewModel.Status = (int)RequestStatus.Pending;
-            //viewModel.Description = viewModel.Description;
 
             return View(viewModel);
         }
