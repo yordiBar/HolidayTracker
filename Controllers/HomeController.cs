@@ -27,8 +27,8 @@ namespace HolidayTracker.Controllers
         [HttpGet]
         public IActionResult Dashboard()
         {
-            int currentUsersCompanyId = 1;
-            int currentUserId = 1;
+            //int currentUsersCompanyId = 1;
+            //int currentUserId = 1;
 
             
             HomeViewModel viewModel = new HomeViewModel();
