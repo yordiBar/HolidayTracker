@@ -17,6 +17,12 @@ namespace HolidayTracker.Extensions
     /// 
     public class ApplicationUser : IdentityUser
     {
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> manager)
+        {
+            ClaimsIdentity userIdentity = new ClaimsIdentity("Cookies");
+            userIdentity.AddClaim(new Claim("CompanyId", this.CompanyId.ToString()));
+            return userIdentity;
+        }
         public string ContactName { get; set; }
         public int CompanyId { get; set; }
 
