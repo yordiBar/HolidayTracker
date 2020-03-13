@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +11,13 @@ namespace HolidayTracker.Models.Employee
         public int Id { get; set; }
         public string LocationId { get; set; }
         public int DepartmentId { get; set; }
+
+        // Display DateTime as date only using DisplayFormat attribute
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
+
+        // Display DateTime as date only using DisplayFormat attribute
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public DateTime LeavingDate { get; set; }
         public int EmployeeTypeId { get; set; }
         public string EmployeeNumber { get; set; }
