@@ -158,16 +158,5 @@ namespace HolidayTracker.Controllers
     {
         // list of requests
         public List<Request> Requests { get; set; }
-
-        public int Id { get; set; }
-        public int CompanyId { get; set; }
-        public int RequestTypeId { get; set; }
-        public int EmployeeId { get; set; }
-        public int RequestCreatedByEmployeeId { get; set; }
-        public DateTime From { get; set; }
-        public DateTime To { get; set; }
-        public int Status { get; set; }
-        public double RequestAmount { get; set; }
-        public string Description { get; set; }
     }
 }
