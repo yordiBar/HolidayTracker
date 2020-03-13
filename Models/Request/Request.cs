@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,13 @@ namespace HolidayTracker.Models.Request
         public int RequestTypeId { get; set; }
         public int EmployeeId { get; set; }
         public int RequestCreatedByEmployeeId { get; set; }
+
+        // Display DateTime as date only using DisplayFormat attribute
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public DateTime From { get; set; }
+
+        // Display DateTime as date only using DisplayFormat attribute
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public DateTime To { get; set; }
         public int Status { get; set; }
         public double RequestAmount { get; set; }
