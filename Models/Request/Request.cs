@@ -26,6 +26,7 @@ namespace HolidayTracker.Models.Request
         public DateTime To { get; set; }
         public int Status { get; set; }
         public double RequestAmount { get; set; }
+        [Display(Name ="Comments")]
         public string Description { get; set; }
     }
 
