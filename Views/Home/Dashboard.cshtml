@@ -56,6 +56,9 @@
                 @Html.DisplayNameFor(model => model.Requests[0].To)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Requests[0].RequestAmount)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Requests[0].Status)
             </th>
             <th>
@@ -66,23 +69,26 @@
     <tbody>
         @foreach (var item in Model.Requests)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestTypeId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.From)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.To)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.From)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.To)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+        </tr>
         }
     </tbody>
 </table>
