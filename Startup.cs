@@ -31,35 +31,39 @@ namespace HolidayTracker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>((Action<DbContextOptionsBuilder>)(options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"),
-                (Action<SqlServerDbContextOptionsBuilder>)null)), ServiceLifetime.Scoped, ServiceLifetime.Scoped);
-            services.AddDefaultIdentity<ApplicationUser>((Action<IdentityOptions>)(options => options.SignIn.RequireConfirmedAccount = false))
-                .AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            //change from TestCoreWebappMVC2User to TestCoreWebappMVC2User
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MyUserClaimsPrincipalFactory>();
-            MvcServiceCollectionExtensions.AddControllersWithViews(services);
-            MvcServiceCollectionExtensions.AddMvc(services);
-            services.Configure<IdentityOptions>((Action<IdentityOptions>)(options =>
+            services.AddControllersWithViews();
+            services.AddMvc();
+            //added
+            services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 6;
-                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Password.RequiredUniqueChars = 1;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5.0);
+                options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
-            }));
-            
-            // Configuration of application cookies using IdentityServiceCollectionExtensions class
-            IdentityServiceCollectionExtensions.ConfigureApplicationCookie(services, (Action<CookieAuthenticationOptions>)(options =>
-           {
-               options.Cookie.HttpOnly = true;
-               options.ExpireTimeSpan = TimeSpan.FromMinutes(5.0);
-               options.LoginPath = new PathString("/Identity/Account/Login");
-               options.AccessDeniedPath = new PathString("/Identity/Account/AccessDenied");
-               options.SlidingExpiration = true;
-           }));
+            });
+            //added
+            services.ConfigureApplicationCookie(options => {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5.0);
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
@@ -89,76 +93,76 @@ namespace HolidayTracker
             //services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
-        {
-            if (HostEnvironmentEnvExtensions.IsDevelopment((IHostEnvironment)env))
-            {
-                DeveloperExceptionPageExtensions.UseDeveloperExceptionPage(app);
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                ExceptionHandlerExtensions.UseExceptionHandler(app, "/Home/Error");
-                HstsBuilderExtensions.UseHsts(app);
-            }
-            HttpsPolicyBuilderExtensions.UseHttpsRedirection(app);
-            StaticFileExtensions.UseStaticFiles(app);
-            EndpointRoutingApplicationBuilderExtensions.UseRouting(app);
-            AuthAppBuilderExtensions.UseAuthentication(app);
-            AuthorizationAppBuilderExtensions.UseAuthorization(app);
-            EndpointRoutingApplicationBuilderExtensions.UseEndpoints(app, (Action<IEndpointRouteBuilder>)(endpoints =>
-        {
-            ControllerEndpointRouteBuilderExtensions.MapControllerRoute(endpoints, "default", "{controller=Home}/{action=Index}/{id?}", (object)null, (object)null, (object)null);
-            RazorPagesEndpointRouteBuilderExtensions.MapRazorPages(endpoints);
-        }));
-            this.CreateRoles(services).Wait();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         //public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
         //{
-        //    if (env.IsDevelopment())
+        //    if (HostEnvironmentEnvExtensions.IsDevelopment((IHostEnvironment)env))
         //    {
-        //        app.UseDeveloperExceptionPage();
+        //        DeveloperExceptionPageExtensions.UseDeveloperExceptionPage(app);
         //        app.UseDatabaseErrorPage();
         //    }
         //    else
         //    {
-        //        app.UseExceptionHandler("/Home/Error");
-        //        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        //        app.UseHsts();
+        //        ExceptionHandlerExtensions.UseExceptionHandler(app, "/Home/Error");
+        //        HstsBuilderExtensions.UseHsts(app);
         //    }
-        //    app.UseHttpsRedirection();
-        //    app.UseStaticFiles();
-
-        //    app.UseRouting();
-
-        //    app.UseAuthentication();
-        //    app.UseAuthorization();
-        //    //app.UseMvc(routes =>
-        //    //{
-        //    //    routes.MapRoute(
-        //    //        name: "default",
-        //    //        template: "{controller=Home}/{action=Index}/{id?}");
-        //    //});
-
-        //    app.UseEndpoints(endpoints =>
-        //    {
-        //        endpoints.MapControllerRoute(
-        //            name: "default",
-        //            pattern: "{controller=Home}/{action=Index}/{id?}");
-        //        endpoints.MapRazorPages();
-        //    });
-        //    try
-        //    {
-        //        CreateRoles(services).Wait();
-        //    }
-        //    catch(Exception ae)
-        //    {
-        //        throw ae;
-        //    }
-
+        //    HttpsPolicyBuilderExtensions.UseHttpsRedirection(app);
+        //    StaticFileExtensions.UseStaticFiles(app);
+        //    EndpointRoutingApplicationBuilderExtensions.UseRouting(app);
+        //    AuthAppBuilderExtensions.UseAuthentication(app);
+        //    AuthorizationAppBuilderExtensions.UseAuthorization(app);
+        //    EndpointRoutingApplicationBuilderExtensions.UseEndpoints(app, (Action<IEndpointRouteBuilder>)(endpoints =>
+        //{
+        //    ControllerEndpointRouteBuilderExtensions.MapControllerRoute(endpoints, "default", "{controller=Home}/{action=Index}/{id?}", (object)null, (object)null, (object)null);
+        //    RazorPagesEndpointRouteBuilderExtensions.MapRazorPages(endpoints);
+        //}));
+        //    this.CreateRoles(services).Wait();
         //}
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
+            try
+            {
+                CreateRoles(services).Wait();
+            }
+            catch (Exception ae)
+            {
+                throw ae;
+            }
+
+        }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
@@ -169,7 +173,7 @@ namespace HolidayTracker
             {
                 IdentityResult roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
             }
-            ApplicationUser user = await UserManager.FindByEmailAsync("bart.rybak@hotmail.com");
+            ApplicationUser user = await UserManager.FindByEmailAsync("admin@admin.com");
             bool flag = await UserManager.IsInRoleAsync(user, "Admin");
             if (flag)
                 return;
