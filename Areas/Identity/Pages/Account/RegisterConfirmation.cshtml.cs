@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using HolidayTracker.Extensions;
+using HolidayTracker.Areas.Identity.Data;
 
 namespace HolidayTracker.Areas.Identity.Pages.Account
 {
