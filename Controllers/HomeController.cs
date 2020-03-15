@@ -132,25 +132,9 @@ namespace HolidayTracker.Controllers
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json("Failed"); ;
-            }
-
-            //    public int CompanyId { get; set; } value in currentUsersCompanyId
-            //    public int RequestTypeId { get; set; } value from CreateRequestDTO data
-            //    public int EmployeeId { get; set; } value from currentUserId
-            //    public int RequestCreatedByEmployeeId { get; set; } value from currentUserId
-            //    public string From { get; set; }  value from CreateRequestDTO data RealFrom
-            //    public string To { get; set; } value from CreateRequestDTO data RealTo
-            //    public string Status { get; set; } value from static list default to pending when creating
-            //    public double RequestAmount { get; set; } calculate for the employee using there working days and the from - to date
-
-            //    //add description
-            
-
-            
+            }   
         }
-
         
-
         //Global Errors ASP.net MVC --global.cs file method Error
     }
 
@@ -158,16 +142,5 @@ namespace HolidayTracker.Controllers
     {
         // list of requests
         public List<Request> Requests { get; set; }
-
-        public int Id { get; set; }
-        public int CompanyId { get; set; }
-        public int RequestTypeId { get; set; }
-        public int EmployeeId { get; set; }
-        public int RequestCreatedByEmployeeId { get; set; }
-        public DateTime From { get; set; }
-        public DateTime To { get; set; }
-        public int Status { get; set; }
-        public double RequestAmount { get; set; }
-        public string Description { get; set; }
     }
 }

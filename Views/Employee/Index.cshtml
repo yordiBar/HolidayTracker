@@ -32,6 +32,11 @@
             </th>
             <th>
                 <a asp-controller="Employee" asp-action="Index" asp-route-sortOrder="@Model.DateSort" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => Model.Employee[0].JobTitle)
+                </a>
+            </th>
+            <th>
+                <a asp-controller="Employee" asp-action="Index" asp-route-sortOrder="@Model.DateSort" asp-route-currentFilter="@Model.CurrentFilter">
                     @Html.DisplayNameFor(model => Model.Employee[0].StartDate)
                 </a>
             </th>
@@ -43,6 +48,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)
