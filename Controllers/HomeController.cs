@@ -10,6 +10,7 @@ using HolidayTracker.Models.RequestType;
 using Microsoft.EntityFrameworkCore;
 using HolidayTracker.Models.Request;
 using System.Net;
+using HolidayTracker.Extensions;
 
 namespace HolidayTracker.Controllers
 {
@@ -29,12 +30,16 @@ namespace HolidayTracker.Controllers
         {
             //int currentUsersCompanyId = 1;
             //int currentUserId = 1;
+            string companyId = "";
+            if (User.Identity.IsAuthenticated)
+            {
+                companyId = User.Identity.GetCompanyId();
 
+                HomeViewModel viewModel = new HomeViewModel();
+                viewModel.Requests = _context.Requests.Where(x => x.EmployeeId == 1).ToList();
+            }            
             
-            HomeViewModel viewModel = new HomeViewModel();
-            viewModel.Requests = _context.Requests.Where(x => x.EmployeeId==1).ToList();
-
-            return View(viewModel);
+            return (IActionResult)this.View();
         }
 
         public IActionResult Privacy()

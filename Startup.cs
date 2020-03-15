@@ -33,31 +33,69 @@ namespace HolidayTracker
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-            //    .AddRoles<IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddClaimsPrincipalFactory<MysUserClaimsPrincipalFactory>();
-            //    //.AddDefaultTokenProviders();
-
-
-            services.AddIdentity<ApplicationUser, IdentityRole>(options => 
-            {
-                options.Password.RequiredLength = 6;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = true;
-            })
-                .AddRoleManager<RoleManager<IdentityRole>>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultUI()
-                .AddClaimsPrincipalFactory<MysUserClaimsPrincipalFactory>()
-                .AddDefaultTokenProviders();
-
+            //change from TestCoreWebappMVC2User to TestCoreWebappMVC2User
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MysUserClaimsPrincipalFactory>();
             services.AddControllersWithViews();
-            services.AddRazorPages();
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc();
+            //added
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5.0);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;
+            });
+            //added
+            services.ConfigureApplicationCookie(options => {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5.0);
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
         }
+
+
+        //public void ConfigureServices(IServiceCollection services)
+        //{
+        //    services.AddDbContext<ApplicationDbContext>(options =>
+        //        options.UseSqlServer(
+        //            Configuration.GetConnectionString("DefaultConnection")));
+        //    //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+        //    //    .AddRoles<IdentityRole>()
+        //    //    .AddEntityFrameworkStores<ApplicationDbContext>()
+        //    //    .AddClaimsPrincipalFactory<MysUserClaimsPrincipalFactory>();
+        //    //    //.AddDefaultTokenProviders();
+
+
+        //    services.AddIdentity<ApplicationUser, IdentityRole>(options => 
+        //    {
+        //        options.Password.RequiredLength = 6;
+        //        options.Password.RequireLowercase = false;
+        //        options.Password.RequireUppercase = false;
+        //        options.Password.RequireNonAlphanumeric = false;
+        //        options.Password.RequireDigit = true;
+        //    })
+        //        .AddRoleManager<RoleManager<IdentityRole>>()
+        //        .AddEntityFrameworkStores<ApplicationDbContext>()
+        //        .AddDefaultUI()
+        //        .AddClaimsPrincipalFactory<MysUserClaimsPrincipalFactory>()
+        //        .AddDefaultTokenProviders();
+
+        //    services.AddControllersWithViews();
+        //    services.AddRazorPages();
+        //    services.AddMvc(options => options.EnableEndpointRouting = false);
+        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
