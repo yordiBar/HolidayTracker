@@ -37,7 +37,7 @@ namespace HolidayTracker
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MysUserClaimsPrincipalFactory>();
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MyUserClaimsPrincipalFactory>();
             services.AddControllersWithViews();
             services.AddMvc();
             //added
@@ -203,21 +203,32 @@ namespace HolidayTracker
 
     }
 
-    public class MysUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
+    public class MyUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
     {
-        public MysUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager,
+        public MyUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IOptions<IdentityOptions> optionsAssessor)
             : base(userManager, roleManager, optionsAssessor)
         {
         }
 
-        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
+        public override async Task<ClaimsPrincipal> CreateAsync(
+            ApplicationUser user)
         {
-            var identity = await base.GenerateClaimsAsync(user);
-            identity.AddClaim(new Claim("CompanyId", user.CompanyId.ToString()));
-            return identity;
+            ClaimsPrincipal principal = await base.CreateAsync(user);
+            ((ClaimsIdentity)principal.Identity).AddClaims((IEnumerable<Claim>)new Claim[1]
+        {
+                new Claim("CompanyId", user.CompanyId.ToString())
+        });
+            return principal;
         }
-        
+
+        //protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
+        //{
+        //    var identity = await base.GenerateClaimsAsync(user);
+        //    identity.AddClaim(new Claim("CompanyId", user.CompanyId.ToString()));
+        //    return identity;
+        //}
+
     }
 }
