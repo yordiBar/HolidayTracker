@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using HolidayTracker.Extensions;
+﻿using System.Collections.Generic;
+using HolidayTracker.Areas.Identity.Data;
 using HolidayTracker.Models.Allowance;
 using HolidayTracker.Models.Company;
 using HolidayTracker.Models.Department;

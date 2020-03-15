@@ -1,23 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using HolidayTracker.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using HolidayTracker.Extensions;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Routing;
+using HolidayTracker.Areas.Identity.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace HolidayTracker
 {
@@ -52,13 +50,15 @@ namespace HolidayTracker
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
             }));
+            
+            // Configuration of application cookies using IdentityServiceCollectionExtensions class
             IdentityServiceCollectionExtensions.ConfigureApplicationCookie(services, (Action<CookieAuthenticationOptions>)(options =>
            {
-               options.get_Cookie().set_HttpOnly(true);
-               options.set_ExpireTimeSpan(TimeSpan.FromMinutes(5.0));
-               options.set_LoginPath((PathString)"/Identity/Account/Login");
-               options.set_AccessDeniedPath((PathString)"/Identity/Account/AccessDenied");
-               options.set_SlidingExpiration(true);
+               options.Cookie.HttpOnly = true;
+               options.ExpireTimeSpan = TimeSpan.FromMinutes(5.0);
+               options.LoginPath = new PathString("/Identity/Account/Login");
+               options.AccessDeniedPath = new PathString("/Identity/Account/AccessDenied");
+               options.SlidingExpiration = true;
            }));
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(

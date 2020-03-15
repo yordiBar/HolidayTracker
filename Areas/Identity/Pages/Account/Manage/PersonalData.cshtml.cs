@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using HolidayTracker.Extensions;
+using HolidayTracker.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

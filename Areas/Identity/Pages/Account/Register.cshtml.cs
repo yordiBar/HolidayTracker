@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using HolidayTracker.Extensions;
+using HolidayTracker.Areas.Identity.Data;
 using HolidayTracker.Models.Company;
 using HolidayTracker.Models.Employee;
 using Microsoft.AspNetCore.Authentication;
