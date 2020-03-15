@@ -21,7 +21,7 @@ namespace HolidayTracker.Controllers
         {
             HolidayTracker.Views.Allowances.IndexModel pageData = new Views.Allowances.IndexModel(_context);
             //var user = new ApplicationUser { CompanyId = model.CompanyId };
-            int currentUsersCompanyId = 1;
+            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
             pageData.CurrentSort = sortOrder;
             pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             pageData.DateSort = sortOrder == "Date" ? "date_desc" : "Date";
