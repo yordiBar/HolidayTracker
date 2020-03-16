@@ -10,6 +10,7 @@ using HolidayTracker.Models.RequestType;
 using Microsoft.EntityFrameworkCore;
 using HolidayTracker.Models.Request;
 using System.Net;
+using HolidayTracker.Areas.Identity.Extensions;
 
 namespace HolidayTracker.Controllers
 {
@@ -62,7 +63,7 @@ namespace HolidayTracker.Controllers
         public async Task<IActionResult> GetRequestType(string query)
         {
 
-            int currentUsersCompanyId = 1;
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             List<RequestType> requestList = _context.RequestTypes.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
             List<RequestType> requestResults = new List<RequestType>();
@@ -96,7 +97,7 @@ namespace HolidayTracker.Controllers
             // take data from CreateRequestDTO
             // insert it into new request
             // save request to db
-            int currentUsersCompanyId = 1;
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
             int currentUserId = 1;
 
             Request request = new Request();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,6 +29,9 @@ namespace HolidayTracker.Models.Employee
         public int CompanyId { get; set; }
         public string DisplayName { get; set; }
         public string Email { get; set; }
+
+        [NotMapped]
+        public string Password { get; set; }
         public int ApproverId { get; set; }
         public bool IsApprover { get; set; }
         public bool IsManager { get; set; }

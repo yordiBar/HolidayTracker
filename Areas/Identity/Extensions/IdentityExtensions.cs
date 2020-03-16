@@ -9,10 +9,10 @@ namespace HolidayTracker.Areas.Identity.Extensions
 {
     public static class IdentityExtensions
     {
-        public static string GetOrganizationId(this IIdentity identity)
+        public static int GetCompanyId(this IIdentity identity)
         {
             Claim first = ((ClaimsIdentity)identity).FindFirst("CompanyId");
-            return first != null ? first.Value : string.Empty;
+            return first != null ? Int32.Parse(first.Value) : 0;
         }
     }
 }

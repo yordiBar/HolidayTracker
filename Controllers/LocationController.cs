@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Location;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace HolidayTracker.Controllers
         {
             HolidayTracker.Views.Locations.IndexModel pageData = new Views.Locations.IndexModel(_context);
             //var user = new ApplicationUser { CompanyId = model.CompanyId };
-            int currentUsersCompanyId = 1;
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
             pageData.CurrentSort = sortOrder;
             pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             pageData.CodeSort = sortOrder == "Code" ? "code_desc" : "Code";
@@ -73,7 +74,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
 
             Location location = await _context.Locations.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
@@ -125,7 +126,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
 
             Location location = await _context.Locations.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
@@ -208,7 +209,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
 
             Location location = await _context.Locations.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
 
