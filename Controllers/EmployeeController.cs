@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using HolidayTracker.Areas.Identity.Data;
+using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Allowance;
 using HolidayTracker.Models.Employee;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +40,7 @@ namespace HolidayTracker.Controllers
         {
             HolidayTracker.Views.Employees.IndexModel pageData = new Views.Employees.IndexModel(_context);
             //var user = new ApplicationUser { CompanyId = model.CompanyId };
-            int currentUsersCompanyId = 1;
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
             pageData.CurrentSort = sortOrder;
             pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             pageData.DateSort = sortOrder == "Date" ? "date_desc" : "Date";
@@ -91,8 +92,8 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
-            
+            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false); //FirstOrDefaultAsync(m => m.Id == id );
             
             
@@ -120,8 +121,8 @@ namespace HolidayTracker.Controllers
                 return View(emp);
             }
 
-            int currentUsersCompanyId = 1;
-            
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
             emp.CompanyId = currentUsersCompanyId;
             
             _context.Attach(emp).State = EntityState.Modified;
@@ -132,7 +133,7 @@ namespace HolidayTracker.Controllers
 
                 var user = new ApplicationUser { UserName = emp.Email, Email = emp.Email, CompanyId = emp.CompanyId };
                 
-                string password = Guid.NewGuid().ToString();
+                string password = emp.Password;
 
                 var result = await _userManager.CreateAsync(user, password);
                 
@@ -223,8 +224,8 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
-            
+            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId); //FirstOrDefaultAsync(m => m.Id == id );
 
             if (employee == null)
@@ -279,8 +280,8 @@ namespace HolidayTracker.Controllers
                 return View(emp); // if not return error to screen
             }
 
-            int currentUsersCompanyId = 1;
-            
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
             emp.CompanyId = currentUsersCompanyId;
             
             _context.Employees.Add(emp);
@@ -291,7 +292,7 @@ namespace HolidayTracker.Controllers
 
                 var user = new ApplicationUser { UserName = emp.Email, Email = emp.Email, CompanyId = emp.CompanyId };
 
-                string password = Guid.NewGuid().ToString();
+                string password = emp.Password;
 
                 var result = await _userManager.CreateAsync(user, password);
 
@@ -469,7 +470,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
 
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
 

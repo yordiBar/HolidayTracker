@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Allowance;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ namespace HolidayTracker.Controllers
         {
             HolidayTracker.Views.Allowances.IndexModel pageData = new Views.Allowances.IndexModel(_context);
             //var user = new ApplicationUser { CompanyId = model.CompanyId };
-            int currentUsersCompanyId = 1;//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
             pageData.CurrentSort = sortOrder;
             pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             pageData.DateSort = sortOrder == "Date" ? "date_desc" : "Date";
@@ -72,7 +73,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = 1; //User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId(); //User.Identity.GetCompanyId();
 
             Allowance allowance = await _context.Allowances.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
