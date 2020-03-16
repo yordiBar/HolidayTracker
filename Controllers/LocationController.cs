@@ -182,6 +182,10 @@ namespace HolidayTracker.Controllers
                 return View(loc);
             }
 
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            loc.CompanyId = currentUsersCompanyId;
+
             _context.Locations.Add(loc);
 
             try

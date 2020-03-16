@@ -93,6 +93,10 @@ namespace HolidayTracker.Controllers
                 return View(all);
             }
 
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            all.CompanyId = currentUsersCompanyId;
+
             _context.Attach(all).State = EntityState.Modified;
 
             try
