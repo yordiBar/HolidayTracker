@@ -186,6 +186,10 @@ namespace HolidayTracker.Controllers
                 return View(reqType);
             }
 
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            reqType.CompanyId = currentUsersCompanyId;
+
             _context.RequestTypes.Add(reqType);
 
             try

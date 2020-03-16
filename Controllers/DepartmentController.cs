@@ -187,6 +187,10 @@ namespace HolidayTracker.Controllers
                 return View(dept);
             }
 
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            dept.CompanyId = currentUsersCompanyId;
+
             _context.Departments.Add(dept);
 
             try

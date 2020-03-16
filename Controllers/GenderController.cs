@@ -132,6 +132,10 @@ namespace HolidayTracker.Controllers
                 return View(gen);
             }
 
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            gen.CompanyId = currentUsersCompanyId;
+
             _context.Genders.Add(gen);
 
             try
