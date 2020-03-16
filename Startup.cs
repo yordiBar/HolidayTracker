@@ -178,6 +178,27 @@ namespace HolidayTracker
             if (flag)
                 return;
             IdentityResult roleAsync = await UserManager.AddToRoleAsync(user, "Admin");
+
+            // Check if Manager role exists, if not then create role
+            bool managerRoleCheck = await RoleManager.RoleExistsAsync("Manager");
+            if (!managerRoleCheck)
+            {
+                IdentityResult roleResult = await RoleManager.CreateAsync(new IdentityRole("Manager"));
+            }
+
+            // Check if Approver role exists, if not then create role
+            bool approverRoleCheck = await RoleManager.RoleExistsAsync("Approver");
+            if (!approverRoleCheck)
+            {
+                IdentityResult roleResult = await RoleManager.CreateAsync(new IdentityRole("Approver"));
+            }
+
+            // Check if Employee role exists, if not then create role
+            bool employeeRoleCheck = await RoleManager.RoleExistsAsync("Employee");
+            if (!employeeRoleCheck)
+            {
+                IdentityResult roleResult = await RoleManager.CreateAsync(new IdentityRole("Employee"));
+            }
         }
 
         //    private async Task CreateRoles(IServiceProvider serviceProvider)
