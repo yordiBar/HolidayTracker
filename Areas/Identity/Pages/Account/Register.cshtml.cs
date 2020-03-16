@@ -110,6 +110,7 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
                 employee.IsDeleted = false;
                 employee.IsLocked = false;
                 employee.CompanyId = company.Id;
+                employee.Password = Input.Password;
 
                 var e = _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
