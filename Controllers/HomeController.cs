@@ -28,12 +28,11 @@ namespace HolidayTracker.Controllers
         [HttpGet]
         public IActionResult Dashboard()
         {
-            //int currentUsersCompanyId = 1;
-            //int currentUserId = 1;
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+            int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
 
-            
             HomeViewModel viewModel = new HomeViewModel();
-            viewModel.Requests = _context.Requests.Where(x => x.EmployeeId==1).ToList();
+            viewModel.Requests = _context.Requests.Where(x => x.EmployeeId == currentUserId).ToList();
 
             return View(viewModel);
         }
@@ -98,7 +97,7 @@ namespace HolidayTracker.Controllers
             // insert it into new request
             // save request to db
             int currentUsersCompanyId = User.Identity.GetCompanyId();
-            int currentUserId = 1;
+            int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
 
             Request request = new Request();
 
@@ -124,7 +123,7 @@ namespace HolidayTracker.Controllers
                 }
                 else
                 {
-                    //  When I want to return sucess:
+                    //  When I want to return success:
                     Response.StatusCode = (int)HttpStatusCode.OK;
                     return Json("Saved!");
                 }
