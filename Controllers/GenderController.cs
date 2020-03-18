@@ -4,11 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Gender;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "SystemAdmin")]
     public class GenderController : Controller
     {
         // GET: /<controller>/

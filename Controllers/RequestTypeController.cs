@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.RequestType;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    //[Authorize(Roles = "SystemAdmin,Manager")]
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "SystemAdmin")]
     public class RequestTypeController : Controller
     {
         // GET: /<controller>/

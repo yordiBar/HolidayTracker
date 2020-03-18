@@ -7,6 +7,7 @@ using HolidayTracker.Areas.Identity.Data;
 using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Allowance;
 using HolidayTracker.Models.Employee;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    //[Authorize(Roles = "SystemAdmin,Admin,Employee,Manager,Approver")]
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "SystemAdmin")]
     public class EmployeeController : Controller
     {
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
@@ -39,7 +42,6 @@ namespace HolidayTracker.Controllers
             string currentFilter, string searchString, int? pageIndex)
         {
             HolidayTracker.Views.Employees.IndexModel pageData = new Views.Employees.IndexModel(_context);
-            //var user = new ApplicationUser { CompanyId = model.CompanyId };
             int currentUsersCompanyId = User.Identity.GetCompanyId();
             pageData.CurrentSort = sortOrder;
             pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";

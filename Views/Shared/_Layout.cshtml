@@ -62,7 +62,7 @@
 
                         @if (User.Identity.IsAuthenticated)
                             {
-                                if (User.IsInRole("SystemAdmin,Manager,Admin"))
+                                if (User.IsInRole("Manager"))
                                 {
                         <li class="nav-item dropdown">
                             <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDown" data-toggle="dropdown">Company Settings</a>
