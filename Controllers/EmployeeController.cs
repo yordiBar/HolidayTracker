@@ -16,9 +16,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "Manager")]
-    [Authorize(Roles = "SystemAdmin")]
+    //[Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "SystemAdmin")]
     public class EmployeeController : Controller
     {
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
@@ -276,10 +276,10 @@ namespace HolidayTracker.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Employee emp)
         {
-            // check if validation attibutes are met
+            // check if validation attibutes are met if not return error to screen
             if (!ModelState.IsValid)
             {
-                return View(emp); // if not return error to screen
+                return View(emp);
             }
 
             int currentUsersCompanyId = User.Identity.GetCompanyId();
@@ -389,6 +389,25 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return View(employee);
+        }
+        
+        //check if there is an allowance for the current year for the employee if not create
         private async Task CreateAllowanceIfRequired(Employee emp, int currentUsersCompanyId)
         {
             if (_context.Allowances.Where(x => x.EmployeeId == emp.Id && x.CompanyId == currentUsersCompanyId).Count() == 0)
@@ -425,62 +444,6 @@ namespace HolidayTracker.Controllers
 
                 await _context.SaveChangesAsync();
             };
-        }
-
-
-
-
-
-        //[HttpGet]
-        //public async Task<IActionResult> CreateAllowance()
-        //{
-        //    return View(new Allowance());
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> CreateAllowance(Allowance all)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(all);
-        //    }
-
-        //    int currentUsersCompanyId = 1;
-
-        //    all.CompanyId = currentUsersCompanyId;
-
-        //    //need to add check if allowance exists for user
-        //    _context.Allowances.Add(all);
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-
-        //        var allowance = new Allowance { Amount = all.Amount, }
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-        //}
-
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
-
-            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
-
-            if (employee == null)
-            {
-                return NotFound();
-            }
-            return View(employee);
         }
     }
 }

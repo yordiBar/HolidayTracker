@@ -60,10 +60,10 @@
                                 }
                         </li>
 
-                        @if (User.Identity.IsAuthenticated)
+                        @*@if (User.Identity.IsAuthenticated)
                             {
                                 if (User.IsInRole("Manager"))
-                                {
+                                {*@
                         <li class="nav-item dropdown">
                             <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDown" data-toggle="dropdown">Company Settings</a>
                             <div class="dropdown-menu">
@@ -81,8 +81,8 @@
                             </div>
 
                         </li>
-                        }
-                            }
+                        @*}
+                            }*@
 
 
                     </ul>
