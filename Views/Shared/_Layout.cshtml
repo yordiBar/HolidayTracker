@@ -30,34 +30,34 @@
                         </li>
 
                         <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
+                            @*@if (User.Identity.IsAuthenticated)
                                 {
                                     if (User.IsInRole("Employee"))
-                                    {
+                                    {*@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
-                            }
+                            @*}
 
-                                }
+                                }*@
                         </li>
                         <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
+                            @*@if (User.Identity.IsAuthenticated)
                                 {
                                     if (User.IsInRole("Approver"))
-                                    {
+                                    {*@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Approver" asp-action="Index">Requests</a>
-                            }
+                            @*}
 
-                                }
+                                }*@
                         </li>
                         <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
+                            @*@if (User.Identity.IsAuthenticated)
                                 {
                                     if (User.IsInRole("Admin"))
-                                    {
+                                    {*@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Billing</a>
-                            }
+                            @*}
 
-                                }
+                                }*@
                         </li>
 
                         @*@if (User.Identity.IsAuthenticated)
