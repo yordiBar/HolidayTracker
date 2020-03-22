@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "Manager")]
-    [Authorize(Roles = "SystemAdmin")]
+    //[Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "SystemAdmin")]
     public class DepartmentController : Controller
     {
         private readonly HolidayTracker.Data.ApplicationDbContext _context;

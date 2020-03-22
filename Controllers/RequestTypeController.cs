@@ -12,9 +12,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "Manager")]
-    [Authorize(Roles = "SystemAdmin")]
+    //[Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "SystemAdmin")]
     public class RequestTypeController : Controller
     {
         // GET: /<controller>/
