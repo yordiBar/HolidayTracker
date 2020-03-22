@@ -153,7 +153,8 @@ namespace HolidayTracker.Controllers
             //request.EmployeeId = currentUserId;
             request.From = data.RealFrom;
             request.To = data.RealTo;
-
+            
+            // calculated business days taken as holidays
             // 1+ calculates from start of day to end of day
             double calcDays = 1 + ((data.RealFrom - data.RealTo).TotalDays * 5 - (data.RealFrom.DayOfWeek - data.RealTo.DayOfWeek) * 2) / 7;
             if (data.RealTo.DayOfWeek == DayOfWeek.Saturday) calcDays--;
