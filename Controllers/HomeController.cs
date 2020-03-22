@@ -142,5 +142,39 @@ namespace HolidayTracker.Controllers
     {
         // list of requests
         public List<Request> Requests { get; set; }
+
+        public static double GetDaysTaken(CreateRequestDTO data)
+        {
+            //int currentUsersCompanyId = User.Identity.GetCompanyId();
+            //int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
+
+            Request request = new Request();
+
+            //request.EmployeeId = currentUserId;
+            request.From = data.RealFrom;
+            request.To = data.RealTo;
+
+            // 1+ calculates from start of day to end of day
+            double calcDays = 1 + ((data.RealFrom - data.RealTo).TotalDays * 5 - (data.RealFrom.DayOfWeek - data.RealTo.DayOfWeek) * 2) / 7;
+            if (data.RealTo.DayOfWeek == DayOfWeek.Saturday) calcDays--;
+            if (data.RealFrom.DayOfWeek == DayOfWeek.Sunday) calcDays--;
+
+            request.RequestAmount = calcDays;
+
+            return calcDays;
+        }
+
+        //public static int RequestedDays(Request days)
+        //{
+        //    Request request = new Request();
+
+
+        //}
+
+        //public int CalculateDaysLeft()
+        //{
+
+        //}
     }
+
 }

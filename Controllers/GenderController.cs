@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "Manager")]
-    [Authorize(Roles = "SystemAdmin")]
+    //[Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "SystemAdmin")]
     public class GenderController : Controller
     {
         // GET: /<controller>/
