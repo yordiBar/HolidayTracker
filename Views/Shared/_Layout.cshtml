@@ -4,97 +4,169 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HT - @ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Add local styles, mostly for plugins css file -->
+    @if (IsSectionDefined("Styles"))
+    {@RenderSection("Styles", required: false)}
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/css/animate.css" />
+        <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/css/animate.css" />
+        <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    </environment>
+
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">H T</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
-                        </li>
+    <!-- Skin configuration box -->
+    <!-- <partial name="_SkinConfig" /> -->
+    <!-- Wrapper-->
+    <div id="wrapper" class="@*@Html.PageClass()*@">
 
-                        <li class="nav-item">
-                            @*@if (User.Identity.IsAuthenticated)
-                                {
-                                    if (User.IsInRole("Employee"))
-                                    {*@
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
-                            @*}
+        <!-- Navigation -->
+        <partial name="_Navigation" />
 
-                                }*@
-                        </li>
-                        <li class="nav-item">
-                            @*@if (User.Identity.IsAuthenticated)
-                                {
-                                    if (User.IsInRole("Approver"))
-                                    {*@
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Approver" asp-action="Index">Requests</a>
-                            @*}
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg @ViewBag.SpecialClass">
 
-                                }*@
-                        </li>
-                        <li class="nav-item">
-                            @*@if (User.Identity.IsAuthenticated)
-                                {
-                                    if (User.IsInRole("Admin"))
-                                    {*@
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Billing</a>
-                            @*}
+            <!-- Top Navbar -->
+            <partial name="_TopNavbar" />
 
-                                }*@
-                        </li>
-
-                        @*@if (User.Identity.IsAuthenticated)
-                            {
-                                if (User.IsInRole("Manager"))
-                                {*@
-                        <li class="nav-item dropdown">
-                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDown" data-toggle="dropdown">Company Settings</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
-
-                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Department" asp-action="Index">Departments</a>
-
-                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Location" asp-action="Index">Location</a>
-
-                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Gender" asp-action="Index">Genders</a>
-
-                                <a class="dropdown-item text-dark" asp-area="" asp-controller="RequestType" asp-action="Index">Request Type</a>
-
-                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Allowance" asp-action="Index">Allowance</a>
-                            </div>
-
-                        </li>
-                        @*}
-                            }*@
-
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+            <!-- Main view  -->
             @RenderBody()
-        </main>
+
+            <!-- Footer -->
+            <partial name="_Footer" />
+
+        </div>
+        <!-- End page wrapper-->
+        <!-- Right Sidebar -->
+        <partial name="_RightSidebar" />
+
     </div>
+    <!-- End wrapper-->
+
+    @RenderSection("toast", required: false)
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/Popper/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+        <script src="~/lib/slimScroll/jquery.slimscroll.js"></script>
+        <script src="~/lib/pace/pace.js"></script>
+        <script src="~/js/script.js" asp-append-version="true"></script>
+
+        <!-- Only for demo purpose -->
+        <script src="~/js/skin.config.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/Popper/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+        <script src="~/lib/pace/pace.min.js"></script>
+        <script src="~/lib/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="~/js/script.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+
+    @*<header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">H T</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <partial name="_LoginPartial" />
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                            </li>
+
+                            <li class="nav-item">
+                                @if (User.Identity.IsAuthenticated)
+                                    {
+                                        if (User.IsInRole("Employee"))
+                                        {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
+                                }
+
+                                    }
+                            </li>
+                            <li class="nav-item">
+                                @if (User.Identity.IsAuthenticated)
+                                    {
+                                        if (User.IsInRole("Approver"))
+                                        {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Approver" asp-action="Index">Requests</a>
+                                }
+
+                                    }
+                            </li>
+                            <li class="nav-item">
+                                @if (User.Identity.IsAuthenticated)
+                                    {
+                                        if (User.IsInRole("Admin"))
+                                        {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Billing</a>
+                                }
+
+                                    }
+                            </li>
+
+                            @if (User.Identity.IsAuthenticated)
+                                {
+                                    if (User.IsInRole("Manager"))
+                                    {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDown" data-toggle="dropdown">Company Settings</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
+
+                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Department" asp-action="Index">Departments</a>
+
+                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Location" asp-action="Index">Location</a>
+
+                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Gender" asp-action="Index">Genders</a>
+
+                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="RequestType" asp-action="Index">Request Type</a>
+
+                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Allowance" asp-action="Index">Allowance</a>
+                                </div>
+
+                            </li>
+                            }
+                                }
+
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>*@
 
     <footer class="border-top footer text-muted">
         <div class="container">
