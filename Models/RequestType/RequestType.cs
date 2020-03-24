@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace HolidayTracker.Models.RequestType
 {
     public class RequestType
@@ -14,5 +15,7 @@ namespace HolidayTracker.Models.RequestType
         public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public bool TakesFromAllowance { get; set; }
+
+        public virtual List<HolidayTracker.Models.Request.Request> Requests { get; set; }
     }
 }

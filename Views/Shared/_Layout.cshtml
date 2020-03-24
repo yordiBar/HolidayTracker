@@ -38,7 +38,7 @@
         <div id="page-wrapper" class="gray-bg @*@ViewBag.SpecialClass*@">
 
             <!-- Top Navbar -->
-            <partial name="_TopNavbar" />
+            <partial name="_LoginPartial" />
 
             <!-- Main view  -->
             @RenderBody()
@@ -79,99 +79,5 @@
     </environment>
 
     @RenderSection("scripts", required: false)
-
-    @*<header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">H T</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <partial name="_LoginPartial" />
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
-                            </li>
-
-                            <li class="nav-item">
-                                @if (User.Identity.IsAuthenticated)
-                                    {
-                                        if (User.IsInRole("Employee"))
-                                        {
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
-                                }
-
-                                    }
-                            </li>
-                            <li class="nav-item">
-                                @if (User.Identity.IsAuthenticated)
-                                    {
-                                        if (User.IsInRole("Approver"))
-                                        {
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Approver" asp-action="Index">Requests</a>
-                                }
-
-                                    }
-                            </li>
-                            <li class="nav-item">
-                                @if (User.Identity.IsAuthenticated)
-                                    {
-                                        if (User.IsInRole("Admin"))
-                                        {
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Billing</a>
-                                }
-
-                                    }
-                            </li>
-
-                            @if (User.Identity.IsAuthenticated)
-                                {
-                                    if (User.IsInRole("Manager"))
-                                    {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDown" data-toggle="dropdown">Company Settings</a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
-
-                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Department" asp-action="Index">Departments</a>
-
-                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Location" asp-action="Index">Location</a>
-
-                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Gender" asp-action="Index">Genders</a>
-
-                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="RequestType" asp-action="Index">Request Type</a>
-
-                                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Allowance" asp-action="Index">Allowance</a>
-                                </div>
-
-                            </li>
-                            }
-                                }
-
-
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>*@
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - HolidayTracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
 </body>
 </html>
