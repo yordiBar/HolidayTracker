@@ -59,12 +59,12 @@
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                             <tr>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].RequestTypeId)</th>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].From)</th>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].To)</th>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].RequestAmount)</th>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].Status)</th>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].Description)</th>
+                                <th>Request Type Name</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Requested Amount</th>
+                                <th>Status</th>
+                                <th>Comments</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,7 +72,7 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.RequestTypeId)
+                                        @Html.DisplayFor(modelItem => item.RequestType.RequestTypeName)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.From)
@@ -84,7 +84,7 @@
                                         @Html.DisplayFor(modelItem => item.RequestAmount)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Status)
+                                        @Html.DisplayFor(modelItem => item.DisplayStatus)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Description)
@@ -94,12 +94,12 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].RequestTypeId)</th>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].From)</th>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].To)</th>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].RequestAmount)</th>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].Status)</th>
-                                <th>@Html.DisplayNameFor(model => model.Requests[0].Description)</th>
+                                <th>Request Type Name</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Requested Amount</th>
+                                <th>Status</th>
+                                <th>Comments</th>
                             </tr>
                         </tfoot>
                     </table>

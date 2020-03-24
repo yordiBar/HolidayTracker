@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using HolidayTracker.Models.Request;
 using System.Net;
 using HolidayTracker.Areas.Identity.Extensions;
+using HolidayTracker.Models.Employee;
 
 namespace HolidayTracker.Controllers
 {
@@ -32,7 +33,7 @@ namespace HolidayTracker.Controllers
             int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
 
             HomeViewModel viewModel = new HomeViewModel();
-            viewModel.Requests = _context.Requests.Where(x => x.EmployeeId == currentUserId).ToList();
+            viewModel.Requests = _context.Requests.Include(r => r.RequestType).Where(x => x.EmployeeId == currentUserId).ToList();
 
             return View(viewModel);
         }
@@ -109,6 +110,8 @@ namespace HolidayTracker.Controllers
             request.To = data.RealTo;
             request.Status = (int)RequestStatus.Pending;
             request.Description = data.Description;
+            //request.RequestAmount = GetDaysTaken();
+
 
             _context.Requests.Add(request);
 
@@ -134,7 +137,24 @@ namespace HolidayTracker.Controllers
                 return Json("Failed"); ;
             }   
         }
-        
+
+        private decimal GetDaysTaken(Request data)
+        {
+
+            decimal calcDays = 0;
+            Employee employee = _context.Employees.Where(x => x.CompanyId == data.CompanyId && x.Id == data.EmployeeId).FirstOrDefault();
+            if(employee != null)
+            {
+                // include date employee works, calculate days taken based on database 
+                //loop through  every day between dates
+                    //get day from date
+                    //if working day add 1 to the calcDays
+
+            }
+            return calcDays;
+        }
+
+
         //Global Errors ASP.net MVC --global.cs file method Error
     }
 
@@ -143,27 +163,7 @@ namespace HolidayTracker.Controllers
         // list of requests
         public List<Request> Requests { get; set; }
 
-        public static double GetDaysTaken(CreateRequestDTO data)
-        {
-            //int currentUsersCompanyId = User.Identity.GetCompanyId();
-            //int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
-
-            Request request = new Request();
-
-            //request.EmployeeId = currentUserId;
-            request.From = data.RealFrom;
-            request.To = data.RealTo;
-            
-            // calculated business days taken as holidays
-            // 1+ calculates from start of day to end of day
-            double calcDays = 1 + ((data.RealFrom - data.RealTo).TotalDays * 5 - (data.RealFrom.DayOfWeek - data.RealTo.DayOfWeek) * 2) / 7;
-            if (data.RealTo.DayOfWeek == DayOfWeek.Saturday) calcDays--;
-            if (data.RealFrom.DayOfWeek == DayOfWeek.Sunday) calcDays--;
-
-            request.RequestAmount = calcDays;
-
-            return calcDays;
-        }
+       
 
         //public static int RequestedDays(Request days)
         //{

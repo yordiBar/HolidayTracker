@@ -13,7 +13,10 @@ namespace HolidayTracker.Models.Request
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
+        
         public int RequestTypeId { get; set; }
+        public virtual HolidayTracker.Models.RequestType.RequestType RequestType { get; set; }
+
         public int EmployeeId { get; set; }
         public int RequestCreatedByEmployeeId { get; set; }
 
@@ -25,9 +28,20 @@ namespace HolidayTracker.Models.Request
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public DateTime To { get; set; }
         public int Status { get; set; }
+
+        public string DisplayStatus
+        {
+            get
+            {
+                RequestStatus status = (RequestStatus)this.Status;
+                return status.ToDescriptionString();
+            }
+        }
+
         public double RequestAmount { get; set; }
-        [Display(Name = "Comments")]
         public string Description { get; set; }
+
+        
     }
 
     public enum RequestStatus
@@ -44,67 +58,36 @@ namespace HolidayTracker.Models.Request
         Rejected = 4
     }
 
-    //public static class Extensions
-    //{
-    //    public static string GetDescription(this Enum e)
-    //    {
-    //        var attribute =
-    //            e.GetType()
-    //                .GetTypeInfo()
-    //                .GetMember(e.ToString())
-    //                .FirstOrDefault(member => member.MemberType == MemberTypes.Field)
-    //                .GetCustomAttributes(typeof(DescriptionAttribute), false)
-    //                .SingleOrDefault()
-    //                as DescriptionAttribute;
+    public static class EnumExtensions
+    {
 
-    //        return attribute?.Description ?? e.ToString();
-    //    }
-    //}
+        public static IEnumerable<T> GetValues<T>()
+        {
+            return (T[])Enum.GetValues(typeof(T));
+        }
+        public static string ToDescriptionString<T>(this T val)
+        {
+            string res = "";
+            try
+            {
+                if (val == null)
+                {
+                    throw new ArgumentNullException("val");
+                }
 
-    //    public static string GetDescription<T>(T e) where T : IConvertible
-    //    {
-    //        if (e is Enum)
-    //        {
-    //            Type type = e.GetType();
-    //            Array values = System.Enum.GetValues(type);
+                var eType = val.GetType();
 
-    //            foreach (int val in values)
-    //            {
-    //                if (val == e.ToInt32(CultureInfo.InvariantCulture))
-    //                {
-    //                    var memInfo = type.GetMember(type.GetEnumName(val));
-    //                    var descriptionAttribute = memInfo[0]
-    //                        .GetCustomAttributes(typeof(DescriptionAttribute), false)
-    //                        .FirstOrDefault() as DescriptionAttribute;
-
-    //                    if (descriptionAttribute != null)
-    //                    {
-    //                        return descriptionAttribute.Description;
-    //                    }
-    //                }
-    //            }
-    //        }
-
-    //        return null; // could also return string.Empty
-    //    }
-    //    return description;
-    //}
-
-    //public static string GetEnumDescription(Enum value)
-    //{
-    //    FieldInfo fi = value.GetType().GetField(value.ToString());
-
-    //    DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
-
-    //    if (attributes != null && attributes.Any())
-    //    {
-    //        return attributes.First().Description;
-    //    }
-
-    //    return value.ToString();
-    //}
-
-
+                DescriptionAttribute[] attributes = (DescriptionAttribute[])eType.GetField(val.ToString()).GetCustomAttributes(typeof(DescriptionAttribute), false);
+                res = attributes.Length > 0 ? attributes[0].Description : string.Empty;
+                
+            }
+            catch
+            {
+                res = "";
+            }
+            return res;
+        }
+    }
     public class CreateRequestDTO
     {
         public int RequestTypeId { get; set; }
