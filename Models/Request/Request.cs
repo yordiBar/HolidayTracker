@@ -12,12 +12,15 @@ namespace HolidayTracker.Models.Request
     public class Request
     {
         public int Id { get; set; }
+
         public int CompanyId { get; set; }
         
         public int RequestTypeId { get; set; }
+
         public virtual HolidayTracker.Models.RequestType.RequestType RequestType { get; set; }
 
         public int EmployeeId { get; set; }
+
         public int RequestCreatedByEmployeeId { get; set; }
 
         // Display DateTime as date only using DisplayFormat attribute
@@ -27,6 +30,7 @@ namespace HolidayTracker.Models.Request
         // Display DateTime as date only using DisplayFormat attribute
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public DateTime To { get; set; }
+
         public int Status { get; set; }
 
         public string DisplayStatus
@@ -39,6 +43,7 @@ namespace HolidayTracker.Models.Request
         }
 
         public double RequestAmount { get; set; }
+
         public string Description { get; set; }
 
         
