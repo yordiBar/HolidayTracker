@@ -1,66 +1,65 @@
-﻿<nav class="navbar-default navbar-static-side" role="navigation">
+﻿@using Microsoft.AspNetCore.Identity
+@using HolidayTracker.Areas.Identity.Data;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <img alt="image" class="rounded-circle" src="~/Images/profile_small.jpg" />
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="block m-t-xs font-bold">David Williams</span>
-                        <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
-                    </a>
-                    <ul class="dropdown-menu animated fadeInRight m-t-xs" style="position: absolute; top: 91px; left: 0px; will-change: top, left;">
-                        <li><a class="dropdown-item" href="@Url.Action("Profile", "AppViews")">Profile</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("Contacts", "AppViews")">Contacts</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("Inbox", "Mailbox")">Mailbox</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="@Url.Action("Login", "Pages")">Logout</a></li>
-                    </ul>
+                    <img alt="image" class="rounded-circle" src="~/Images/ht_logo_2.png" />
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="block m-t-xs font-bold">Holiday Tracker</span>
+                            <span class="text-muted text-xs block">Hello @UserManager.GetUserName(User) <b class="caret"></b></span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs" style="position: absolute; top: 91px; left: 0px; will-change: top, left;">
+                            <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a></li>
+                            <li class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout">Logout</a></li>
+                        </ul>
+                    }
                 </div>
                 <div class="logo-element">
                     HT
                 </div>
             </li>
             <li class="nav-item">
-                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-            </li>
-            <li class="nav-item">
-                <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </li>
-            <li class="nav-item">
-                <a asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-globe"></i> <span class="nav-label" data-i18n="nav.miscellaneous">Home</span></a>
             </li>
             <li class="nav-item">
                 @*@if (User.Identity.IsAuthenticated)
-                {
-                    if (User.IsInRole("Employee"))
-                    {*@
-                        <a asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
-                    @*}
+            {
+                if (User.IsInRole("Employee"))
+                {*@
+                <a asp-area="" asp-controller="Home" asp-action="Dashboard"><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Dashboard</span></a>
+                @*}
 
-                }*@
+            }*@
             </li>
             <li class="nav-item">
                 @*@if (User.Identity.IsAuthenticated)
-                {
-                    if (User.IsInRole("Approver"))
-                    {*@
-                        <a asp-area="" asp-controller="Approver" asp-action="Index">Requests</a>
-                    @*}
+            {
+                if (User.IsInRole("Approver"))
+                {*@
+                <a asp-area="" asp-controller="Approver" asp-action="Index"><i class="fa fa-edit"></i> <span class="nav-label" data-i18n="nav.forms">Requests</span></a>
+                @*}
 
-                }*@
+            }*@
             </li>
-            <li class="nav-item">
+            <li class="">
                 @*@if (User.Identity.IsAuthenticated)
-                {
-                    if (User.IsInRole("Admin"))
-                    {*@
-                        <a asp-area="" asp-controller="Admin" asp-action="Index">Billing</a>
-                    @*}
+            {
+                if (User.IsInRole("Admin"))
+                {*@
+                <a asp-area="" asp-controller="Admin" asp-action="Index"><i class="fa fa-bar-chart-o"></i> <span class="nav-label" data-i18n="nav.graphs">Billing</span></a>
+                @*}
 
-                }*@
+            }*@
             </li>
             <li class="nav-item dropdown">
-                <a href="#"><i class="fa fa-edit"></i> <span class="nav-label" data-i18n="nav.forms">Company Settings</span><span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-flask"></i> <span class="nav-label" data-i18n="nav.uielements">Company Settings</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
 
                     <li class="nav-link"><a asp-area="" asp-controller="Employee" asp-action="Index">Employees</a></li>
@@ -75,6 +74,12 @@
 
                     <li class="nav-link"><a asp-area="" asp-controller="Allowance" asp-action="Index">Allowance</a></li>
                 </ul>
+            </li>
+            <li class="nav-item">
+                <a asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fa fa-laptop"></i> <span class="nav-label" data-i18n="nav.gridoptions">Privacy</span></a>
+            </li>
+            <li class="nav-item">
+                <a asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-envelope"></i> <span class="nav-label" data-i18n="nav.mailbox">Contact Us</span></a>
             </li>
         </ul>
     </div>
