@@ -110,7 +110,7 @@ namespace HolidayTracker.Controllers
             request.To = data.RealTo;
             request.Status = (int)RequestStatus.Pending;
             request.Description = data.Description;
-            //request.RequestAmount = GetDaysTaken();
+            //request.RequestAmount = GetDaysTaken(request);
 
 
             _context.Requests.Add(request);
@@ -143,12 +143,83 @@ namespace HolidayTracker.Controllers
 
             decimal calcDays = 0;
             Employee employee = _context.Employees.Where(x => x.CompanyId == data.CompanyId && x.Id == data.EmployeeId).FirstOrDefault();
+
             if (employee != null)
             {
-                // include date employee works, calculate days taken based on database 
-                //loop through  every day between dates
-                //get day from date
-                //if working day add 1 to the calcDays
+                for (DateTime date = data.From; date.Date <= data.To; date = date.AddDays(1))
+                {
+                    // include date employee works, calculate days taken based on database 
+                    //loop through  every day between dates
+                    //get day from date
+                    //if working day add 1 to the calcDays
+
+                    //if(date.DayOfWeek == DayOfWeek.Monday)
+                    //{
+                    //    if (employee.Mon == true)
+                    //    {
+                    //        calcDays.Add(date );
+                    //    }
+                        
+                    //}
+
+                    //if (date.DayOfWeek == DayOfWeek.Tuesday)
+                    //{
+                    //    if (employee.Tue == true)
+                    //    {
+                    //        calcDays.Add(d);
+                    //    }
+
+                    //}
+
+                    //if (date.DayOfWeek == DayOfWeek.Wednesday)
+                    //{
+                    //    if (employee.Wed == true)
+                    //    {
+                    //        calcDays.Add(d);
+                    //    }
+
+                    //}
+
+                    //if (date.DayOfWeek == DayOfWeek.Thursday)
+                    //{
+                    //    if (employee.Thu == true)
+                    //    {
+                    //        calcDays.Add(d);
+                    //    }
+
+                    //}
+
+                    //if (date.DayOfWeek == DayOfWeek.Friday)
+                    //{
+                    //    if (employee.Fri == true)
+                    //    {
+                    //        calcDays.Add(d);
+                    //    }
+
+                    //}
+
+                    //if (date.DayOfWeek == DayOfWeek.Saturday)
+                    //{
+                    //    if (employee.Sat == true)
+                    //    {
+                    //        calcDays.Add(d);
+                    //    }
+
+                    //}
+
+                    //if (date.DayOfWeek == DayOfWeek.Sunday)
+                    //{
+                    //    if (employee.Sun == true)
+                    //    {
+                    //        calcDays.Add(d);
+                    //    }
+
+                    //}
+
+                }
+
+
+
 
             }
             return calcDays;
