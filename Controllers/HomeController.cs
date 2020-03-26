@@ -90,33 +90,33 @@ namespace HolidayTracker.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRequest(CreateRequestDTO data)
         {
-
-            //save data to database
-            //bool saveSuccess = true;
-
-            // take data from CreateRequestDTO
-            // insert it into new request
-            // save request to db
-            int currentUsersCompanyId = User.Identity.GetCompanyId();
-            int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
-
-            Request request = new Request();
-
-            request.CompanyId = currentUsersCompanyId;
-            request.RequestTypeId = data.RequestTypeId;
-            request.EmployeeId = currentUserId;
-            request.RequestCreatedByEmployeeId = currentUserId;
-            request.From = data.RealFrom;
-            request.To = data.RealTo;
-            request.Status = (int)RequestStatus.Pending;
-            request.Description = data.Description;
-            //request.RequestAmount = GetDaysTaken(request);
-
-
-            _context.Requests.Add(request);
-
             try
             {
+                //save data to database
+                //bool saveSuccess = true;
+
+                // take data from CreateRequestDTO
+                // insert it into new request
+                // save request to db
+                int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+                // select Employee from database
+                Employee employee = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).FirstOrDefault();
+
+                Request request = new Request();
+
+                request.CompanyId = currentUsersCompanyId;
+                request.RequestTypeId = data.RequestTypeId;
+                request.EmployeeId = employee.Id;
+                request.RequestCreatedByEmployeeId = employee.Id;
+                request.From = data.RealFrom;
+                request.To = data.RealTo;
+                request.Status = (int)RequestStatus.Pending;
+                request.Description = data.Description;
+                request.RequestAmount = GetDaysTaken(request, employee);
+                _context.Requests.Add(request);
+
+
                 await _context.SaveChangesAsync();
 
                 if (request.Id <= 0)
@@ -138,91 +138,60 @@ namespace HolidayTracker.Controllers
             }
         }
 
-        private decimal GetDaysTaken(Request data)
+        //method to calculate days taken by employee from new request
+        private double GetDaysTaken(Request data, Employee employee)
         {
+            double calcDays = 0;
 
-            decimal calcDays = 0;
-            Employee employee = _context.Employees.Where(x => x.CompanyId == data.CompanyId && x.Id == data.EmployeeId).FirstOrDefault();
-
-            if (employee != null)
+            // check for request
+            if (data != null)
             {
+                // check days the employee is working, if true add to requested days
                 for (DateTime date = data.From; date.Date <= data.To; date = date.AddDays(1))
                 {
-                    // include date employee works, calculate days taken based on database 
-                    //loop through  every day between dates
-                    //get day from date
-                    //if working day add 1 to the calcDays
 
-                    //if(date.DayOfWeek == DayOfWeek.Monday)
-                    //{
-                    //    if (employee.Mon == true)
-                    //    {
-                    //        calcDays.Add(date );
-                    //    }
-                        
-                    //}
+                    if (date.DayOfWeek == DayOfWeek.Monday && employee.Mon == true)
+                    {
+                        calcDays++;
+                    }
 
-                    //if (date.DayOfWeek == DayOfWeek.Tuesday)
-                    //{
-                    //    if (employee.Tue == true)
-                    //    {
-                    //        calcDays.Add(d);
-                    //    }
+                    else if (date.DayOfWeek == DayOfWeek.Tuesday && employee.Tue == true)
+                    {
+                        calcDays++;
+                    }
 
-                    //}
+                    else if (date.DayOfWeek == DayOfWeek.Wednesday && employee.Wed == true)
+                    {
+                        calcDays++;
+                    }
 
-                    //if (date.DayOfWeek == DayOfWeek.Wednesday)
-                    //{
-                    //    if (employee.Wed == true)
-                    //    {
-                    //        calcDays.Add(d);
-                    //    }
+                    else if (date.DayOfWeek == DayOfWeek.Thursday && employee.Thu == true)
+                    {
+                        calcDays++;
+                    }
 
-                    //}
+                    else if (date.DayOfWeek == DayOfWeek.Friday && employee.Fri == true)
+                    {
+                        calcDays++;
+                    }
 
-                    //if (date.DayOfWeek == DayOfWeek.Thursday)
-                    //{
-                    //    if (employee.Thu == true)
-                    //    {
-                    //        calcDays.Add(d);
-                    //    }
+                    else if (date.DayOfWeek == DayOfWeek.Saturday && employee.Sat == true)
+                    {
+                        calcDays++;
+                    }
+                    else if (date.DayOfWeek == DayOfWeek.Sunday && employee.Sun == true)
+                    {
+                        calcDays++;
+                    }
 
-                    //}
 
-                    //if (date.DayOfWeek == DayOfWeek.Friday)
-                    //{
-                    //    if (employee.Fri == true)
-                    //    {
-                    //        calcDays.Add(d);
-                    //    }
-
-                    //}
-
-                    //if (date.DayOfWeek == DayOfWeek.Saturday)
-                    //{
-                    //    if (employee.Sat == true)
-                    //    {
-                    //        calcDays.Add(d);
-                    //    }
-
-                    //}
-
-                    //if (date.DayOfWeek == DayOfWeek.Sunday)
-                    //{
-                    //    if (employee.Sun == true)
-                    //    {
-                    //        calcDays.Add(d);
-                    //    }
-
-                    //}
 
                 }
 
-
-
-
             }
             return calcDays;
+
+
         }
 
 
@@ -233,15 +202,6 @@ namespace HolidayTracker.Controllers
     {
         // list of requests
         public List<Request> Requests { get; set; }
-
-
-
-        //public static int RequestedDays(Request days)
-        //{
-        //    Request request = new Request();
-
-
-        //}
 
         //public int CalculateDaysLeft()
         //{

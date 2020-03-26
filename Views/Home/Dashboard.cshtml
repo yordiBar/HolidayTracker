@@ -157,7 +157,10 @@
                     },
                     success: function(response){
                         alert('Request Sent!');
+                        //refresh table
+
                         $("form").trigger("reset"); //clear down input values
+                        
                     },
                     error: function(e){
                         alert('error!'); //display message of issue
