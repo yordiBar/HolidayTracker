@@ -15,32 +15,32 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="From" class="control-label"></label>
+                <label asp-for="From" class="control-label">From</label>
                 <input asp-for="From" class="form-control" />
                 <span asp-validation-for="From" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="To" class="control-label"></label>
+                <label asp-for="To" class="control-label">To</label>
                 <input asp-for="To" class="form-control" />
                 <span asp-validation-for="To" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
+                <label asp-for="Amount" class="control-label">Amount</label>
                 <input asp-for="Amount" class="form-control" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CarryOver" class="control-label"></label>
+                <label asp-for="CarryOver" class="control-label">Carry Over</label>
                 <input asp-for="CarryOver" class="form-control" />
                 <span asp-validation-for="CarryOver" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
+                <label asp-for="EmployeeId" class="control-label">Employee Id</label>
                 <input asp-for="EmployeeId" class="form-control" />
                 <span asp-validation-for="EmployeeId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CompanyId" class="control-label"></label>
+            <div class="form-group" style="display:none">
+                <label asp-for="CompanyId" class="control-label">Company Id</label>
                 <input asp-for="CompanyId" class="form-control" />
                 <span asp-validation-for="CompanyId" class="text-danger"></span>
             </div>

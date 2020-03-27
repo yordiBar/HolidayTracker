@@ -20,9 +20,7 @@
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                             <tr>
-                                <th>@Html.DisplayNameFor(model => Model.Department[0].DepartmentName)</th>
-                                <th>@Html.DisplayNameFor(model => Model.Department[0].DepartmentCode)</th>
-                                <th>@Html.DisplayNameFor(model => Model.Department[0].CompanyId)</th>
+                                <th>Department Name</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -34,12 +32,6 @@
                                         @Html.DisplayFor(modelItem => item.DepartmentName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.DepartmentCode)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CompanyId)
-                                    </td>
-                                    <td>
                                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
@@ -49,9 +41,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>@Html.DisplayNameFor(model => Model.Department[0].DepartmentName)</th>
-                                <th>@Html.DisplayNameFor(model => Model.Department[0].DepartmentCode)</th>
-                                <th>@Html.DisplayNameFor(model => Model.Department[0].CompanyId)</th>
+                                <th>Department Name</th>
                                 <th>Actions</th>
                             </tr>
                         </tfoot>
