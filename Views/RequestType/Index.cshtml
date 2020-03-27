@@ -20,11 +20,9 @@
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                             <tr>
-                                <th>@Html.DisplayNameFor(model => model.RequestType[0].CompanyId)</th>
-                                <th>@Html.DisplayNameFor(model => model.RequestType[0].RequestTypeName)</th>
-                                <th>@Html.DisplayNameFor(model => model.RequestType[0].Description)</th>
-                                <th>@Html.DisplayNameFor(model => model.RequestType[0].RequestTypeCode)</th>
-                                <th>@Html.DisplayNameFor(model => model.RequestType[0].TakesFromAllowance)</th>
+                                <th>Request Type Name</th>
+                                <th>Description</th>
+                                <th>Takes From Allowance</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -33,16 +31,10 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.CompanyId)
-                                    </td>
-                                    <td>
                                         @Html.DisplayFor(modelItem => item.RequestTypeName)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Description)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.RequestTypeCode)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TakesFromAllowance)
@@ -57,11 +49,9 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>@Html.DisplayNameFor(model => model.RequestType[0].CompanyId)</th>
-                                <th>@Html.DisplayNameFor(model => model.RequestType[0].RequestTypeName)</th>
-                                <th>@Html.DisplayNameFor(model => model.RequestType[0].Description)</th>
-                                <th>@Html.DisplayNameFor(model => model.RequestType[0].RequestTypeCode)</th>
-                                <th>@Html.DisplayNameFor(model => model.RequestType[0].TakesFromAllowance)</th>
+                                <th>Request Type Name</th>
+                                <th>Description</th>
+                                <th>Takes From Allowance</th>
                                 <th>Actions</th>
                             </tr>
                         </tfoot>

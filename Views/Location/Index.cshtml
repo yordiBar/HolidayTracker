@@ -20,9 +20,7 @@
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                             <tr>
-                                <th>@Html.DisplayNameFor(model => model.Location[0].CompanyId)</th>
-                                <th>@Html.DisplayNameFor(model => model.Location[0].LocationName)</th>
-                                <th>@Html.DisplayNameFor(model => model.Location[0].LocationCode)</th>
+                                <th>Location Name</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -31,13 +29,7 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.CompanyId)
-                                    </td>
-                                    <td>
                                         @Html.DisplayFor(modelItem => item.LocationName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.LocationCode)
                                     </td>
                                     <td>
                                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -49,9 +41,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>@Html.DisplayNameFor(model => model.Location[0].CompanyId)</th>
-                                <th>@Html.DisplayNameFor(model => model.Location[0].LocationName)</th>
-                                <th>@Html.DisplayNameFor(model => model.Location[0].LocationCode)</th>
+                                <th>Location Name</th>
                                 <th>Actions</th>
                             </tr>
                         </tfoot>
