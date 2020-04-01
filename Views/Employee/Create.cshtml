@@ -14,24 +14,24 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="LocationId" class="control-label"></label>
-                <input asp-for="LocationId" class="form-control" />
-                <span asp-validation-for="LocationId" class="text-danger"></span>
+                <label class="control-label">Location Name</label>
+                <input type="text" name="LocationId" id="selectLoc" style="width:100%" />
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <input asp-for="DepartmentId" class="form-control" />
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                <label class="control-label">Department Name</label>
+                <input type="text" name="DepartmentId" id="selectDept" style="width:100%" />
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+                <label class="control-label">Start Date</label>
+                <input type="text" name="StartDate" id="datepicker1" class="form-control" />
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LeavingDate" class="control-label"></label>
-                <input asp-for="LeavingDate" class="form-control" />
-                <span asp-validation-for="LeavingDate" class="text-danger"></span>
+                <label class="control-label">Leaving Date</label>
+                <input type="text" name="LeavingDate" id="datepicker2" class="form-control" />
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EmployeeTypeId" class="control-label"></label>
@@ -49,9 +49,9 @@
                 <span asp-validation-for="JobTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GenderId" class="control-label"></label>
-                <input asp-for="GenderId" class="form-control" />
-                <span asp-validation-for="GenderId" class="text-danger"></span>
+                <label class="control-label">Gender Name</label>
+                <input type="text" name="GenderId" id="selectGen" style="width:100%;" />
+                <span class="text-danger"></span>
             </div>
             <div class="form-group form-check" style="display:none">
                 <label class="form-check-label">
@@ -63,11 +63,6 @@
                     <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
                 </label>
             </div>
-            @*<div class="form-group">
-                <label asp-for="CompanyId" class="control-label"></label>
-                <input asp-for="CompanyId" class="form-control" />
-                <span asp-validation-for="CompanyId" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
                 <label asp-for="DisplayName" class="control-label"></label>
                 <input asp-for="DisplayName" class="form-control" />
@@ -149,4 +144,113 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/Popper/popper.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+    <script src="/lib/slimScroll/jquery.slimscroll.js"></script>
+    <script src="/lib/pace/pace.js"></script>
+    <script src="/js/script.js?v=Z0lG-W-_b5obPSVMDKOODB1S9RZ_0pOI0YMGLlVehZc"></script>
+
+    <!-- Only for demo purpose -->
+    <script src="/js/skin.config.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
+
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@3.5.2-browserify/select2.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@3.5.2-browserify/select2.min.js"></script>
+    <environment names="Development,Staging,Production">
+        <link rel="stylesheet" href="~/lib/dataTables/datatables.min.css" />
+    </environment>
+
+    <script>
+        $(function () {
+            $("#datepicker1").datepicker({ dateFormat: "dd/mm/yy" }).datepicker("setDate", new Date());
+            $("#datepicker1").datepicker({
+                dateFormat: "dd/mm/yy",
+            });
+            $("#datepicker1").datepicker("hide");
+        });
+    </script>
+    <script>
+        $(function () {
+            $("#datepicker2").datepicker({ dateFormat: "dd/mm/yy" }).datepicker("setDate", new Date());
+            $("#datepicker2").datepicker({
+                dateFormat: "dd/mm/yy"
+            });
+            $("#datepicker2").datepicker("hide");
+
+            $("#selectDept").select2({
+                placeholder: "Select Department",
+                allowClear: true,
+                ajax: {
+                    cache: false,
+                    dataType: "json",
+                    type: "GET",
+                    url: "@Url.Action("GetDepartmentName", "Employee")",
+                    data: function (searchTerm) {
+                        return { query: searchTerm };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    },
+                },
+                formatSelection: function (result) {
+                    return result.name;
+                },
+                escapeMarkup: function (m) { return m; }
+             });
+
+
+            $("#selectGen").select2({
+                placeholder: "Select Gender",
+                allowClear: true,
+                ajax: {
+                    cache: false,
+                    dataType: "json",
+                    type: "GET",
+                    url: "@Url.Action("GetGenderName", "Employee")",
+                    data: function (searchTerm) {
+                        return { query: searchTerm };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    },
+                },
+                formatSelection: function (result) {
+                    return result.name;
+                },
+                escapeMarkup: function (m) { return m; }
+             });
+        
+
+            $("#selectLoc").select2({
+                placeholder: "Select Location",
+                allowClear: true,
+                ajax: {
+                    cache: false,
+                    dataType: "json",
+                    type: "GET",
+                    url: "@Url.Action("GetLocationName", "Employee")",
+                    data: function (searchTerm) {
+                        return { query: searchTerm };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    },
+                },
+                formatSelection: function (result) {
+                    return result.name;
+                },
+                escapeMarkup: function (m) { return m; }
+             });
+        });
+    </script>
+
+}
 

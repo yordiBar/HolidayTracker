@@ -59,7 +59,7 @@ namespace HolidayTracker
             //added
             services.ConfigureApplicationCookie(options => {
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5.0);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(20.0);
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;

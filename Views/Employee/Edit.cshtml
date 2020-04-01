@@ -11,26 +11,26 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="POST">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group" style="display:none">
-                <label asp-for="CompanyId" class="control-label"></label>
+                <label asp-for="CompanyId" class="control-label">Company Id</label>
                 <input asp-for="CompanyId" class="form-control" />
                 <span asp-validation-for="CompanyId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DisplayName" class="control-label"></label>
+                <label asp-for="DisplayName" class="control-label">Display Name</label>
                 <input asp-for="DisplayName" class="form-control" />
                 <span asp-validation-for="DisplayName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EmployeeNumber" class="control-label"></label>
+                <label asp-for="EmployeeNumber" class="control-label">Employee Number</label>
                 <input asp-for="EmployeeNumber" class="form-control" />
                 <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="JobTitle" class="control-label"></label>
+                <label asp-for="JobTitle" class="control-label">Job Title</label>
                 <input asp-for="JobTitle" class="form-control" />
                 <span asp-validation-for="JobTitle" class="text-danger"></span>
             </div>
@@ -40,41 +40,36 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <input asp-for="DepartmentId" class="form-control" />
+                <label class="control-label">Department Name</label>
+                <input type="text" value="@Model.DepartmentId" name="DepartmentId" id="selectDept" style="width:100%" />
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LocationId" class="control-label"></label>
-                <input asp-for="LocationId" class="form-control" />
+                <label class="control-label">Location Name</label>
+                <input type="text" value="@Model.LocationId" name="LocationId" id="selectLoc" style="width:100%" />
                 <span asp-validation-for="LocationId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+                <label class="control-label">Gender Name</label>
+                <input type="text" value="@Model.GenderId" name="GenderId" id="selectGen" style="width:100%" />
+                <span asp-validation-for="GenderId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LeavingDate" class="control-label"></label>
-                <input asp-for="LeavingDate" class="form-control" />
-                <span asp-validation-for="LeavingDate" class="text-danger"></span>
+                <label class="control-label">Start Date</label>
+                <input type="text" name="StartDate" id="datepicker1" class="form-control" />
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EmployeeTypeId" class="control-label"></label>
                 <input asp-for="EmployeeTypeId" class="form-control" />
                 <span asp-validation-for="EmployeeTypeId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="GenderId" class="control-label"></label>
-                <input asp-for="GenderId" class="form-control" />
-                <span asp-validation-for="GenderId" class="text-danger"></span>
-            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsLocked" /> @Html.DisplayNameFor(model => model.IsLocked)
                 </label>
             </div>
-            <div class="form-group form-check">
+            <div class="form-group form-check" style="display:none">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
                 </label>
@@ -148,5 +143,127 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/Popper/popper.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+    <script src="/lib/slimScroll/jquery.slimscroll.js"></script>
+    <script src="/lib/pace/pace.js"></script>
+    <script src="/js/script.js?v=Z0lG-W-_b5obPSVMDKOODB1S9RZ_0pOI0YMGLlVehZc"></script>
+
+    <!-- Only for demo purpose -->
+    <script src="/js/skin.config.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
+
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@3.5.2-browserify/select2.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@3.5.2-browserify/select2.min.js"></script>
+    <environment names="Development,Staging,Production">
+        <link rel="stylesheet" href="~/lib/dataTables/datatables.min.css" />
+    </environment>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#datepicker1").datepicker({ dateFormat: "dd/mm/yy" }).datepicker("setDate", new Date());
+            $("#datepicker1").datepicker({
+                dateFormat: "dd/mm/yy",
+            });
+            $("#datepicker1").datepicker("hide");
+
+            $("#selectDept").select2({
+                placeholder: "Select Department",
+                allowClear: true,
+                ajax: {
+                    cache: false,
+                    dataType: "json",
+                    type: "GET",
+                    url: "@Url.Action("GetDepartmentName", "Employee")",
+                    data: function (searchTerm) {
+                        return { query: searchTerm };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    },
+                },
+                formatSelection: function (result) {
+                    return result.name;
+                },
+                escapeMarkup: function (m) { return m; },
+
+                initSelection: function (element, callback) {
+
+                    return $.getJSON("@Url.Action("GetDepartmentById", "Employee")" + "?Id=" + element.val(), null, function (data) {
+                        return callback(data[0]);
+                    })
+                }
+            });
+
+
+
+            $("#selectGen").select2({
+                placeholder: "Select Gender",
+                allowClear: true,
+                ajax: {
+                    cache: false,
+                    dataType: "json",
+                    type: "GET",
+                    url: "@Url.Action("GetGenderName", "Employee")",
+                    data: function (searchTerm) {
+                        return { query: searchTerm };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    },
+                },
+                formatSelection: function (result) {
+                    return result.name;
+                },
+                escapeMarkup: function (m) { return m; },
+
+                initSelection: function (element, callback) {
+
+                    return $.getJSON("@Url.Action("GetGenderById", "Employee")" + "?Id=" + element.val(), null, function (data) {
+                        return callback(data[0]);
+                    })
+                }
+             });
+
+
+            $("#selectLoc").select2({
+                placeholder: "Select Location",
+                allowClear: true,
+                ajax: {
+                    cache: false,
+                    dataType: "json",
+                    type: "GET",
+                    url: "@Url.Action("GetLocationName", "Employee")",
+                    data: function (searchTerm) {
+                        return { query: searchTerm };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    },
+                },
+                formatSelection: function (result) {
+                    return result.name;
+                },
+                escapeMarkup: function (m) { return m; },
+
+                initSelection: function (element, callback) {
+
+                    return $.getJSON("@Url.Action("GetLocationById", "Employee")" + "?Id=" + element.val(), null, function (data) {
+                        return callback(data[0]);
+                    })
+                }
+             });
+         });
+    </script>
+
+
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
 }

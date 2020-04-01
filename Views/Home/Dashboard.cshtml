@@ -10,8 +10,8 @@
         <form>
 
             <div class="form-group">
-                <label class="control-label">Request Type</label>
-                <input type="text" name="RequestTypeId" id="selectrequest" class="form-control" />
+                <label class="control-label">Request Type</label><br />
+                <input type="text" name="RequestTypeId" id="selectrequest" style="width:100%;" />
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -112,6 +112,18 @@
 </div>
 
 @section Scripts {
+
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/Popper/popper.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+    <script src="/lib/slimScroll/jquery.slimscroll.js"></script>
+    <script src="/lib/pace/pace.js"></script>
+    <script src="/js/script.js?v=Z0lG-W-_b5obPSVMDKOODB1S9RZ_0pOI0YMGLlVehZc"></script>
+
+    <!-- Only for demo purpose -->
+    <script src="/js/skin.config.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
 
@@ -160,7 +172,7 @@
                         //refresh table
 
                         $("form").trigger("reset"); //clear down input values
-                        
+
                     },
                     error: function(e){
                         alert('error!'); //display message of issue
