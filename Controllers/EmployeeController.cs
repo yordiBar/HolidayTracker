@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -6,7 +7,10 @@ using System.Threading.Tasks;
 using HolidayTracker.Areas.Identity.Data;
 using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Allowance;
+using HolidayTracker.Models.Department;
 using HolidayTracker.Models.Employee;
+using HolidayTracker.Models.Gender;
+using HolidayTracker.Models.Location;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -118,6 +122,7 @@ namespace HolidayTracker.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Employee emp)
         {
+
             if (!ModelState.IsValid)
             {
                 return View(emp);
@@ -133,14 +138,8 @@ namespace HolidayTracker.Controllers
             {
                 await _context.SaveChangesAsync();
 
-                var user = new ApplicationUser { UserName = emp.Email, Email = emp.Email, CompanyId = emp.CompanyId };
-                
-                string password = emp.Password;
+                ApplicationUser user = await _userManager.FindByEmailAsync(emp.Email);
 
-                var result = await _userManager.CreateAsync(user, password);
-                
-                if (result.Succeeded)
-                {
                     if (emp.IsAdmin)
                     {
                         if (!await _userManager.IsInRoleAsync(user, "Admin"))
@@ -193,7 +192,7 @@ namespace HolidayTracker.Controllers
                     {
                         await _userManager.AddToRoleAsync(user, "Employee");
                     }
-                }
+                //}
 
                 // check if there is an allowance for the current year for the employee if not create
                 await CreateAllowanceIfRequired(emp, currentUsersCompanyId);
@@ -444,6 +443,171 @@ namespace HolidayTracker.Controllers
 
                 await _context.SaveChangesAsync();
             };
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDepartmentName(string name)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            List<Department> departmentNameList = _context.Departments.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
+            List<Department> departmentNameResults = new List<Department>();
+            foreach (var deptName in departmentNameList)
+            {
+                if (String.IsNullOrEmpty(name) || deptName.DepartmentName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    departmentNameResults.Add(deptName);
+                }
+            }
+
+            departmentNameResults.Sort(delegate (Department d1, Department d2) { return d1.DepartmentName.CompareTo(d2.DepartmentName); });
+
+            var serialisedJson = from result in departmentNameResults
+                                 select new
+                                 {
+                                     text = result.DepartmentName,
+                                     id = result.Id
+                                 };
+            return Json(serialisedJson);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLocationName(string name)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            List<Location> locationNameList = _context.Locations.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
+            List<Location> locationNameResults = new List<Location>();
+            foreach (var locName in locationNameList)
+            {
+                if (String.IsNullOrEmpty(name) || locName.LocationName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    locationNameResults.Add(locName);
+                }
+            }
+
+            locationNameResults.Sort(delegate (Location l1, Location l2) { return l1.LocationName.CompareTo(l2.LocationName); });
+
+            var serialisedJson = from result in locationNameResults
+                                 select new
+                                 {
+                                     text = result.LocationName,
+                                     id = result.Id
+                                 };
+            return Json(serialisedJson);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetGenderName(string name)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            List<Gender> genderNameList = _context.Genders.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
+            List<Gender> genderNameResults = new List<Gender>();
+            foreach (var genName in genderNameList)
+            {
+                if (String.IsNullOrEmpty(name) || genName.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    genderNameResults.Add(genName);
+                }
+            }
+
+            genderNameResults.Sort(delegate (Gender g1, Gender g2) { return g1.Name.CompareTo(g2.Name); });
+
+            var serialisedJson = from result in genderNameResults
+                                 select new
+                                 {
+                                     text = result.Name,
+                                     id = result.Id
+                                 };
+            return Json(serialisedJson);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDepartmentById(int Id)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            Department department = _context.Departments.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false && x.Id == Id).FirstOrDefault();
+            
+            if (department != null)
+            {
+                var serialisedJson = new
+                                     {
+                                         text = department.DepartmentName,
+                                         id = department.Id
+                                     };
+                return Json(serialisedJson);
+            }
+            else
+            {
+                var serialisedJson = new
+                {
+                    text = "",
+                    id = 0
+                };
+                return Json(serialisedJson);
+            }
+            
+            
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLocationById(int Id)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            Location location = _context.Locations.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false && x.Id == Id).FirstOrDefault();
+
+            if (location != null)
+            {
+                var serialisedJson = new
+                {
+                    text = location.LocationName,
+                    id = location.Id
+                };
+                return Json(serialisedJson);
+            }
+            else
+            {
+                var serialisedJson = new
+                {
+                    text = "",
+                    id = 0
+                };
+                return Json(serialisedJson);
+            }
+
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetGenderById(int Id)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            Gender gender = _context.Genders.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false && x.Id == Id).FirstOrDefault();
+
+            if (gender != null)
+            {
+                var serialisedJson = new
+                {
+                    text = gender.Name,
+                    id = gender.Id
+                };
+                return Json(serialisedJson);
+            }
+            else
+            {
+                var serialisedJson = new
+                {
+                    text = "",
+                    id = 0
+                };
+                return Json(serialisedJson);
+            }
+
+
         }
     }
 }
