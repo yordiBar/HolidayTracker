@@ -77,7 +77,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             Department department = await _context.Departments.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
@@ -131,7 +131,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             Department department = await _context.Departments.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
@@ -214,6 +214,8 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
         
+        // Action method to return departments created for the company of the currently logged in user
+        // It is displayed in the Details view
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -221,7 +223,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             Department department = await _context.Departments.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
 
