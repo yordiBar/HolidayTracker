@@ -195,7 +195,7 @@
 
                     $.ajax({
                         type: "GET",
-                        url:"/Employee/GetDepartmentById?Id="+element.val(),
+                        url:"/Employee/GetDepartmentById?Id=" + element.val(),
                         success: function (data) {
                             var obj = { id: data.id, text: data.text };
                             callback(obj);
@@ -226,7 +226,7 @@
 
                     $.ajax({
                         type: "GET",
-                        url:"/Employee/GetGenderById?Id="+element.val(),
+                        url:"/Employee/GetGenderById?Id=" + element.val(),
                         success: function (data) {
                             var obj = { id: data.id, text: data.text };
                             callback(obj);
@@ -257,7 +257,7 @@
 
                     $.ajax({
                         type: "GET",
-                        url:"/Employee/GetLocationById?Id="+element.val(),
+                        url:"/Employee/GetLocationById?Id=" + element.val(),
                         success: function (data) {
                             var obj = { id: data.id, text: data.text };
                             callback(obj);

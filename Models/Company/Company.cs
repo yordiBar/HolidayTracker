@@ -13,6 +13,7 @@ namespace HolidayTracker.Models.Company
         public string PhoneNumber { get; set; }
         public string ContactEmail { get; set; }
         public string ContactName { get; set; }
+        public byte[] CompanyLogo { get; set; }
 
     }
 }
