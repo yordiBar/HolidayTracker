@@ -14,56 +14,6 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label class="control-label">Location Name</label>
-                <input type="text" name="LocationId" id="selectLoc" style="width:100%" />
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Department Name</label>
-                <input type="text" name="DepartmentId" id="selectDept" style="width:100%" />
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Start Date</label>
-                <input type="text" name="StartDate" id="datepicker1" class="form-control" />
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Leaving Date</label>
-                <input type="text" name="LeavingDate" id="datepicker2" class="form-control" />
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeTypeId" class="control-label"></label>
-                <input asp-for="EmployeeTypeId" class="form-control" />
-                <span asp-validation-for="EmployeeTypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeNumber" class="control-label"></label>
-                <input asp-for="EmployeeNumber" class="form-control" />
-                <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JobTitle" class="control-label"></label>
-                <input asp-for="JobTitle" class="form-control" />
-                <span asp-validation-for="JobTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Gender Name</label>
-                <input type="text" name="GenderId" id="selectGen" style="width:100%;" />
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group form-check" style="display:none">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsLocked" /> @Html.DisplayNameFor(model => model.IsLocked)
-                </label>
-            </div>
-            <div class="form-group form-check" style="display:none">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
                 <label asp-for="DisplayName" class="control-label"></label>
                 <input asp-for="DisplayName" class="form-control" />
                 <span asp-validation-for="DisplayName" class="text-danger"></span>
@@ -77,6 +27,56 @@
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobTitle" class="control-label"></label>
+                <input asp-for="JobTitle" class="form-control" />
+                <span asp-validation-for="JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeNumber" class="control-label"></label>
+                <input asp-for="EmployeeNumber" class="form-control" />
+                <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Start Date</label>
+                <input type="text" name="StartDate" id="datepicker1" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Leaving Date</label>
+                <input type="text" name="LeavingDate" id="datepicker2" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Gender Name</label>
+                <input type="text" name="GenderId" id="selectGen" style="width:100%;" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Department Name</label>
+                <input type="text" name="DepartmentId" id="selectDept" style="width:100%" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Location Name</label>
+                <input type="text" name="LocationId" id="selectLoc" style="width:100%" />
+                <span class="text-danger"></span>
+            </div>            
+            <div class="form-group" style="display:none">
+                <label asp-for="EmployeeTypeId" class="control-label"></label>
+                <input asp-for="EmployeeTypeId" class="form-control" />
+                <span asp-validation-for="EmployeeTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check" style="display:none">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsLocked" /> @Html.DisplayNameFor(model => model.IsLocked)
+                </label>
+            </div>
+            <div class="form-group form-check" style="display:none">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+                </label>
             </div>
             <hr />
             <h4>Assign Role</h4>

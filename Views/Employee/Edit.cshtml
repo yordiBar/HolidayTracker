@@ -25,9 +25,9 @@
                 <span asp-validation-for="DisplayName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EmployeeNumber" class="control-label">Employee Number</label>
-                <input asp-for="EmployeeNumber" class="form-control" />
-                <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="JobTitle" class="control-label">Job Title</label>
@@ -35,9 +35,19 @@
                 <span asp-validation-for="JobTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="EmployeeNumber" class="control-label">Employee Number</label>
+                <input asp-for="EmployeeNumber" class="form-control" />
+                <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Start Date</label>
+                <input type="text" name="StartDate" id="datepicker1" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Gender Name</label>
+                <input type="text" value="@Model.GenderId" name="GenderId" id="selectGen" style="width:100%" />
+                <span asp-validation-for="GenderId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Department Name</label>
@@ -49,17 +59,7 @@
                 <input type="text" value="@Model.LocationId" name="LocationId" id="selectLoc" style="width:100%" />
                 <span asp-validation-for="LocationId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label class="control-label">Gender Name</label>
-                <input type="text" value="@Model.GenderId" name="GenderId" id="selectGen" style="width:100%" />
-                <span asp-validation-for="GenderId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Start Date</label>
-                <input type="text" name="StartDate" id="datepicker1" class="form-control" />
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none">
                 <label asp-for="EmployeeTypeId" class="control-label"></label>
                 <input asp-for="EmployeeTypeId" class="form-control" />
                 <span asp-validation-for="EmployeeTypeId" class="text-danger"></span>
@@ -190,16 +190,17 @@
                         return { results: data };
                     },
                 },
-                formatSelection: function (result) {
-                    return result.name;
-                },
-                escapeMarkup: function (m) { return m; },
 
                 initSelection: function (element, callback) {
 
-                    return $.getJSON("@Url.Action("GetDepartmentById", "Employee")" + "?Id=" + element.val(), null, function (data) {
-                        return callback(data[0]);
-                    })
+                    $.ajax({
+                        type: "GET",
+                        url:"/Employee/GetDepartmentById?Id="+element.val(),
+                        success: function (data) {
+                            var obj = { id: data.id, text: data.text };
+                            callback(obj);
+                        }
+                    });
                 }
             });
 
@@ -220,16 +221,18 @@
                         return { results: data };
                     },
                 },
-                formatSelection: function (result) {
-                    return result.name;
-                },
-                escapeMarkup: function (m) { return m; },
 
                 initSelection: function (element, callback) {
 
-                    return $.getJSON("@Url.Action("GetGenderById", "Employee")" + "?Id=" + element.val(), null, function (data) {
-                        return callback(data[0]);
-                    })
+                    $.ajax({
+                        type: "GET",
+                        url:"/Employee/GetGenderById?Id="+element.val(),
+                        success: function (data) {
+                            var obj = { id: data.id, text: data.text };
+                            callback(obj);
+                        }
+                    });                                        
+
                 }
              });
 
@@ -249,19 +252,20 @@
                         return { results: data };
                     },
                 },
-                formatSelection: function (result) {
-                    return result.name;
-                },
-                escapeMarkup: function (m) { return m; },
 
                 initSelection: function (element, callback) {
 
-                    return $.getJSON("@Url.Action("GetLocationById", "Employee")" + "?Id=" + element.val(), null, function (data) {
-                        return callback(data[0]);
-                    })
+                    $.ajax({
+                        type: "GET",
+                        url:"/Employee/GetLocationById?Id="+element.val(),
+                        success: function (data) {
+                            var obj = { id: data.id, text: data.text };
+                            callback(obj);
+                        }
+                    });
                 }
              });
-         });
+        });
     </script>
 
 
