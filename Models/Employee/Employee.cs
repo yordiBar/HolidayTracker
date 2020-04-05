@@ -43,6 +43,7 @@ namespace HolidayTracker.Models.Employee
         public bool Fri { get; set; }
         public bool Sat { get; set; }
         public bool Sun { get; set; }
+
     }
 
 
