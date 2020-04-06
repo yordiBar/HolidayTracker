@@ -528,7 +528,7 @@ namespace HolidayTracker.Controllers
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
-            List<Employee> approverNameList = _context.Employees.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
+            List<Employee> approverNameList = _context.Employees.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false && x.IsApprover == true).ToList();
             List<Employee> approverNameResults = new List<Employee>();
             foreach (var appName in approverNameList)
             {
