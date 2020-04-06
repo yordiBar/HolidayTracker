@@ -9,12 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
-        <link rel="stylesheet" href="~/css/animate.css" />
-        <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
-    </environment>
+    
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
@@ -78,16 +73,7 @@
 
     @section Scripts {
 
-        <environment names="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/Popper/popper.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="~/lib/metisMenu/dist/jquery.metisMenu.js"></script>
-            <script src="~/lib/slimScroll/jquery.slimscroll.js"></script>
-            <script src="~/lib/pace/pace.js"></script>
-            <script src="~/lib/wow/wow.min.js"></script>
-            <script src="~/js/script.js" asp-append-version="true"></script>
-        </environment>
+        
         <environment names="Staging,Production">
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             <script src="~/lib/Popper/popper.min.js"></script>

@@ -524,6 +524,32 @@ namespace HolidayTracker.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetApproverName(string name)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            List<Employee> approverNameList = _context.Employees.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
+            List<Employee> approverNameResults = new List<Employee>();
+            foreach (var appName in approverNameList)
+            {
+                if (String.IsNullOrEmpty(name) || appName.DisplayName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    approverNameResults.Add(appName);
+                }
+            }
+
+            approverNameResults.Sort(delegate (Employee a1, Employee a2) { return a1.DisplayName.CompareTo(a2.DisplayName); });
+
+            var serialisedJson = from result in approverNameResults
+                                 select new
+                                 {
+                                     text = result.DisplayName,
+                                     id = result.Id
+                                 };
+            return Json(serialisedJson);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetDepartmentById(int Id)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
@@ -594,6 +620,35 @@ namespace HolidayTracker.Controllers
                 {
                     text = gender.Name,
                     id = gender.Id
+                };
+                return Json(serialisedJson);
+            }
+            else
+            {
+                var serialisedJson = new
+                {
+                    text = "",
+                    id = 0
+                };
+                return Json(serialisedJson);
+            }
+
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetApproverById(int Id)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            Employee approver = _context.Employees.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false && x.Id == Id).FirstOrDefault();
+
+            if (approver != null)
+            {
+                var serialisedJson = new
+                {
+                    text = approver.DisplayName,
+                    id = approver.Id
                 };
                 return Json(serialisedJson);
             }
