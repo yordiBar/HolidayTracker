@@ -205,11 +205,19 @@
                         return { results: data };
                     },
                 },
-                formatSelection: function (result) {
-                    return result.name;
-                },
-                escapeMarkup: function (m) { return m; }
-             });
+
+                initSelection: function (element, callback) {
+
+                    $.ajax({
+                        type: "GET",
+                        url:"/Employee/GetDepartmentById?Id=" + element.val(),
+                        success: function (data) {
+                            var obj = { id: data.id, text: data.text };
+                            callback(obj);
+                        }
+                    });
+                }
+            });
 
 
             $("#selectGen").select2({
@@ -227,10 +235,19 @@
                         return { results: data };
                     },
                 },
-                formatSelection: function (result) {
-                    return result.name;
-                },
-                escapeMarkup: function (m) { return m; }
+
+                initSelection: function (element, callback) {
+
+                    $.ajax({
+                        type: "GET",
+                        url:"/Employee/GetGenderById?Id=" + element.val(),
+                        success: function (data) {
+                            var obj = { id: data.id, text: data.text };
+                            callback(obj);
+                        }
+                    });                                        
+
+                }
              });
         
 
@@ -249,11 +266,19 @@
                         return { results: data };
                     },
                 },
-                formatSelection: function (result) {
-                    return result.name;
-                },
-                escapeMarkup: function (m) { return m; }
-            });
+
+                initSelection: function (element, callback) {
+
+                    $.ajax({
+                        type: "GET",
+                        url:"/Employee/GetLocationById?Id=" + element.val(),
+                        success: function (data) {
+                            var obj = { id: data.id, text: data.text };
+                            callback(obj);
+                        }
+                    });
+                }
+             });
 
             $("#selectApp").select2({
                 placeholder: "Select Approver",
@@ -270,11 +295,19 @@
                         return { results: data };
                     },
                 },
-                formatSelection: function (result) {
-                    return result.name;
-                },
-                escapeMarkup: function (m) { return m; }
-             });
+
+                initSelection: function (element, callback) {
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/Employee/GetApproverById?Id=" + element.val(),
+                        success: function (data) {
+                            var obj = { id: data.id, text: data.text };
+                            callback(obj);
+                        }
+                    });
+                }
+            });
         });
     </script>
 
