@@ -42,6 +42,21 @@ namespace HolidayTracker.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public IActionResult DisplayAllRequests()
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+            int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
+
+            ApprovalsViewModel viewModel = new ApprovalsViewModel();
+
+            List<int> myEmployeesId = _context.Employees.Where(x => x.ApproverId == currentUserId).Select(x => x.Id).ToList();
+
+            viewModel.Requests = _context.Requests.Include(r => r.RequestType).Include(e => e.Employee).Where(x => myEmployeesId.Contains(x.EmployeeId) && x.Status > 0).ToList();
+
+            return View(viewModel);
+        }
+
         public IActionResult Edit()
         {
             return View();
@@ -61,6 +76,18 @@ namespace HolidayTracker.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ApproveRequest(Request request)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RejectRequest(Request request)
+        {
+            return View();
+        }
     }
 
     public class ApprovalsViewModel
@@ -71,4 +98,6 @@ namespace HolidayTracker.Controllers
         public List<Employee> Employees { get; set; }
 
     }
+
+    
 }

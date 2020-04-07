@@ -4,10 +4,14 @@
 }
 
 <div class="text-center">
-    <h2 class="display-4">This is The Approver Page</h2>
-    <p>Employees' requests will be displayed here.</p>
-    <p>Approver will be able to approve requests or reject them.</p>
+    <h4 class="display-4">Employees' requests</h4>
+    <p>These are requests of employees assigned to you</p>
 </div>
+
+<h2>Pending Requests</h2>
+<p>
+    <a asp-action="DisplayAllRequests">View Request History</a>
+</p>
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
@@ -139,6 +143,5 @@
                     }
                 ]
             });
-        });
 </script>
 }
