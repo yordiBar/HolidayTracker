@@ -41,8 +41,8 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Start Date</label>
-                <input type="text" name="StartDate" id="datepicker1" class="form-control" />
-                <span class="text-danger"></span>
+                <input type="text" value="@Model.DisplayStartDate" name="StartDate" id="datepicker1" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Gender Name</label>
@@ -174,9 +174,19 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $("#datepicker1").datepicker({ dateFormat: "dd/mm/yy" }).datepicker("setDate", new Date());
             $("#datepicker1").datepicker({
                 dateFormat: "dd/mm/yy",
+                initSelection: function (element, callback) {
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/Employee/GetStartDateById?Id=" + element.val(),
+                        success: function (data) {
+                            var obj = { id: data.id, text: data.text };
+                            callback(obj);
+                        }
+                    });
+                }
             });
             $("#datepicker1").datepicker("hide");
 

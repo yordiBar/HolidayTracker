@@ -43,6 +43,12 @@ namespace HolidayTracker.Models.Employee
         public bool Fri { get; set; }
         public bool Sat { get; set; }
         public bool Sun { get; set; }
+        
+        [NotMapped]
+        public string DisplayStartDate { get { return this.StartDate.ToString("dd/MM/yyyy"); } }
+        
+        [NotMapped]
+        public string DisplayLeavingDate { get { return this.LeavingDate.ToString("dd/MM/yyyy"); } }
 
     }
 

@@ -65,8 +65,9 @@
                                     @Html.DisplayFor(modelItem => item.Description)
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Approve</a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Reject</a>
+                                    <input value="Approve" data-id="@item.Id" class="btn btn-primary approve" />
+                                    <input value="Reject" data-id="@item.Id" class="btn btn-danger reject" />
+                                    <input value="Cancel" data-id="@item.Id" class="btn btn-info cancel" />
                                 </td>
                             </tr>
                             }
@@ -122,26 +123,72 @@
 </environment>
 
 <script type="text/javascript">
-        $(document).ready(function () {
-            $('.dataTables-example').DataTable({
-                pageLength: 25,
-                dom: '<"html5buttons"B>lTfgitp',
-                buttons: [
-                    { extend: 'copy' },
-                    { extend: 'csv' },
-                    { extend: 'excel', title: 'ExampleFile' },
-                    { extend: 'pdf', title: 'ExampleFile' },
-                    {
-                        extend: 'print',
-                        customize: function (win) {
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
-                            $(win.document.body).find('table')
-                                .addClass('compact')
-                                .css('font-size', 'inherit');
-                        }
+    $(document).ready(function () {
+        $('.dataTables-example').DataTable({
+            pageLength: 25,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel', title: 'ExampleFile' },
+                { extend: 'pdf', title: 'ExampleFile' },
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
                     }
-                ]
+                }
+            ]
+        });
+        $(".approve").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ApproveRequest", "Approver")",
+                data: {
+                    Id: $(this).attr('data-id')
+                },
+                success: function (response) {
+                    alert('Request Approved!');
+                },
+                error: function (e) {
+                    alert('Error!');
+                }
             });
+        });
+        $(".reject").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("RejectRequest", "Approver")",
+                data: {
+                    Id: $(this).attr('data-id')
+                },
+                success: function (response) {
+                    alert('Request Rejected!');
+                },
+                error: function (e) {
+                    alert('Error!');
+                }
+            });
+        });
+        $(".cancel").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CancelRequest", "Approver")",
+                data: {
+                    Id: $(this).attr('data-id')
+                },
+                success: function (response) {
+                    alert('Request Cancelled!');
+                },
+                error: function (e) {
+                    alert('Error!');
+                }
+            });
+        });
+    });
 </script>
 }

@@ -664,5 +664,34 @@ namespace HolidayTracker.Controllers
 
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetStartDateById(int Id)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            Employee startDate = _context.Employees.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false && x.Id == Id).FirstOrDefault();
+
+            if (startDate != null)
+            {
+                var serialisedJson = new
+                {
+                    text = startDate.StartDate,
+                    id = startDate.Id
+                };
+
+                return Json(serialisedJson);
+            }
+            else
+            {
+                var serialisedJson = new
+                {
+                    text = "",
+                    id = 0
+                };
+
+                return Json(serialisedJson);
+            }
+        }
     }
 }

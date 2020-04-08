@@ -65,6 +65,7 @@
                                 <th>Requested Amount</th>
                                 <th>Status</th>
                                 <th>Comments</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,6 +90,9 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Description)
                                     </td>
+                                    <td>
+                                        <input value="Cancel" data-id="@item.Id" class="btn btn-info cancel" />
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -100,6 +104,7 @@
                                 <th>Requested Amount</th>
                                 <th>Status</th>
                                 <th>Comments</th>
+                                <th>Actions</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -228,6 +233,21 @@
                         }
                     }
                 ]
+            });
+            $(".cancel").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CancelRequest", "Approver")",
+                    data: {
+                        Id: $(this).attr('data-id')
+                    },
+                    success: function (response) {
+                        alert('Request Cancelled!');
+                    },
+                    error: function (e) {
+                        alert('Error!');
+                    }
+                });
             });
         });
     </script>

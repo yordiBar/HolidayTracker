@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Employee;
@@ -57,36 +58,118 @@ namespace HolidayTracker.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Edit()
+        [HttpPost]
+        public async Task<IActionResult> ApproveRequest(int Id)
         {
-            return View();
-        }
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+            int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
 
-        public IActionResult Details()
-        {
-            return View();
-        }
+            List<int> myEmployeesId = _context.Employees.Where(x => x.ApproverId == currentUserId).Select(x => x.Id).ToList();
 
-        public IActionResult Delete()
-        {
-            return View();
+            Request requestPending = _context.Requests.Where(r => r.Id == Id && myEmployeesId.Contains(r.EmployeeId)).FirstOrDefault();
+
+            if (requestPending != null)
+            {
+                requestPending.Status = 1;
+
+                _context.Attach(requestPending).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+
+                    //  When I want to return success:
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json("Saved!");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json("Failed"); ;
+                }
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Failed");
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> ApproveRequest(Request request)
+        public async Task<IActionResult> RejectRequest(int Id)
         {
-            return View();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
+
+            List<int> myEmployeesId = _context.Employees.Where(x => x.ApproverId == currentUserId).Select(x => x.Id).ToList();
+
+            Request requestPending = _context.Requests.Where(r => r.Id == Id && myEmployeesId.Contains(r.EmployeeId)).FirstOrDefault();
+
+            if (requestPending != null)
+            {
+                requestPending.Status = 4;
+
+                _context.Attach(requestPending).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+
+                    //  When I want to return success:
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json("Saved!");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json("Failed"); ;
+                }
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Failed");
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> RejectRequest(Request request)
+        public async Task<IActionResult> CancelRequest(int Id)
         {
-            return View();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
+
+            List<int> myEmployeesId = _context.Employees.Where(x => x.ApproverId == currentUserId).Select(x => x.Id).ToList();
+
+            Request requestPending = _context.Requests.Where(r => r.Id == Id && myEmployeesId.Contains(r.EmployeeId)).FirstOrDefault();
+
+            if (requestPending != null)
+            {
+                requestPending.Status = 3;
+
+                _context.Attach(requestPending).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+
+                    //  When I want to return success:
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json("Saved!");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json("Failed"); ;
+                }
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Failed");
+            }
         }
     }
 
