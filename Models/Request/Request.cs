@@ -17,9 +17,9 @@ namespace HolidayTracker.Models.Request
 
         public int RequestTypeId { get; set; }
 
-        public virtual HolidayTracker.Models.RequestType.RequestType RequestType { get; set; }
+        public virtual RequestType.RequestType RequestType { get; set; }
 
-        public virtual HolidayTracker.Models.Employee.Employee Employee { get; set; }
+        public virtual Employee.Employee Employee { get; set; }
 
         public int EmployeeId { get; set; }
 

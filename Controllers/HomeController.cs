@@ -138,7 +138,7 @@ namespace HolidayTracker.Controllers
             }
         }
 
-        //method to calculate days taken by employee from new request
+        //method to calculate days requested by an employee from new request
         private double GetDaysTaken(Request data, Employee employee)
         {
             double calcDays = 0;
