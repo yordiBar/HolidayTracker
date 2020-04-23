@@ -16,6 +16,6 @@ namespace HolidayTracker.Models.RequestType
         public bool IsDeleted { get; set; }
         public bool TakesFromAllowance { get; set; }
 
-        public virtual List<HolidayTracker.Models.Request.Request> Requests { get; set; }
+        public virtual List<Request.Request> Requests { get; set; }
     }
 }

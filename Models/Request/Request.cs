@@ -21,6 +21,8 @@ namespace HolidayTracker.Models.Request
 
         public virtual Employee.Employee Employee { get; set; }
 
+        //public virtual Allowance.Allowance Allowance { get; set; }
+
         public int EmployeeId { get; set; }
 
         public int RequestCreatedByEmployeeId { get; set; }
@@ -47,7 +49,6 @@ namespace HolidayTracker.Models.Request
         public double RequestAmount { get; set; }
 
         public string Description { get; set; }
-
 
     }
 

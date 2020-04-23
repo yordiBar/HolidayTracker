@@ -12,6 +12,7 @@ using HolidayTracker.Models.Request;
 using System.Net;
 using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Employee;
+using HolidayTracker.Models.Allowance;
 
 namespace HolidayTracker.Controllers
 {
@@ -34,6 +35,29 @@ namespace HolidayTracker.Controllers
 
             HomeViewModel viewModel = new HomeViewModel();
             viewModel.Requests = _context.Requests.Include(r => r.RequestType).Where(x => x.EmployeeId == currentUserId).ToList();
+
+            // get first day and last day of the current year
+            int year = DateTime.Now.Year;
+            DateTime firstDay = new DateTime(year, 1, 1);
+            DateTime lastDay = new DateTime(year, 12, 31);
+            DateTime firstDayNextYear = lastDay.AddDays(1); // get first day of next year
+
+
+            Allowance allowance = _context.Allowances.Where(x => x.EmployeeId == currentUserId && x.From == firstDay).FirstOrDefault();
+
+            AllowanceBalance allowanceBalance = new AllowanceBalance();
+
+            
+            allowanceBalance.StandardAllowance = allowance.Amount;
+
+            allowanceBalance.Pending = viewModel.Requests.Where(x => x.Status == 0 && x.RequestType.TakesFromAllowance == true && x.From >= firstDay && x.To < firstDayNextYear).Sum(x => x.RequestAmount);
+
+            allowanceBalance.Taken = viewModel.Requests.Where(x => x.Status == 1 && x.RequestType.TakesFromAllowance == true && x.From >= firstDay && x.To < firstDayNextYear && x.From < DateTime.Now).Sum(x => x.RequestAmount);
+
+            allowanceBalance.Approved = viewModel.Requests.Where(x => x.Status == 1 && x.RequestType.TakesFromAllowance == true && x.From >= firstDay && x.To < firstDayNextYear && x.From > DateTime.Now).Sum(x => x.RequestAmount);
+
+            viewModel.Balance = allowanceBalance;
+
 
             return View(viewModel);
         }
@@ -193,9 +217,6 @@ namespace HolidayTracker.Controllers
 
 
         }
-
-
-        //Global Errors ASP.net MVC --global.cs file method Error
     }
 
     public class HomeViewModel
@@ -203,10 +224,21 @@ namespace HolidayTracker.Controllers
         // list of requests
         public List<Request> Requests { get; set; }
 
-        //public int CalculateDaysLeft()
-        //{
+        
+        public AllowanceBalance Balance { get; set; }
+    }
 
-        //}
+    public class AllowanceBalance
+    {
+        public decimal StandardAllowance { get; set; }
+
+        public double Pending { get; set; }
+
+        public double Taken { get; set; }
+
+        public double Approved { get; set; }
+
+        public decimal Remaining { get { return StandardAllowance - (decimal)(Pending + Taken + Approved); } }
     }
 
 }
