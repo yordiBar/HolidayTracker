@@ -3,9 +3,11 @@
     ViewData["Title"] = "Dashboard";
 }
 
+@*Div containing Submit Request form and Balance table*@
     <div class="row justify-content-md-center">        
         <div class="col-md-4">
             <hr />
+            @*Submit Request form*@
             <h4>Submit Your Request</h4>
             <hr />
             <form>
@@ -35,6 +37,8 @@
                 </div>
             </form>
         </div>
+
+        @*Table displaying logged in user's allowance balance*@
         <div class="col-md-4">
             <hr />
             <h4>Your balance</h4>
@@ -94,6 +98,8 @@
         </div>
     </div>
 <hr />
+
+@*Table displaying list of requests for the logged in user*@
 <h4>Your Requests</h4>
 <hr />
 
@@ -224,8 +230,7 @@
                     },
                     success: function(response){
                         alert('Request Sent!');
-                        //refresh table
-
+                        
                         $("form").trigger("reset"); //clear down input values
 
                     },
@@ -285,8 +290,8 @@
                 buttons: [
                     { extend: 'copy' },
                     { extend: 'csv' },
-                    { extend: 'excel', title: 'ExampleFile' },
-                    { extend: 'pdf', title: 'ExampleFile' },
+                    { extend: 'excel', title: 'Table of Requests' },
+                    { extend: 'pdf', title: 'Table of Requests' },
                     {
                         extend: 'print',
                         customize: function (win) {
