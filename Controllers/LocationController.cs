@@ -11,9 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    //[Authorize(Roles = "Manager")]
-    //[Authorize(Roles = "SystemAdmin")]
+    [Authorize(Roles = "Admin, Manager")]
     public class LocationController : Controller
     {
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
@@ -26,7 +24,7 @@ namespace HolidayTracker.Controllers
             string currentFilter, string searchString, int? pageIndex)
         {
             HolidayTracker.Views.Locations.IndexModel pageData = new Views.Locations.IndexModel(_context);
-            //var user = new ApplicationUser { CompanyId = model.CompanyId };
+            
             int currentUsersCompanyId = User.Identity.GetCompanyId();
             pageData.CurrentSort = sortOrder;
             pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -78,7 +76,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             Location location = await _context.Locations.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
@@ -130,7 +128,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             Location location = await _context.Locations.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
@@ -217,7 +215,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             Location location = await _context.Locations.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
 

@@ -65,9 +65,9 @@
                                     @Html.DisplayFor(modelItem => item.Description)
                                 </td>
                                 <td>
-                                    <input value="Approve" data-id="@item.Id" class="btn btn-primary approve" />
-                                    <input value="Reject" data-id="@item.Id" class="btn btn-danger reject" />
-                                    <input value="Cancel" data-id="@item.Id" class="btn btn-info cancel" />
+                                    <input type="button" value="Approve" data-id="@item.Id" class="btn btn-primary approve" />
+                                    <input type="button" value="Reject" data-id="@item.Id" class="btn btn-danger reject" />
+                                    <input type="button" value="Cancel" data-id="@item.Id" class="btn btn-info cancel" />
                                 </td>
                             </tr>
                             }

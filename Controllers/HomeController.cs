@@ -13,9 +13,11 @@ using System.Net;
 using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Employee;
 using HolidayTracker.Models.Allowance;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HolidayTracker.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -27,9 +29,13 @@ namespace HolidayTracker.Controllers
             _context = context;
         }
 
+        // Action method to display Employee Dashboard page
+        // Authorisation set to allow all Employees to see their Dashboard containing hoiliday requests functionality
+        [Authorize(Roles = "Employee")]
         [HttpGet]
         public IActionResult Dashboard()
         {
+
             int currentUsersCompanyId = User.Identity.GetCompanyId();
             int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
 
@@ -43,11 +49,12 @@ namespace HolidayTracker.Controllers
             DateTime firstDayNextYear = lastDay.AddDays(1); // get first day of next year
 
 
+
+
             Allowance allowance = _context.Allowances.Where(x => x.EmployeeId == currentUserId && x.From == firstDay).FirstOrDefault();
 
             AllowanceBalance allowanceBalance = new AllowanceBalance();
-
-            
+                        
             allowanceBalance.StandardAllowance = allowance.Amount;
 
             allowanceBalance.Pending = viewModel.Requests.Where(x => x.Status == 0 && x.RequestType.TakesFromAllowance == true && x.From >= firstDay && x.To < firstDayNextYear).Sum(x => x.RequestAmount);
@@ -62,16 +69,19 @@ namespace HolidayTracker.Controllers
             return View(viewModel);
         }
 
+        // Action method to display Privacy page
         public IActionResult Privacy()
         {
             return View();
         }
 
+        // Acion method to display Contact page
         public IActionResult Contact()
         {
             return View();
         }
 
+        // Action method to display Home/Landing page
         public IActionResult Index()
         {
             return View();
@@ -162,7 +172,7 @@ namespace HolidayTracker.Controllers
             }
         }
 
-        //method to calculate days requested by an employee from new request
+        // GetGaysTaken method to calculate days requested by an employee from new request
         private double GetDaysTaken(Request data, Employee employee)
         {
             double calcDays = 0;
@@ -217,6 +227,44 @@ namespace HolidayTracker.Controllers
 
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelRequest(int Id)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
+
+
+            Request requestPending = _context.Requests.Where(r => r.Id == Id && r.EmployeeId == currentUserId).FirstOrDefault();
+
+            if (requestPending != null)
+            {
+                requestPending.Status = 3;
+
+                _context.Attach(requestPending).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+
+                    //  When I want to return success:
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json("Saved!");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json("Failed"); ;
+                }
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Failed");
+            }
+        }
+
     }
 
     public class HomeViewModel

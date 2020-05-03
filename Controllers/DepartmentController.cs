@@ -10,9 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    //[Authorize(Roles = "Manager")]
-    //[Authorize(Roles = "SystemAdmin")]
+    [Authorize(Roles = "Admin, Manager")]
     public class DepartmentController : Controller
     {
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
@@ -25,7 +23,7 @@ namespace HolidayTracker.Controllers
             string currentFilter, string searchString, int? pageIndex)
         {
             HolidayTracker.Views.Departments.IndexModel pageData = new Views.Departments.IndexModel(_context);
-            //var user = new ApplicationUser { CompanyId = model.CompanyId };
+            
             int currentUsersCompanyId = User.Identity.GetCompanyId();
             pageData.CurrentSort = sortOrder;
             pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";

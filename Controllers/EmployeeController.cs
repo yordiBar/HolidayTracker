@@ -20,9 +20,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    //[Authorize(Roles = "Manager")]
-    //[Authorize(Roles = "SystemAdmin")]
+    [Authorize(Roles = "Admin, Manager")]
     public class EmployeeController : Controller
     {
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
@@ -98,9 +96,9 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
-            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false); //FirstOrDefaultAsync(m => m.Id == id );
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
             
             
             
@@ -225,9 +223,9 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
-            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId); //FirstOrDefaultAsync(m => m.Id == id );
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
             if (employee == null)
             {
@@ -395,7 +393,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
 

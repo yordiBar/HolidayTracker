@@ -19,14 +19,14 @@
                 <input asp-for="CompanyId" class="form-control" />
                 <span asp-validation-for="CompanyId" class="text-danger"></span>
             </div>
-            <div class="form-group" style="display:none">
-                <label asp-for="RequestTypeCode" class="control-label">Rqeust Code</label>
-                <input asp-for="RequestTypeCode" class="form-control" />
+            <div class="form-group">
+                <label asp-for="RequestTypeCode" class="control-label">Request Code</label>
+                <input asp-for="RequestTypeCode" class="form-control" readonly />
                 <span asp-validation-for="RequestTypeCode" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RequestTypeName" class="control-label">Request Name</label>
-                <input asp-for="RequestTypeName" class="form-control" />
+                <input asp-for="RequestTypeName" class="form-control" required />
                 <span asp-validation-for="RequestTypeName" class="text-danger"></span>
             </div>
             <div class="form-group">

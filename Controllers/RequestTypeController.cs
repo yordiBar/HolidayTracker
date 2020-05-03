@@ -12,9 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    //[Authorize(Roles = "Manager")]
-    //[Authorize(Roles = "SystemAdmin")]
+    [Authorize(Roles = "Admin, Manager")]
     public class RequestTypeController : Controller
     {
         // GET: /<controller>/
@@ -27,7 +25,7 @@ namespace HolidayTracker.Controllers
             string currentFilter, string searchString, int? pageIndex)
         {
             HolidayTracker.Views.RequestTypes.IndexModel pageData = new Views.RequestTypes.IndexModel(_context);
-            //var user = new ApplicationUser { CompanyId = model.CompanyId };
+            
             int currentUsersCompanyId = User.Identity.GetCompanyId();
             pageData.CurrentSort = sortOrder;
             pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -79,7 +77,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             RequestType requestType = await _context.RequestTypes.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
@@ -133,7 +131,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             RequestType requestType = await _context.RequestTypes.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
@@ -221,7 +219,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId();//User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             RequestType requestType = await _context.RequestTypes.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
 

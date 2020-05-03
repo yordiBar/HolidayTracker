@@ -10,9 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolidayTracker.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    //[Authorize(Roles = "Manager")]
-    //[Authorize(Roles = "SystemAdmin")]
+    [Authorize(Roles = "Admin, Manager")]
     public class AllowanceController : Controller
     {
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
@@ -58,7 +56,7 @@ namespace HolidayTracker.Controllers
                 return NotFound();
             }
 
-            int currentUsersCompanyId = User.Identity.GetCompanyId(); //User.Identity.GetCompanyId();
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             Allowance allowance = await _context.Allowances.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 

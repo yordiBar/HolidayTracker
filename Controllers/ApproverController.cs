@@ -13,8 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HolidayTracker.Controllers
 {
-    //[Authorize(Roles = "Approver")]
-    //[Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Approver, Manager")]
     public class ApproverController : Controller
     {
 
@@ -34,8 +33,7 @@ namespace HolidayTracker.Controllers
             int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
 
             ApprovalsViewModel viewModel = new ApprovalsViewModel();
-            //viewModel.Requests = _context.Requests.Include(r => r.RequestType).Where(x => x.EmployeeId == currentUserId).ToList();
-
+            
             List<int> myEmployeesId = _context.Employees.Where(x => x.ApproverId == currentUserId).Select(x => x.Id).ToList();
 
             viewModel.Requests = _context.Requests.Include(r => r.RequestType).Include(e => e.Employee).Where(x => myEmployeesId.Contains(x.EmployeeId) && x.Status == 0).ToList();
