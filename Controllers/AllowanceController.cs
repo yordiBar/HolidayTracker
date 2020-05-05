@@ -8,11 +8,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+// Allowance Controller
+
 namespace HolidayTracker.Controllers
 {
+    // Access control using Role-based Authorisation
     [Authorize(Roles = "Admin, Manager")]
     public class AllowanceController : Controller
     {
+
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
         public AllowanceController(HolidayTracker.Data.ApplicationDbContext context)
         {

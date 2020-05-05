@@ -11,8 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+// Approver Controller
+
 namespace HolidayTracker.Controllers
 {
+    // Access control using Role-based Authorisation
     [Authorize(Roles = "Approver, Manager")]
     public class ApproverController : Controller
     {
@@ -29,8 +32,11 @@ namespace HolidayTracker.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+
             int currentUsersCompanyId = User.Identity.GetCompanyId();
+
             int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
+
 
             ApprovalsViewModel viewModel = new ApprovalsViewModel();
             
@@ -41,11 +47,15 @@ namespace HolidayTracker.Controllers
             return View(viewModel);
         }
 
+        // A HttpGet method display all requests for the logged in user
         [HttpGet]
         public IActionResult DisplayAllRequests()
         {
+
             int currentUsersCompanyId = User.Identity.GetCompanyId();
+
             int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
+
 
             ApprovalsViewModel viewModel = new ApprovalsViewModel();
 
@@ -56,12 +66,15 @@ namespace HolidayTracker.Controllers
             return View(viewModel);
         }
 
+        // HttpPost method to approve a request
         [HttpPost]
         public async Task<IActionResult> ApproveRequest(int Id)
         {
+
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
+
 
             List<int> myEmployeesId = _context.Employees.Where(x => x.ApproverId == currentUserId).Select(x => x.Id).ToList();
 
@@ -94,13 +107,16 @@ namespace HolidayTracker.Controllers
             }
         }
 
+        //HttpPOst method to reject a request
         [HttpPost]
         public async Task<IActionResult> RejectRequest(int Id)
         {
+
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
 
+            
             List<int> myEmployeesId = _context.Employees.Where(x => x.ApproverId == currentUserId).Select(x => x.Id).ToList();
 
             Request requestPending = _context.Requests.Where(r => r.Id == Id && myEmployeesId.Contains(r.EmployeeId)).FirstOrDefault();
@@ -132,13 +148,16 @@ namespace HolidayTracker.Controllers
             }
         }
 
+        // HttpPOst method to cancel a request
         [HttpPost]
         public async Task<IActionResult> CancelRequest(int Id)
         {
+            
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
 
+            
             List<int> myEmployeesId = _context.Employees.Where(x => x.ApproverId == currentUserId).Select(x => x.Id).ToList();
 
             Request requestPending = _context.Requests.Where(r => r.Id == Id && myEmployeesId.Contains(r.EmployeeId)).FirstOrDefault();

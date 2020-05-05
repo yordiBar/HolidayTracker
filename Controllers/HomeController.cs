@@ -15,6 +15,8 @@ using HolidayTracker.Models.Employee;
 using HolidayTracker.Models.Allowance;
 using Microsoft.AspNetCore.Authorization;
 
+// Home Controller
+
 namespace HolidayTracker.Controllers
 {
     
@@ -30,7 +32,8 @@ namespace HolidayTracker.Controllers
         }
 
         // Action method to display Employee Dashboard page
-        // Authorisation set to allow all Employees to see their Dashboard containing hoiliday requests functionality
+        // Authorisation is set to allow all Employees to see their Dashboard containing holiday requests functionality
+
         [Authorize(Roles = "Employee")]
         [HttpGet]
         public IActionResult Dashboard()
@@ -93,7 +96,9 @@ namespace HolidayTracker.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        // HttpGet method to pass Request Types to a dropdown list
         [HttpGet]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> GetRequestType(string query)
         {
 
@@ -122,6 +127,7 @@ namespace HolidayTracker.Controllers
         }
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateRequest(CreateRequestDTO data)
         {
             try
@@ -177,7 +183,7 @@ namespace HolidayTracker.Controllers
         {
             double calcDays = 0;
 
-            // check for request
+            // check if a request exists
             if (data != null)
             {
                 // check days the employee is working, if true add to requested days

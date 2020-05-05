@@ -8,18 +8,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+// Location Controller
 
 namespace HolidayTracker.Controllers
 {
+    // Access control using Role-based Authorisation
     [Authorize(Roles = "Admin, Manager")]
     public class LocationController : Controller
     {
+
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
         public LocationController(HolidayTracker.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Action method to display Locations view
         public async Task<IActionResult> Index(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
@@ -67,7 +71,8 @@ namespace HolidayTracker.Controllers
 
             return View(pageData);
         }
-        
+
+        // HttpGet method to display Locations Edit view
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +92,7 @@ namespace HolidayTracker.Controllers
             return View(location);
         }
 
+        // HttpPost method to edit locations
         [HttpPost]
         public async Task<IActionResult> Edit(Location loc)
         {
@@ -115,11 +121,13 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+        // A boolean method to check if any locations exist
         private bool LocationExists(int id)
         {
             return _context.Locations.Any(l => l.Id == id);
         }
 
+        // HttpGet method to display Delete Locations view
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -139,6 +147,7 @@ namespace HolidayTracker.Controllers
             return View(location);
         }
 
+        // HttpPost method to delete locations
         [HttpPost]
         public async Task<IActionResult> Delete(Location loc)
         {
@@ -169,13 +178,14 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        //HttpGet and HTTPPost methods to create a new Location
+        // HttpGet method to display create Locations view
         [HttpGet]
         public IActionResult Create()
         {
             return View(new Location());
         }
 
+        // HttpPost method to create locations
         [HttpPost]
         public async Task<IActionResult> Create(Location loc)
         {
@@ -208,6 +218,8 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+        // Action method to return locations created for the company of the currently logged in user
+        // It is displayed in the Details view
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

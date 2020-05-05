@@ -63,59 +63,7 @@ namespace HolidayTracker
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-            //    .AddRoles<IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddClaimsPrincipalFactory<MysUserClaimsPrincipalFactory>();
-            //    //.AddDefaultTokenProviders();
-
-
-            //services.AddIdentity<ApplicationUser, IdentityRole>(options => 
-            //{
-            //    options.Password.RequiredLength = 6;
-            //    options.Password.RequireLowercase = false;
-            //    options.Password.RequireUppercase = false;
-            //    options.Password.RequireNonAlphanumeric = false;
-            //    options.Password.RequireDigit = true;
-            //})
-            //    .AddRoleManager<RoleManager<IdentityRole>>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultUI()
-            //    .AddClaimsPrincipalFactory<MyUserClaimsPrincipalFactory>()
-            //    .AddDefaultTokenProviders();
-
-            //services.AddControllersWithViews();
-            //services.AddRazorPages();
-            //services.AddMvc(options => options.EnableEndpointRouting = false);
         }
-
-        //public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
-        //{
-        //    if (HostEnvironmentEnvExtensions.IsDevelopment((IHostEnvironment)env))
-        //    {
-        //        DeveloperExceptionPageExtensions.UseDeveloperExceptionPage(app);
-        //        app.UseDatabaseErrorPage();
-        //    }
-        //    else
-        //    {
-        //        ExceptionHandlerExtensions.UseExceptionHandler(app, "/Home/Error");
-        //        HstsBuilderExtensions.UseHsts(app);
-        //    }
-        //    HttpsPolicyBuilderExtensions.UseHttpsRedirection(app);
-        //    StaticFileExtensions.UseStaticFiles(app);
-        //    EndpointRoutingApplicationBuilderExtensions.UseRouting(app);
-        //    AuthAppBuilderExtensions.UseAuthentication(app);
-        //    AuthorizationAppBuilderExtensions.UseAuthorization(app);
-        //    EndpointRoutingApplicationBuilderExtensions.UseEndpoints(app, (Action<IEndpointRouteBuilder>)(endpoints =>
-        //{
-        //    ControllerEndpointRouteBuilderExtensions.MapControllerRoute(endpoints, "default", "{controller=Home}/{action=Index}/{id?}", (object)null, (object)null, (object)null);
-        //    RazorPagesEndpointRouteBuilderExtensions.MapRazorPages(endpoints);
-        //}));
-        //    this.CreateRoles(services).Wait();
-        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
@@ -138,12 +86,6 @@ namespace HolidayTracker
 
             app.UseAuthentication();
             app.UseAuthorization();
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
 
             app.UseEndpoints(endpoints =>
             {
@@ -162,43 +104,6 @@ namespace HolidayTracker
             }
 
         }
-
-        //private async Task CreateRoles(IServiceProvider serviceProvider)
-        //{
-        //    RoleManager<IdentityRole> RoleManager = ServiceProviderServiceExtensions.GetRequiredService<RoleManager<IdentityRole>>(serviceProvider);
-        //    UserManager<ApplicationUser> UserManager = ServiceProviderServiceExtensions.GetRequiredService<UserManager<ApplicationUser>>(serviceProvider);
-        //    bool roleCheck = await RoleManager.RoleExistsAsync("Admin");
-        //    if (!roleCheck)
-        //    {
-        //        IdentityResult roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
-        //    }
-        //    ApplicationUser user = await UserManager.FindByEmailAsync("admin@admin.com");
-        //    bool flag = await UserManager.IsInRoleAsync(user, "Admin");
-        //    if (flag)
-        //        return;
-        //    IdentityResult roleAsync = await UserManager.AddToRoleAsync(user, "Admin");
-
-        //    // Check if Manager role exists, if not then create role
-        //    bool managerRoleCheck = await RoleManager.RoleExistsAsync("Manager");
-        //    if (!managerRoleCheck)
-        //    {
-        //        IdentityResult roleResult = await RoleManager.CreateAsync(new IdentityRole("Manager"));
-        //    }
-
-        //    // Check if Approver role exists, if not then create role
-        //    bool approverRoleCheck = await RoleManager.RoleExistsAsync("Approver");
-        //    if (!approverRoleCheck)
-        //    {
-        //        IdentityResult roleResult = await RoleManager.CreateAsync(new IdentityRole("Approver"));
-        //    }
-
-        //    // Check if Employee role exists, if not then create role
-        //    bool employeeRoleCheck = await RoleManager.RoleExistsAsync("Employee");
-        //    if (!employeeRoleCheck)
-        //    {
-        //        IdentityResult roleResult = await RoleManager.CreateAsync(new IdentityRole("Employee"));
-        //    }
-        //}
 
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
@@ -276,14 +181,6 @@ namespace HolidayTracker
             });
                 return principal;
             }
-
-            //protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
-            //{
-            //    var identity = await base.GenerateClaimsAsync(user);
-            //    identity.AddClaim(new Claim("CompanyId", user.CompanyId.ToString()));
-            //    return identity;
-            //}
-
         }
     }
 }

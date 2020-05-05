@@ -8,8 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+// Gender Controller
+
 namespace HolidayTracker.Controllers
 {
+    // Access control using Role-based Authorisation
     [Authorize(Roles = "Admin, Manager")]
     public class GenderController : Controller
     {
@@ -19,6 +22,8 @@ namespace HolidayTracker.Controllers
         {
             _context = context;
         }
+
+        // Action method to display Gender view
         public async Task<IActionResult> Index(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
@@ -67,6 +72,7 @@ namespace HolidayTracker.Controllers
             return View(pageData);
         }
 
+        // HttpGet method to display Gender Edit view
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,6 +92,7 @@ namespace HolidayTracker.Controllers
             return View(gender);
         }
 
+        // HttpPost method to edit genders
         [HttpPost]
         public async Task<IActionResult> Edit(Gender gen)
         {
@@ -114,18 +121,20 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+        // A boolean method to check if any genders exist
         private bool GenderExists(int id)
         {
             return _context.Genders.Any(g => g.Id == id);
         }
 
-        //HttpGet and HTTPPost methods to create a new Gender
+        // HttpGet method to display create Genders view
         [HttpGet]
         public IActionResult Create()
         {
             return View(new Gender());
         }
 
+        // HttpPost method to create genders
         [HttpPost]
         public async Task<IActionResult> Create(Gender gen)
         {
@@ -157,6 +166,9 @@ namespace HolidayTracker.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        // Action method to return genders created for the company of the currently logged in user
+        // It is displayed in the Details view
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -175,6 +187,7 @@ namespace HolidayTracker.Controllers
             return View(gender);
         }
 
+        // HttpGet method to display Delete Gender view
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -194,6 +207,7 @@ namespace HolidayTracker.Controllers
             return View(gender);
         }
 
+        // HttpPost method to delete genders
         [HttpPost]
         public async Task<IActionResult> Delete(Gender gen)
         {

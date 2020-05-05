@@ -8,19 +8,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+// RequestType Controller
 
 namespace HolidayTracker.Controllers
 {
+    // Access control using Role-based Authorisation
     [Authorize(Roles = "Admin, Manager")]
     public class RequestTypeController : Controller
     {
-        // GET: /<controller>/
+        
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
         public RequestTypeController(HolidayTracker.Data.ApplicationDbContext context)
         {
             _context = context;
         }
+
+        // Action method to display Request Type view
         public async Task<IActionResult> Index(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
@@ -69,6 +72,7 @@ namespace HolidayTracker.Controllers
             return View(pageData);
         }
 
+        // HttpGet method to display Request Type Edit view
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -89,6 +93,7 @@ namespace HolidayTracker.Controllers
             return View(requestType);
         }
 
+        // HttpPost method to edit Request Types
         [HttpPost]
         public async Task<IActionResult> Edit(RequestType reqType)
         {
@@ -118,11 +123,13 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+        // A boolean method to check if any Reqyest Types exist
         private bool RequestTypeExists(int id)
         {
             return _context.RequestTypes.Any(d => d.Id == id);
         }
 
+        // HttpGet method to display Request Type Delete view
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -142,6 +149,7 @@ namespace HolidayTracker.Controllers
             return View(requestType);
         }
 
+        // HttpPost method to delete Request Types
         [HttpPost]
         public async Task<IActionResult> Delete(RequestType reqType)
         {
@@ -172,13 +180,14 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        //HttpGet and HTTPPost methods to create a new Department
+        // HttpGet method to display Request Type Create view
         [HttpGet]
         public IActionResult Create()
         {
             return View(new RequestType());
         }
 
+        // HttpPost method to create Request Types
         [HttpPost]
         public async Task<IActionResult> Create(RequestType reqType)
         {
@@ -212,6 +221,8 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+        // Action method to return Request Types created for the company of the currently logged in user
+        // It is displayed in the Details view
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

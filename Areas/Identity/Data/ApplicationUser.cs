@@ -16,8 +16,6 @@ namespace HolidayTracker.Areas.Identity.Data
             return userIdentity;
         }
 
-        //public string DisplayName { get; set; }
-
         public string ContactName { get; set; }
 
         public int CompanyId { get; set; }

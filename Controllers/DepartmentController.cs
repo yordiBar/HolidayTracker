@@ -8,17 +8,23 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+// Department Controller
+
 namespace HolidayTracker.Controllers
 {
+    // Access control using Role-based Authorisation
     [Authorize(Roles = "Admin, Manager")]
     public class DepartmentController : Controller
     {
+
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
         public DepartmentController(HolidayTracker.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
+
+        // Action method to display Departments view
         public async Task<IActionResult> Index(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
@@ -67,6 +73,8 @@ namespace HolidayTracker.Controllers
             return View(pageData);
         }
 
+
+        // HttpGet method to display Departments Edit view
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +95,8 @@ namespace HolidayTracker.Controllers
             return View(department);
         }
 
+
+        // HttpPost method to edit departments
         [HttpPost]
         public async Task<IActionResult> Edit(Department dept)
         {
@@ -116,11 +126,15 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+
+        // A boolean method to check if any departments exist
         private bool DepartmentExists(int id)
         {
             return _context.Departments.Any(d => d.Id == id);
         }
 
+
+        // HttpGet method to display depertments in the Delete view
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -141,6 +155,8 @@ namespace HolidayTracker.Controllers
             return View(department);
         }
 
+
+        // HttpPost method to delete departments
         [HttpPost]
         public async Task<IActionResult> Delete(Department dept)
         {
@@ -172,13 +188,15 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        //HttpGet and HTTPPost methods to create a new Department
+        /// HttpGet method to display Delete Department view
         [HttpGet]
         public IActionResult Create()
         {
             return View(new Department());
         }
 
+
+        // HTTPPost method to Create a department from Create view
         [HttpPost]
         public async Task<IActionResult> Create(Department dept)
         {
