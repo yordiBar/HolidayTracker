@@ -22,5 +22,7 @@ namespace HolidayTracker.Models.Allowance
         public int CarryOver { get; set; }
         public int EmployeeId { get; set; }
         public int CompanyId { get; set; }
+
+        public virtual Employee.Employee Employee { get; set; }
     }
 }

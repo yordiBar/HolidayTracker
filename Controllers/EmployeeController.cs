@@ -521,13 +521,18 @@ namespace HolidayTracker.Controllers
             return Json(serialisedJson);
         }
 
+        // Method is used to populate a dropdown list with users with Approver roles
+        // It is used in JavaScript in views
         [HttpGet]
         public async Task<IActionResult> GetApproverName(string name)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
+            // List of employees from the database
             List<Employee> approverNameList = _context.Employees.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false && x.IsApprover == true).ToList();
+            
             List<Employee> approverNameResults = new List<Employee>();
+            
             foreach (var appName in approverNameList)
             {
                 if (String.IsNullOrEmpty(name) || appName.DisplayName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -676,6 +681,35 @@ namespace HolidayTracker.Controllers
                 {
                     text = startDate.StartDate,
                     id = startDate.Id
+                };
+
+                return Json(serialisedJson);
+            }
+            else
+            {
+                var serialisedJson = new
+                {
+                    text = "",
+                    id = 0
+                };
+
+                return Json(serialisedJson);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLeaveDateById(int Id)
+        {
+            int currentUsersCompanyId = User.Identity.GetCompanyId();
+
+            Employee leaveDate = _context.Employees.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false && x.Id == Id).FirstOrDefault();
+
+            if (leaveDate != null)
+            {
+                var serialisedJson = new
+                {
+                    text = leaveDate.LeavingDate,
+                    id = leaveDate.Id
                 };
 
                 return Json(serialisedJson);

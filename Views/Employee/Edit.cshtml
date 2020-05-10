@@ -46,7 +46,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Leaving Date</label>
-                <input type="text" value="" name="StartDate" id="datepicker2" class="form-control" />
+                <input type="text" value="@Model.DisplayLeavingDate" name="LeaveDate" id="datepicker2" class="form-control" />
                 <span asp-validation-for="LeavingDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -194,6 +194,22 @@
                 }
             });
             $("#datepicker1").datepicker("hide");
+
+            $("#datepicker2").datepicker({
+                dateFormat: "dd/mm/yy",
+                initSelection: function (element, callback) {
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/Employee/GetLeaveDateById?Id=" + element.val(),
+                        success: function (data) {
+                            var obj = { id: data.id, text: data.text };
+                            callback(obj);
+                        }
+                    });
+                }
+            });
+            $("#datepicker2").datepicker("hide");
 
             $("#selectDept").select2({
                 placeholder: "Select Department",

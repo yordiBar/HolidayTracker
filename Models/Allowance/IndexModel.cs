@@ -1,4 +1,5 @@
 ﻿using HolidayTracker.Models.Allowance;
+using HolidayTracker.Models.Employee;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
@@ -29,5 +30,7 @@ namespace HolidayTracker.Views.Allowances
         public int CompanyId { get; set; }
 
         public PaginatedList<Allowance> Allowance { get; set; }
+
+        public List<Employee> Employees { get; set; }
     }
 }

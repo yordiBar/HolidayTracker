@@ -1,7 +1,7 @@
 ﻿@model HolidayTracker.Views.Allowances.IndexModel;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Allowances";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -19,8 +19,8 @@
                                 <th>From</th>
                                 <th>To</th>
                                 <th>Allowed Days</th>
-                                <th>Employee ID</th>
-                                <th>Actions</th>
+                                <th>Employee Name</th>
+                                @*<th>Actions</th>*@
                             </tr>
                         </thead>
                         <tbody>
@@ -37,11 +37,11 @@
                                         @Html.DisplayFor(modelItem => item.Amount)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.EmployeeId)
+                                        @Html.DisplayFor(modelItem => item.Employee.DisplayName)
                                     </td>
-                                    <td>
+                                    @*<td>
                                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                                    </td>
+                                    </td>*@
                                 </tr>
                             }
                         </tbody>
@@ -50,8 +50,8 @@
                                 <th>From</th>
                                 <th>To</th>
                                 <th>Allowed Days</th>
-                                <th>Employee ID</th>
-                                <th>Actions</th>
+                                <th>Employee Name</th>
+                                @*<th>Actions</th>*@
                             </tr>
                         </tfoot>
                     </table>

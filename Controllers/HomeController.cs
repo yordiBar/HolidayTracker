@@ -51,9 +51,7 @@ namespace HolidayTracker.Controllers
             DateTime lastDay = new DateTime(year, 12, 31);
             DateTime firstDayNextYear = lastDay.AddDays(1); // get first day of next year
 
-
-
-
+                        
             Allowance allowance = _context.Allowances.Where(x => x.EmployeeId == currentUserId && x.From == firstDay).FirstOrDefault();
 
             AllowanceBalance allowanceBalance = new AllowanceBalance();
@@ -98,7 +96,6 @@ namespace HolidayTracker.Controllers
 
         // HttpGet method to pass Request Types to a dropdown list
         [HttpGet]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> GetRequestType(string query)
         {
 
@@ -126,8 +123,7 @@ namespace HolidayTracker.Controllers
             return Json(serialisedJson);
         }
 
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [HttpPost]        
         public async Task<IActionResult> CreateRequest(CreateRequestDTO data)
         {
             try
@@ -273,6 +269,7 @@ namespace HolidayTracker.Controllers
 
     }
 
+    // DTO
     public class HomeViewModel
     {
         // list of requests
@@ -282,6 +279,7 @@ namespace HolidayTracker.Controllers
         public AllowanceBalance Balance { get; set; }
     }
 
+    //DTO
     public class AllowanceBalance
     {
         public decimal StandardAllowance { get; set; }

@@ -17,7 +17,10 @@ namespace HolidayTracker.Controllers
     public class DepartmentController : Controller
     {
 
+        // Store the connection in the variable _context
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
+
+        // Creating a connection to the database
         public DepartmentController(HolidayTracker.Data.ApplicationDbContext context)
         {
             _context = context;

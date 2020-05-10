@@ -43,7 +43,7 @@ namespace HolidayTracker.Controllers
 
             pageData.CurrentFilter = searchString;
 
-            IQueryable<Allowance> employeeIQ = _context.Allowances.Where(x => x.CompanyId == currentUsersCompanyId);
+            IQueryable<Allowance> employeeIQ = _context.Allowances.Include(x => x.Employee).Where(x => x.CompanyId == currentUsersCompanyId);
 
             int pageSize = 10;
             pageData.Allowance = await PaginatedList<Allowance>.CreateAsync(

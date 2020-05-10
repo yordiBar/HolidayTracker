@@ -29,6 +29,7 @@ namespace HolidayTracker.Controllers
             _context = context;
         }
 
+        // Method to display all pending request of Employees that the logged in user is an Approver for
         [HttpGet]
         public IActionResult Index()
         {
@@ -47,7 +48,7 @@ namespace HolidayTracker.Controllers
             return View(viewModel);
         }
 
-        // A HttpGet method display all requests for the logged in user
+        // A HttpGet method display the request history for the logged in user
         [HttpGet]
         public IActionResult DisplayAllRequests()
         {
@@ -190,6 +191,7 @@ namespace HolidayTracker.Controllers
         }
     }
 
+    //DTO
     public class ApprovalsViewModel
     {
         // list of requests

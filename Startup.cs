@@ -31,6 +31,7 @@ namespace HolidayTracker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Use ApplicationDBContext to store user permissions
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -105,14 +106,16 @@ namespace HolidayTracker
 
         }
 
+        // A method to add default roles to Roles table to be used when adding Employees
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
+            // create RoleManager and UserManager Interfaces
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             IdentityResult roleResult;
-            //here in this line we are adding Admin Role
-
+            
+            //here in this line we are adding SystemAdmin Role
             var systemAdmin = await RoleManager.RoleExistsAsync("SystemAdmin");
             if (!systemAdmin)
             {
@@ -120,6 +123,7 @@ namespace HolidayTracker
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("SystemAdmin"));
             }
 
+            //here in this line we are adding SystemAdmin Role
             var adminRole = await RoleManager.RoleExistsAsync("Admin");
             if (!adminRole)
             {
@@ -127,9 +131,7 @@ namespace HolidayTracker
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
             }
 
-            //here we are assigning the Admin role to the User that we have registered above 
-            //Now, we are assigning admin role to this user("admin@admin.com"). When will we run this project then it will
-            //be assigned to that user.
+            // Creating a System Admin user
             ApplicationUser user = await UserManager.FindByEmailAsync("admin@admin.com");
             if (user == null)
             {
@@ -140,6 +142,7 @@ namespace HolidayTracker
 
             await UserManager.AddToRoleAsync(user, "SystemAdmin");
 
+            // Create a manager role
             var managerRole = await RoleManager.RoleExistsAsync("Manager");
             if (!managerRole)
             {
@@ -147,6 +150,8 @@ namespace HolidayTracker
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("Manager"));
             }
 
+
+            //
             var approverRole = await RoleManager.RoleExistsAsync("Approver");
             if (!approverRole)
             {
@@ -162,6 +167,7 @@ namespace HolidayTracker
             }
         }
 
+    // A method to store CompanyId for logged in users
     public class MyUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
         {
             public MyUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager,

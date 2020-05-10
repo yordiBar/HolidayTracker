@@ -9,6 +9,7 @@ namespace HolidayTracker.Areas.Identity.Extensions
 {
     public static class IdentityExtensions
     {
+        // A method to get the CompanyId from the Claims
         public static int GetCompanyId(this IIdentity identity)
         {
             Claim first = ((ClaimsIdentity)identity).FindFirst("CompanyId");
