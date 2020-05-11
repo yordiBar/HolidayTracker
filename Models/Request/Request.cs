@@ -7,10 +7,12 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
+// Request Model
 namespace HolidayTracker.Models.Request
 {
     public class Request
     {
+        // Properties
         public int Id { get; set; }
 
         public int CompanyId { get; set; }
@@ -20,8 +22,6 @@ namespace HolidayTracker.Models.Request
         public virtual RequestType.RequestType RequestType { get; set; }
 
         public virtual Employee.Employee Employee { get; set; }
-
-        //public virtual Allowance.Allowance Allowance { get; set; }
 
         public int EmployeeId { get; set; }
 

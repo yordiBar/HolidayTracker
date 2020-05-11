@@ -5,10 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
+// Employee Model
 namespace HolidayTracker.Models.Employee
 {
     public class Employee
     {
+        // Properties
         public int Id { get; set; }
         public string LocationId { get; set; }
         public int DepartmentId { get; set; }

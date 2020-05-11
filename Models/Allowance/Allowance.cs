@@ -4,10 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
+// Allowance Model
 namespace HolidayTracker.Models.Allowance
-{
+{    
     public class Allowance
     {
+        // Properties
         public int Id { get; set; }
 
         // Display DateTime as date only using DisplayFormat attribute

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+// Company Model
 namespace HolidayTracker.Models.Company
-{
+{    
     public class Company
     {
+        // Properties
         public int Id { get; set; }
         public string CompanyName { get; set; }
         public string Address { get; set; }
