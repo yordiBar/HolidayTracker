@@ -28,6 +28,29 @@
             <li class="nav-item">
                 <a asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-globe"></i> <span class="nav-label" data-i18n="nav.miscellaneous">Home</span></a>
             </li>
+            <li class="nav-item dropdown">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Manager"))
+                    {
+                        <a href="#"><i class="fa fa-flask"></i> <span class="nav-label" data-i18n="nav.uielements">Company Settings</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+
+                            <li class="nav-link"><a asp-area="" asp-controller="Location" asp-action="Index">Location</a></li>
+
+                            <li class="nav-link"><a asp-area="" asp-controller="Department" asp-action="Index">Departments</a></li>
+
+                            <li class="nav-link"><a asp-area="" asp-controller="Gender" asp-action="Index">Genders</a></li>
+
+                            <li class="nav-link"><a asp-area="" asp-controller="RequestType" asp-action="Index">Request Type</a></li>
+
+                            <li class="nav-link"><a asp-area="" asp-controller="Employee" asp-action="Index">Employees</a></li>
+
+                            <li class="nav-link"><a asp-area="" asp-controller="Allowance" asp-action="Index">Allowance</a></li>
+                        </ul>
+                    }
+                }
+            </li>
             <li class="nav-item">
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -56,29 +79,6 @@
                         <a asp-area="" asp-controller="Admin" asp-action="Index"><i class="fa fa-bar-chart-o"></i> <span class="nav-label" data-i18n="nav.graphs">Billing</span></a>
                     }
 
-                }
-            </li>
-            <li class="nav-item dropdown">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    if (User.IsInRole("Manager"))
-                    {
-                        <a href="#"><i class="fa fa-flask"></i> <span class="nav-label" data-i18n="nav.uielements">Company Settings</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-
-                            <li class="nav-link"><a asp-area="" asp-controller="Location" asp-action="Index">Location</a></li>
-
-                            <li class="nav-link"><a asp-area="" asp-controller="Department" asp-action="Index">Departments</a></li>
-
-                            <li class="nav-link"><a asp-area="" asp-controller="Gender" asp-action="Index">Genders</a></li>
-
-                            <li class="nav-link"><a asp-area="" asp-controller="RequestType" asp-action="Index">Request Type</a></li>
-
-                            <li class="nav-link"><a asp-area="" asp-controller="Employee" asp-action="Index">Employees</a></li>
-
-                            <li class="nav-link"><a asp-area="" asp-controller="Allowance" asp-action="Index">Allowance</a></li>
-                        </ul>
-                    }
                 }
             </li>
             <li class="nav-item">

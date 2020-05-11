@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HolidayTracker.Controllers
 {
+    // Access control using Role-based Authorisation
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {

@@ -32,6 +32,7 @@ namespace HolidayTracker.Models.Employee
         public string DisplayName { get; set; }
         public string Email { get; set; }
 
+        // Password property to store Employee password, not migrated to the database
         [NotMapped]
         public string Password { get; set; }
         public int ApproverId { get; set; }
@@ -46,6 +47,7 @@ namespace HolidayTracker.Models.Employee
         public bool Sat { get; set; }
         public bool Sun { get; set; }
         
+        // Properties for diplay purposes, not migrated to the database
         [NotMapped]
         public string DisplayStartDate { get { return this.StartDate.ToString("dd/MM/yyyy"); } }
         

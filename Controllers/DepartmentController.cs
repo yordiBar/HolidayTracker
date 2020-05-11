@@ -16,7 +16,6 @@ namespace HolidayTracker.Controllers
     [Authorize(Roles = "Admin, Manager")]
     public class DepartmentController : Controller
     {
-
         // Store the connection in the variable _context
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
 

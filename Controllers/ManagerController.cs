@@ -1,4 +1,7 @@
-﻿using HolidayTracker.Areas.Identity.Data;
+﻿//**************************
+// UNUSED CONTROLLER
+//**************************
+using HolidayTracker.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,15 +19,6 @@ namespace HolidayTracker.Controllers
                 this.roleManager = roleManager;
                 this.userManager = userManager;
             }
-
-        //[HttpGet]
-        //public IActionResult ListUsers()
-        //{
-        //    var users = userManager.Users;
-        //    return View(users);
-        //}
-
-
         public IActionResult Index()
         {
             return View();

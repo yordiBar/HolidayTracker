@@ -119,9 +119,9 @@ namespace HolidayTracker.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    //add user to the admin role
+                    //add user to all roles
                     ApplicationUser newuser = await _userManager.FindByEmailAsync(Input.Email);
-                    //var User = new IdentityUser();
+                    
                     await _userManager.AddToRoleAsync(newuser, "Admin");
                     await _userManager.AddToRoleAsync(newuser, "Manager");
                     await _userManager.AddToRoleAsync(newuser, "Approver");

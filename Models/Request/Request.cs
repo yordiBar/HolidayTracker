@@ -52,6 +52,8 @@ namespace HolidayTracker.Models.Request
 
     }
 
+    // Enum data type declaring RequestStatus values and 
+    // Description attribute to use in datatables
     public enum RequestStatus
     {
         [Description("Pending")]
@@ -66,9 +68,9 @@ namespace HolidayTracker.Models.Request
         Rejected = 4
     }
 
+    // Extension class to create and array of RequestStatus attributes to be displayed in datatables
     public static class EnumExtensions
     {
-
         public static IEnumerable<T> GetValues<T>()
         {
             return (T[])Enum.GetValues(typeof(T));
@@ -96,6 +98,8 @@ namespace HolidayTracker.Models.Request
             return res;
         }
     }
+
+    // Data Transfer Object used to send RequestType model data
     public class CreateRequestDTO
     {
         public int RequestTypeId { get; set; }
@@ -103,6 +107,7 @@ namespace HolidayTracker.Models.Request
         public string To { get; set; }
         public string Description { get; set; }
 
+        // DateTime struct used to set formats for From and To properties of RequestType
         public DateTime RealFrom
         {
             get

@@ -218,7 +218,7 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        // Action method to return locations created for the company of the currently logged in user
+        // Method to return locations created for the company of the currently logged in user
         // It is displayed in the Details view
         public async Task<IActionResult> Details(int? id)
         {
