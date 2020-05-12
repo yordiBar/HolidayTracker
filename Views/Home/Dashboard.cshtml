@@ -228,10 +228,12 @@
                         To: $("#datepicker2").val(),
                         Description: $("#desc").val()
                     },
-                    success: function(response){
-                        alert('Request Sent!');
+                    success: function (response) {
                         
-                        $("form").trigger("reset"); //clear down input values
+                        alert('Request Sent!');
+                        location.reload();
+                        
+                        //$("form").trigger("reset"); //clear down input values
 
                     },
                     error: function(e){
@@ -278,6 +280,7 @@
                     },
                     success: function (response) {
                         alert('Request Cancelled!');
+                        location.reload();
                     },
                     error: function (e) {
                         alert('Error!');
