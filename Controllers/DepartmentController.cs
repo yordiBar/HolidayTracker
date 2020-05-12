@@ -136,7 +136,7 @@ namespace HolidayTracker.Controllers
         }
 
 
-        // HttpGet method to display depertments in the Delete view
+        // HttpGet method to display departments in the Delete view
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -190,7 +190,7 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        /// HttpGet method to display Delete Department view
+        // HttpGet method to display Delete Department view
         [HttpGet]
         public IActionResult Create()
         {

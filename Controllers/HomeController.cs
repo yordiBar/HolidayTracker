@@ -22,12 +22,12 @@ namespace HolidayTracker.Controllers
     
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        // Store the connection in the variable _context
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, HolidayTracker.Data.ApplicationDbContext context)
+        // Creating a connection to the database
+        public HomeController(HolidayTracker.Data.ApplicationDbContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
@@ -51,7 +51,8 @@ namespace HolidayTracker.Controllers
             DateTime lastDay = new DateTime(year, 12, 31);
             DateTime firstDayNextYear = lastDay.AddDays(1); // get first day of next year
 
-                        
+            // Allowance balance to be displayed in a table on employee dashboard page
+            // Using AllowanceBalance Data Transfer Object
             Allowance allowance = _context.Allowances.Where(x => x.EmployeeId == currentUserId && x.From == firstDay).FirstOrDefault();
 
             AllowanceBalance allowanceBalance = new AllowanceBalance();
@@ -94,7 +95,7 @@ namespace HolidayTracker.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        // HttpGet method to pass Request Types to a dropdown list
+        // HttpGet method to retrieve Request Types created for the current company
         [HttpGet]
         public async Task<IActionResult> GetRequestType(string query)
         {
@@ -102,6 +103,7 @@ namespace HolidayTracker.Controllers
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             List<RequestType> requestList = _context.RequestTypes.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
+            
             List<RequestType> requestResults = new List<RequestType>();
             foreach (var request in requestList)
             {
@@ -123,6 +125,7 @@ namespace HolidayTracker.Controllers
             return Json(serialisedJson);
         }
 
+        // HttpPost method to create a new request for the logged in user
         [HttpPost]        
         public async Task<IActionResult> CreateRequest(CreateRequestDTO data)
         {
@@ -139,6 +142,7 @@ namespace HolidayTracker.Controllers
                 // select Employee from database
                 Employee employee = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).FirstOrDefault();
 
+                // Create a new request and add request data
                 Request request = new Request();
 
                 request.CompanyId = currentUsersCompanyId;
@@ -219,17 +223,12 @@ namespace HolidayTracker.Controllers
                     {
                         calcDays++;
                     }
-
-
-
                 }
-
             }
             return calcDays;
-
-
         }
 
+        // HttpPost method to cancel a request submitted by an employee
         [HttpPost]
         public async Task<IActionResult> CancelRequest(int Id)
         {
@@ -269,7 +268,8 @@ namespace HolidayTracker.Controllers
 
     }
 
-    // DTO
+    // Data Transfer Object to retrieve data from Request data set 
+    // and Allowance data set
     public class HomeViewModel
     {
         // list of requests
@@ -279,7 +279,8 @@ namespace HolidayTracker.Controllers
         public AllowanceBalance Balance { get; set; }
     }
 
-    //DTO
+    // Data Transfer Object used to calculate employee allowance balance
+    // Taking data from allowance data sets
     public class AllowanceBalance
     {
         public decimal StandardAllowance { get; set; }

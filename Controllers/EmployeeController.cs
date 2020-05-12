@@ -18,16 +18,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 
+// Employee Controller
+
 namespace HolidayTracker.Controllers
 {
+    // Access control using Role-based Authorisation
     [Authorize(Roles = "Admin, Manager")]
     public class EmployeeController : Controller
     {
+        // Store the connection in the variable _context
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
+
+        // Part of ASP.NET Core Identity API handling user login functionality
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        
         private readonly IEmailSender _emailSender;
 
+        // Creating a connection to the database
         public EmployeeController(HolidayTracker.Data.ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -40,6 +48,7 @@ namespace HolidayTracker.Controllers
             _emailSender = emailSender;
         }
 
+        // Method to display employees in Employee view
         public async Task<IActionResult> Index(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
@@ -87,8 +96,8 @@ namespace HolidayTracker.Controllers
             return View(pageData);
         }
 
+        // HttpGet method to display Employees Edit view
         [HttpGet]
-
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,8 +108,7 @@ namespace HolidayTracker.Controllers
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
-            
-            
+                        
             
             ApplicationUser newuser = await _userManager.FindByEmailAsync(employee.Email);
 
@@ -210,11 +218,14 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+        // A boolean method to check if any employees exist
         private bool EmployeeExists(int id)
         {
             return _context.Employees.Any(e => e.Id == id);
         }
 
+
+        // HttpGet method to display employees in the Delete view
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -234,6 +245,7 @@ namespace HolidayTracker.Controllers
             return View(employee);
         }
 
+        // HTTPPost method to delete an employee
         [HttpPost]
         public async Task<IActionResult> Delete(Employee emp)
         {
@@ -264,12 +276,15 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+        // HttpGet method to display Create Employee view
         [HttpGet]
         public IActionResult Create()
         {
             return  View(new Employee()); 
         }
 
+
+        // HTTPPost method to Create a employee from Create view
         [HttpPost]
         public async Task<IActionResult> Create(Employee emp)
         {
@@ -386,6 +401,8 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+        // Action method to return employees created for the company of the currently logged in user
+        // It is displayed in the Details view
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -443,13 +460,19 @@ namespace HolidayTracker.Controllers
             };
         }
 
+        // Method to retrieve Department name
+        // from the list of departments created for the company
+        // of the logged in user
+        // used in the JavaScript function for a dropdown list
         [HttpGet]
         public async Task<IActionResult> GetDepartmentName(string name)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             List<Department> departmentNameList = _context.Departments.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
+            
             List<Department> departmentNameResults = new List<Department>();
+            
             foreach (var deptName in departmentNameList)
             {
                 if (String.IsNullOrEmpty(name) || deptName.DepartmentName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -469,13 +492,19 @@ namespace HolidayTracker.Controllers
             return Json(serialisedJson);
         }
 
+        // Method to retrieve Location name
+        // from the list of locations created for the company
+        // of the logged in user
+        // used in the JavaScript function for a dropdown list
         [HttpGet]
         public async Task<IActionResult> GetLocationName(string name)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             List<Location> locationNameList = _context.Locations.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
+            
             List<Location> locationNameResults = new List<Location>();
+            
             foreach (var locName in locationNameList)
             {
                 if (String.IsNullOrEmpty(name) || locName.LocationName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -495,13 +524,19 @@ namespace HolidayTracker.Controllers
             return Json(serialisedJson);
         }
 
+        // Method to retrieve Gender name
+        // from the list of genders created for the company
+        // of the logged in user
+        // used in the JavaScript function for a dropdown list
         [HttpGet]
         public async Task<IActionResult> GetGenderName(string name)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             List<Gender> genderNameList = _context.Genders.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
+            
             List<Gender> genderNameResults = new List<Gender>();
+            
             foreach (var genName in genderNameList)
             {
                 if (String.IsNullOrEmpty(name) || genName.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -521,8 +556,10 @@ namespace HolidayTracker.Controllers
             return Json(serialisedJson);
         }
 
-        // Method is used to populate a dropdown list with users with Approver roles
-        // It is used in JavaScript in views
+        // Method to retrieve Approver user's name
+        // from the list of approver users created for the company
+        // of the logged in user
+        // used in the JavaScript function for a dropdown list
         [HttpGet]
         public async Task<IActionResult> GetApproverName(string name)
         {
@@ -552,6 +589,9 @@ namespace HolidayTracker.Controllers
             return Json(serialisedJson);
         }
 
+        // Method to retrieve Departments by department Id
+        // used in the JavaScript function for a dropdown list
+        // as initial selection
         [HttpGet]
         public async Task<IActionResult> GetDepartmentById(int Id)
         {
@@ -581,6 +621,9 @@ namespace HolidayTracker.Controllers
             
         }
 
+        // Method to retrieve Locations by location Id
+        // used in the JavaScript function for a dropdown list
+        // as initial selection
         [HttpGet]
         public async Task<IActionResult> GetLocationById(int Id)
         {
@@ -610,6 +653,9 @@ namespace HolidayTracker.Controllers
 
         }
 
+        // Method to retrieve Genders by gender Id
+        // used in the JavaScript function for a dropdown list
+        // as initial selection
         [HttpGet]
         public async Task<IActionResult> GetGenderById(int Id)
         {
@@ -639,6 +685,9 @@ namespace HolidayTracker.Controllers
 
         }
 
+        // Method to retrieve Approver users by approver Id
+        // used in the JavaScript function for a dropdown list
+        // as initial selection
         [HttpGet]
         public async Task<IActionResult> GetApproverById(int Id)
         {
@@ -668,6 +717,9 @@ namespace HolidayTracker.Controllers
 
         }
 
+        // Method to retrieve employee's start data by Id
+        // used in the JavaScript function for a dropdown list
+        // as initial selection
         [HttpGet]
         public async Task<IActionResult> GetStartDateById(int Id)
         {
@@ -697,6 +749,9 @@ namespace HolidayTracker.Controllers
             }
         }
 
+        // Method to retrieve employee's leaving data by Id
+        // used in the JavaScript function for a dropdown list
+        // as initial selection
         [HttpGet]
         public async Task<IActionResult> GetLeaveDateById(int Id)
         {

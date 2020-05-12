@@ -20,12 +20,12 @@ namespace HolidayTracker.Controllers
     public class ApproverController : Controller
     {
 
-        private readonly ILogger<ApproverController> _logger;
+        
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
 
-        public ApproverController(ILogger<ApproverController> logger, HolidayTracker.Data.ApplicationDbContext context)
+        public ApproverController( HolidayTracker.Data.ApplicationDbContext context)
         {
-            _logger = logger;
+            
             _context = context;
         }
 
@@ -149,7 +149,7 @@ namespace HolidayTracker.Controllers
             }
         }
 
-        // HttpPOst method to cancel a request
+        // HttpPost method to cancel a request
         [HttpPost]
         public async Task<IActionResult> CancelRequest(int Id)
         {
@@ -191,7 +191,8 @@ namespace HolidayTracker.Controllers
         }
     }
 
-    //DTO
+    // Data Transfer Object to retrieve data from Request data set 
+    // and Employee data set
     public class ApprovalsViewModel
     {
         // list of requests

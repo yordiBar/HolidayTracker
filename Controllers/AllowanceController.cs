@@ -16,13 +16,16 @@ namespace HolidayTracker.Controllers
     [Authorize(Roles = "Admin, Manager")]
     public class AllowanceController : Controller
     {
-
+        // Store the connection in the variable _context
         private readonly HolidayTracker.Data.ApplicationDbContext _context;
+
+        // Creating a connection to the database
         public AllowanceController(HolidayTracker.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Action method to display Allowance view
         public async Task<IActionResult> Index(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
@@ -52,6 +55,7 @@ namespace HolidayTracker.Controllers
             return View(pageData);
         }
 
+        // Method to display Allowances for employees for the currently logged in user in Edit view
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -72,6 +76,7 @@ namespace HolidayTracker.Controllers
             return View(allowance);
         }
 
+        // Method to Edit annual allowances for employees of the currently logged in user
         [HttpPost]
         public async Task<IActionResult> Edit(Allowance all)
         {
@@ -105,6 +110,7 @@ namespace HolidayTracker.Controllers
             return RedirectToAction("Index");
         }
 
+        // Boolean method to check if allowances exist
         private bool AllowanceExists(int id)
         {
             return _context.Allowances.Any(d => d.Id == id);
