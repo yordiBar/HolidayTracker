@@ -1,4 +1,12 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@*
+    **********************************************
+    Navigation Bar used as side bar
+    Nav Items Secured by ASP.NET Core Identity
+    Access blocked to unathorised logged in users
+    using Role-based Authentication
+    **********************************************
+*@
+@using Microsoft.AspNetCore.Identity
 @using HolidayTracker.Areas.Identity.Data;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
