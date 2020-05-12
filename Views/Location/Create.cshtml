@@ -1,4 +1,9 @@
-﻿@model HolidayTracker.Models.Location.Location
+﻿@*
+    **********************
+    Location Create View
+    **********************
+*@
+@model HolidayTracker.Models.Location.Location
 
 @{
     ViewData["Title"] = "Create";
@@ -14,7 +19,7 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label  class="control-label">Location Code</label>
+                <label class="control-label">Location Code</label>
                 <input asp-for="LocationCode" class="form-control" />
                 <span asp-validation-for="LocationCode" class="text-danger"></span>
             </div>

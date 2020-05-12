@@ -1,102 +1,109 @@
-﻿@model HolidayTracker.Controllers.HomeViewModel;
+﻿@*
+    **********************
+    Dashboard View
+    Displaying Submit Request form,
+    Alowance Balance Table and Employee's Request History
+    **********************
+*@
+@model HolidayTracker.Controllers.HomeViewModel;
 @{
     ViewData["Title"] = "Dashboard";
 }
 
 @*Div containing Submit Request form and Balance table*@
-    <div class="row justify-content-md-center">        
-        <div class="col-md-4">
-            <hr />
-            @*Submit Request form*@
-            <h4>Submit Your Request</h4>
-            <hr />
-            <form>
-                <div class="form-group">
-                    <label class="control-label">Request Type</label><br />
-                    <input type="text" name="RequestTypeId" id="selectrequest" style="width:100%;" />
-                    <span class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">From</label>
-                    <input type="text" name="From" id="datepicker1" class="form-control" />
-                    <span class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">To</label>
-                    <input type="text" name="To" id="datepicker2" class="form-control" />
-                    <span class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Comments</label>
-                    <textarea name="Description" id="desc" class="form-control"></textarea>
-                    <span class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="button" id="save" value="Save" class="btn btn-primary" />
-                    <input type="reset" value="Cancel" class="btn btn-secondary" />
-                </div>
-            </form>
-        </div>
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <hr />
+        @*Submit Request form*@
+        <h4>Submit Your Request</h4>
+        <hr />
+        <form>
+            <div class="form-group">
+                <label class="control-label">Request Type</label><br />
+                <input type="text" name="RequestTypeId" id="selectrequest" style="width:100%;" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">From</label>
+                <input type="text" name="From" id="datepicker1" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">To</label>
+                <input type="text" name="To" id="datepicker2" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Comments</label>
+                <textarea name="Description" id="desc" class="form-control"></textarea>
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" id="save" value="Save" class="btn btn-primary" />
+                <input type="reset" value="Cancel" class="btn btn-secondary" />
+            </div>
+        </form>
+    </div>
 
-        @*Table displaying logged in user's allowance balance*@
-        <div class="col-md-4">
-            <hr />
-            <h4>Your balance</h4>
-            <hr />
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox ">
-                        <div class="ibox-content">
-                            <table class="table table-striped table-bordered table-hover dataTables-example">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            Standard Allowance
-                                        </td>
-                                        <td>
-                                            @Model.Balance.StandardAllowance
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Pending
-                                        </td>
-                                        <td>
-                                            @Model.Balance.Pending
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Approved
-                                        </td>
-                                        <td>
-                                            @Model.Balance.Approved
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Taken
-                                        </td>
-                                        <td>
-                                            @Model.Balance.Taken
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Remaining
-                                        </td>
-                                        <td>
-                                            @Model.Balance.Remaining
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+    @*Table displaying logged in user's allowance balance*@
+    <div class="col-md-4">
+        <hr />
+        <h4>Your balance</h4>
+        <hr />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-content">
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Standard Allowance
+                                    </td>
+                                    <td>
+                                        @Model.Balance.StandardAllowance
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Pending
+                                    </td>
+                                    <td>
+                                        @Model.Balance.Pending
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Approved
+                                    </td>
+                                    <td>
+                                        @Model.Balance.Approved
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Taken
+                                    </td>
+                                    <td>
+                                        @Model.Balance.Taken
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Remaining
+                                    </td>
+                                    <td>
+                                        @Model.Balance.Remaining
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 <hr />
 
 @*Table displaying list of requests for the logged in user*@
@@ -229,10 +236,10 @@
                         Description: $("#desc").val()
                     },
                     success: function (response) {
-                        
+
                         alert('Request Sent!');
                         location.reload();
-                        
+
                         //$("form").trigger("reset"); //clear down input values
 
                     },
@@ -307,7 +314,7 @@
                     }
                 ]
             });
-            
+
         });
     </script>
 }

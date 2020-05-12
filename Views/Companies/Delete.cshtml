@@ -1,4 +1,11 @@
-﻿@page
+﻿@*
+    **********************
+    UNUSED VIEW
+    **********************
+
+*@
+
+@page
 @model HolidayTracker.Views.Companies.DeleteModel
 
 @{
@@ -44,7 +51,7 @@
             @Html.DisplayFor(model => model.Company.ContactName)
         </dd>
     </dl>
-    
+
     <form method="post">
         <input type="hidden" asp-for="Company.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

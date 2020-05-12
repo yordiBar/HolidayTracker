@@ -1,4 +1,9 @@
-﻿@model HolidayTracker.Models.Gender.Gender
+﻿@*
+    **********************
+    Gender Details View
+    **********************
+*@
+@model HolidayTracker.Models.Gender.Gender
 
 @{
     ViewData["Title"] = "Details";
@@ -10,11 +15,11 @@
 <div>
     <h4>Gender</h4>
     <hr />
-    <dl class="row" >
-        <dt class = "col-sm-2">
+    <dl class="row">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>

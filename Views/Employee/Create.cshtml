@@ -1,4 +1,9 @@
-﻿@model HolidayTracker.Models.Employee.Employee
+﻿@*
+    **********************
+    Employee Create View
+    **********************
+*@
+@model HolidayTracker.Models.Employee.Employee
 
 @{
     ViewData["Title"] = "Create";
@@ -62,7 +67,7 @@
                 <label class="control-label">Location Name</label>
                 <input type="text" name="LocationId" id="selectLoc" style="width:100%" />
                 <span class="text-danger"></span>
-            </div>   
+            </div>
             <div class="form-group">
                 <label class="control-label">Approver Name</label>
                 <input type="text" name="ApproverId" id="selectApp" style="width:100%" />
@@ -245,11 +250,11 @@
                             var obj = { id: data.id, text: data.text };
                             callback(obj);
                         }
-                    });                                        
+                    });
 
                 }
              });
-        
+
 
             $("#selectLoc").select2({
                 placeholder: "Select Location",
