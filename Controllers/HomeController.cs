@@ -83,8 +83,14 @@ namespace HolidayTracker.Controllers
             return View();
         }
 
-        // Action method to display Home/Landing page
+        // Action method to display Home
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        // Action method to display Landing Page
+        public IActionResult Landing()
         {
             return View();
         }

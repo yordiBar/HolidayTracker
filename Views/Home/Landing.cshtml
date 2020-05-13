@@ -1,0 +1,255 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Welcome";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] to Holiday Tracker</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/css/animate.css" />
+        <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/css/animate.css" />
+        <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    </environment>
+
+</head>
+
+<body id="page-top" class="landing-page">
+    <div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top navbar-expand-md" role="navigation">
+            <div class="container">
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">Enter Holiday Tracker</a>
+                <div class="navbar-header page-scroll">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse justify-content-end" id="navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="nav-link page-scroll" href="#page-top">Home</a></li>
+                        <li><a class="nav-link page-scroll" href="#team">Team</a></li>
+                        <li><a class="nav-link page-scroll" href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="inSlider" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+            <li data-target="#inSlider" data-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                <div class="container">
+                    <div class="carousel-image wow zoomIn">
+                        <img src="~/Images/home/TUD_Logo.png" alt="TuDublinLogo" />
+                    </div>
+                </div>
+                <!-- Set background for slide in css -->
+                <div class="header-back one"></div>
+
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="carousel-image wow zoomIn">
+                        <img src="~/Images/home/ht-home-page.JPG" alt="HT Home Page" />
+                    </div>
+                </div>
+                <!-- Set background for slide in css -->
+                <div class="header-back two"></div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#inSlider" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#inSlider" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    @*
+        ****************
+        AUTHOR SECTION
+        ****************
+    *@
+    <section id="team" class="gray-section team">
+        <div class="container">
+            <div class="row m-b-lg">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>Author</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="team-member wow zoomIn">
+                        <img src="~/Images/home/BartAvatar.jpg" class="img-fluid rounded-circle" alt="">
+                        <h4><span class="navy">Bart</span> Rybak</h4>
+                        <p>HigherDiploma In Science in Computing BN509</p>
+                        <p>Student Number: B00122787</p>
+                        <ul class="list-inline social-icon">
+                            <li class="list-inline-item">
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.linkedin.com/in/bart-rybak-b2a087b2"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center m-t-lg m-b-lg">
+                    <p>Final Year Project</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @*
+        ****************
+        CONTACT SECTION
+        ****************
+    *@
+    <section id="contact" class="gray-section contact">
+        <div class="container">
+            <div class="row m-b-lg">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>Contact</h1>
+                    <p>Send me an email if you wish to contact me.</p>
+                </div>
+            </div>
+            <div class="row m-b-lg justify-content-center">
+                <div class="col-lg-3 col-lg-offset-3">
+                    <address>
+                        <strong><span class="navy">Bart Rybak</span></strong><br />
+                        Technological University Dublin<br />
+                        Blanchardstown<br />
+                        Student Number: B00122787
+                    </address>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <a href="mailto:b00122787@tudublin.ie" class="btn btn-primary">Send us mail</a>
+                    <p class="m-t-sm">
+                        Or follow me on social platform
+                    </p>
+                    <ul class="list-inline social-icon">
+                        <li class="list-inline-item">
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.linkedin.com/in/bart-rybak-b2a087b2"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center m-t-lg m-b-lg">
+                    <p><strong>&copy; 2020 Holiday Tracker</strong><br /></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/Popper/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+        <script src="~/lib/slimScroll/jquery.slimscroll.js"></script>
+        <script src="~/lib/pace/pace.js"></script>
+        <script src="~/lib/wow/wow.min.js"></script>
+        <script src="~/js/script.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/Popper/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+        <script src="~/lib/pace/pace.min.js"></script>
+        <script src="~/lib/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="~/lib/wow/wow.min.js"></script>
+        <script src="~/js/script.min.js" asp-append-version="true"></script>
+    </environment>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('body').scrollspy({
+                target: '.navbar-fixed-top',
+                offset: 80
+            });
+
+            // Page scrolling feature
+            $('a.page-scroll').bind('click', function (event) {
+                var link = $(this);
+                $('html, body').stop().animate({
+                    scrollTop: $(link.attr('href')).offset().top - 50
+                }, 500);
+                event.preventDefault();
+                $('#navbar').collapse('hide');
+            });
+        });
+
+        var cbpAnimatedHeader = (function () {
+            var docElem = document.documentElement,
+                header = document.querySelector('.navbar-default'),
+                didScroll = false,
+                changeHeaderOn = 200;
+            function init() {
+                window.addEventListener('scroll', function (event) {
+                    if (!didScroll) {
+                        didScroll = true;
+                        setTimeout(scrollPage, 250);
+                    }
+                }, false);
+            }
+            function scrollPage() {
+                var sy = scrollY();
+                if (sy >= changeHeaderOn) {
+                    $(header).addClass('navbar-scroll')
+                }
+                else {
+                    $(header).removeClass('navbar-scroll')
+                }
+                didScroll = false;
+            }
+            function scrollY() {
+                return window.pageYOffset || docElem.scrollTop;
+            }
+            init();
+
+        })();
+
+        // Activate WOW.js plugin for animation on scrol
+        new WOW().init();
+
+    </script>
+
+</body>
+</html>
