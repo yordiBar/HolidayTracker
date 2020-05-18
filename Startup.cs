@@ -106,7 +106,7 @@ namespace HolidayTracker
 
         }
 
-        // A method to add default roles to Roles table to be used when adding Employees
+        // A method to add roles to the database that can be assigned to users
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             // create RoleManager and UserManager Interfaces
