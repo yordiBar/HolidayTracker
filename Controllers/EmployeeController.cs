@@ -465,14 +465,14 @@ namespace HolidayTracker.Controllers
         // of the logged in user
         // used in the JavaScript function for a dropdown list
         [HttpGet]
-        public async Task<IActionResult> GetDepartmentName(string name)
+        public IActionResult GetDepartmentName(string name)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             List<Department> departmentNameList = _context.Departments.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
-            
+
             List<Department> departmentNameResults = new List<Department>();
-            
+
             foreach (var deptName in departmentNameList)
             {
                 if (String.IsNullOrEmpty(name) || deptName.DepartmentName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -497,14 +497,14 @@ namespace HolidayTracker.Controllers
         // of the logged in user
         // used in the JavaScript function for a dropdown list
         [HttpGet]
-        public async Task<IActionResult> GetLocationName(string name)
+        public IActionResult GetLocationName(string name)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             List<Location> locationNameList = _context.Locations.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
-            
+
             List<Location> locationNameResults = new List<Location>();
-            
+
             foreach (var locName in locationNameList)
             {
                 if (String.IsNullOrEmpty(name) || locName.LocationName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -529,14 +529,14 @@ namespace HolidayTracker.Controllers
         // of the logged in user
         // used in the JavaScript function for a dropdown list
         [HttpGet]
-        public async Task<IActionResult> GetGenderName(string name)
+        public IActionResult GetGenderName(string name)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             List<Gender> genderNameList = _context.Genders.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
-            
+
             List<Gender> genderNameResults = new List<Gender>();
-            
+
             foreach (var genName in genderNameList)
             {
                 if (String.IsNullOrEmpty(name) || genName.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -561,15 +561,15 @@ namespace HolidayTracker.Controllers
         // of the logged in user
         // used in the JavaScript function for a dropdown list
         [HttpGet]
-        public async Task<IActionResult> GetApproverName(string name)
+        public IActionResult GetApproverName(string name)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             // List of employees from the database
             List<Employee> approverNameList = _context.Employees.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false && x.IsApprover == true).ToList();
-            
+
             List<Employee> approverNameResults = new List<Employee>();
-            
+
             foreach (var appName in approverNameList)
             {
                 if (String.IsNullOrEmpty(name) || appName.DisplayName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -593,19 +593,19 @@ namespace HolidayTracker.Controllers
         // used in the JavaScript function for a dropdown list
         // as initial selection
         [HttpGet]
-        public async Task<IActionResult> GetDepartmentById(int Id)
+        public IActionResult GetDepartmentById(int Id)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             Department department = _context.Departments.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false && x.Id == Id).FirstOrDefault();
-            
+
             if (department != null)
             {
                 var serialisedJson = new
-                                     {
-                                         text = department.DepartmentName,
-                                         id = department.Id
-                                     };
+                {
+                    text = department.DepartmentName,
+                    id = department.Id
+                };
                 return Json(serialisedJson);
             }
             else
@@ -617,15 +617,15 @@ namespace HolidayTracker.Controllers
                 };
                 return Json(serialisedJson);
             }
-            
-            
+
+
         }
 
         // Method to retrieve Locations by location Id
         // used in the JavaScript function for a dropdown list
         // as initial selection
         [HttpGet]
-        public async Task<IActionResult> GetLocationById(int Id)
+        public IActionResult GetLocationById(int Id)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
@@ -657,7 +657,7 @@ namespace HolidayTracker.Controllers
         // used in the JavaScript function for a dropdown list
         // as initial selection
         [HttpGet]
-        public async Task<IActionResult> GetGenderById(int Id)
+        public IActionResult GetGenderById(int Id)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
@@ -689,7 +689,7 @@ namespace HolidayTracker.Controllers
         // used in the JavaScript function for a dropdown list
         // as initial selection
         [HttpGet]
-        public async Task<IActionResult> GetApproverById(int Id)
+        public IActionResult GetApproverById(int Id)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
@@ -721,7 +721,7 @@ namespace HolidayTracker.Controllers
         // used in the JavaScript function for a dropdown list
         // as initial selection
         [HttpGet]
-        public async Task<IActionResult> GetStartDateById(int Id)
+        public IActionResult GetStartDateById(int Id)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
@@ -753,7 +753,7 @@ namespace HolidayTracker.Controllers
         // used in the JavaScript function for a dropdown list
         // as initial selection
         [HttpGet]
-        public async Task<IActionResult> GetLeaveDateById(int Id)
+        public IActionResult GetLeaveDateById(int Id)
         {
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 

@@ -109,13 +109,13 @@ namespace HolidayTracker.Controllers
 
         // HttpGet method to retrieve Request Types created for the current company
         [HttpGet]
-        public async Task<IActionResult> GetRequestType(string query)
+        public IActionResult GetRequestType(string query)
         {
 
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
             List<RequestType> requestList = _context.RequestTypes.Where(x => x.CompanyId == currentUsersCompanyId && x.IsDeleted == false).ToList();
-            
+
             List<RequestType> requestResults = new List<RequestType>();
             foreach (var request in requestList)
             {

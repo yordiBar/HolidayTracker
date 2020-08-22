@@ -9,7 +9,7 @@ namespace HolidayTracker.Areas.Identity.Data
 {
     public class ApplicationUser : IdentityUser
     {
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync( UserManager<ApplicationUser> manager)
+        public ClaimsIdentity GenerateUserIdentity(UserManager<ApplicationUser> manager)
         {
             ClaimsIdentity userIdentity = new ClaimsIdentity("Cookies");
             userIdentity.AddClaim(new Claim("CompanyId", this.CompanyId.ToString()));
