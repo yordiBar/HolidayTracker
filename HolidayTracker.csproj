@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UserSecretsId>aspnet-HolidayTracker-FD7D203C-7DCD-4535-9210-02181AB13322</UserSecretsId>
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
   </PropertyGroup>
 
 
