@@ -30,7 +30,7 @@
     "development"
   ],
   "dependencies": {
-    "jquery": ">= 1.9.1"
+    "jquery": ">= 3.5.0"
   },
   "devDependencies": {
     "bootstrap": "^3.3.7",
@@ -52,7 +52,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
     "jshint": "^2.9.2",
-    "jquery": "^1.12.4",
+    "jquery": ">= 3.5.0",
     "qunitjs": "^2.0.1"
   }
 }
