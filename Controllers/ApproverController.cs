@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Employee;
 using HolidayTracker.Models.Request;
+using HolidayTracker.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -190,17 +191,4 @@ namespace HolidayTracker.Controllers
             }
         }
     }
-
-    // Data Transfer Object to retrieve data from Request data set 
-    // and Employee data set
-    public class ApprovalsViewModel
-    {
-        // list of requests
-        public List<Request> Requests { get; set; }
-
-        public List<Employee> Employees { get; set; }
-
-    }
-
-    
 }

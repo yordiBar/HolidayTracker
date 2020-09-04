@@ -14,6 +14,8 @@ using HolidayTracker.Areas.Identity.Extensions;
 using HolidayTracker.Models.Employee;
 using HolidayTracker.Models.Allowance;
 using Microsoft.AspNetCore.Authorization;
+using HolidayTracker.Models.DTO;
+using HolidayTracker.ViewModels;
 
 // Home Controller
 
@@ -42,8 +44,10 @@ namespace HolidayTracker.Controllers
             int currentUsersCompanyId = User.Identity.GetCompanyId();
             int currentUserId = _context.Employees.Where(x => x.Email.ToLower() == HttpContext.User.Identity.Name.ToLower()).Select(x => x.Id).FirstOrDefault();
 
-            HomeViewModel viewModel = new HomeViewModel();
-            viewModel.Requests = _context.Requests.Include(r => r.RequestType).Where(x => x.EmployeeId == currentUserId).ToList();
+            HomeViewModel viewModel = new HomeViewModel
+            {
+                Requests = _context.Requests.Include(r => r.RequestType).Where(x => x.EmployeeId == currentUserId).ToList()
+            };
 
             // get first day and last day of the current year
             int year = DateTime.Now.Year;
@@ -52,18 +56,19 @@ namespace HolidayTracker.Controllers
             DateTime firstDayNextYear = lastDay.AddDays(1); // get first day of next year
 
             // Allowance balance to be displayed in a table on employee dashboard page
-            // Using AllowanceBalance Data Transfer Object
+            // Using AllowanceBalanceDTO Data Transfer Object
             Allowance allowance = _context.Allowances.Where(x => x.EmployeeId == currentUserId && x.From == firstDay).FirstOrDefault();
 
-            AllowanceBalance allowanceBalance = new AllowanceBalance();
-                        
-            allowanceBalance.StandardAllowance = allowance.Amount;
+            AllowanceBalanceDTO allowanceBalance = new AllowanceBalanceDTO
+            {
+                StandardAllowance = allowance.Amount,
 
-            allowanceBalance.Pending = viewModel.Requests.Where(x => x.Status == 0 && x.RequestType.TakesFromAllowance == true && x.From >= firstDay && x.To < firstDayNextYear).Sum(x => x.RequestAmount);
+                Pending = viewModel.Requests.Where(x => x.Status == 0 && x.RequestType.TakesFromAllowance == true && x.From >= firstDay && x.To < firstDayNextYear).Sum(x => x.RequestAmount),
 
-            allowanceBalance.Taken = viewModel.Requests.Where(x => x.Status == 1 && x.RequestType.TakesFromAllowance == true && x.From >= firstDay && x.To < firstDayNextYear && x.From < DateTime.Now).Sum(x => x.RequestAmount);
+                Taken = viewModel.Requests.Where(x => x.Status == 1 && x.RequestType.TakesFromAllowance == true && x.From >= firstDay && x.To < firstDayNextYear && x.From < DateTime.Now).Sum(x => x.RequestAmount),
 
-            allowanceBalance.Approved = viewModel.Requests.Where(x => x.Status == 1 && x.RequestType.TakesFromAllowance == true && x.From >= firstDay && x.To < firstDayNextYear && x.From > DateTime.Now).Sum(x => x.RequestAmount);
+                Approved = viewModel.Requests.Where(x => x.Status == 1 && x.RequestType.TakesFromAllowance == true && x.From >= firstDay && x.To < firstDayNextYear && x.From > DateTime.Now).Sum(x => x.RequestAmount)
+            };
 
             viewModel.Balance = allowanceBalance;
 
@@ -279,31 +284,4 @@ namespace HolidayTracker.Controllers
         }
 
     }
-
-    // Data Transfer Object to retrieve data from Request data set 
-    // and Allowance data set
-    public class HomeViewModel
-    {
-        // list of requests
-        public List<Request> Requests { get; set; }
-
-        
-        public AllowanceBalance Balance { get; set; }
-    }
-
-    // Data Transfer Object used to calculate employee allowance balance
-    // Taking data from allowance data sets
-    public class AllowanceBalance
-    {
-        public decimal StandardAllowance { get; set; }
-
-        public double Pending { get; set; }
-
-        public double Taken { get; set; }
-
-        public double Approved { get; set; }
-
-        public decimal Remaining { get { return StandardAllowance - (decimal)(Pending + Taken + Approved); } }
-    }
-
 }
