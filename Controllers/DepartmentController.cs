@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HolidayTracker.Controllers
 {
     // Access control using Role-based Authorisation
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Roles = "Admin, Manager, SystemAdmin")]
     public class DepartmentController : Controller
     {
         // Store the connection in the variable _context

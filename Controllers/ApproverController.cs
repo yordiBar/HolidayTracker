@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 namespace HolidayTracker.Controllers
 {
     // Access control using Role-based Authorisation
-    [Authorize(Roles = "Approver, Manager")]
+    [Authorize(Roles = "Approver, Manager, SystemAdmin")]
     public class ApproverController : Controller
     {
 

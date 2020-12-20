@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HolidayTracker.Controllers
 {
     // Access control using Role-based Authorisation
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Roles = "Admin, Manager, SystemAdmin")]
     public class AllowanceController : Controller
     {
         // Store the connection in the variable _context
@@ -78,6 +78,7 @@ namespace HolidayTracker.Controllers
 
         // Method to Edit annual allowances for employees of the currently logged in user
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Allowance all)
         {
             if (!ModelState.IsValid)

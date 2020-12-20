@@ -36,7 +36,7 @@ namespace HolidayTracker.Controllers
         // Action method to display Employee Dashboard page
         // Authorisation is set to allow all Employees to see their Dashboard containing holiday requests functionality
 
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Employee, SystemAdmin")]
         [HttpGet]
         public IActionResult Dashboard()
         {

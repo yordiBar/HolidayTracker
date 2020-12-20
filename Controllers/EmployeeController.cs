@@ -23,7 +23,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HolidayTracker.Controllers
 {
     // Access control using Role-based Authorisation
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Roles = "Admin, Manager, SystemAdmin")]
     public class EmployeeController : Controller
     {
         // Store the connection in the variable _context
@@ -126,6 +126,7 @@ namespace HolidayTracker.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Employee emp)
         {
 
@@ -247,6 +248,7 @@ namespace HolidayTracker.Controllers
 
         // HTTPPost method to delete an employee
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Employee emp)
         {
             if (!ModelState.IsValid)
