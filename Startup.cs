@@ -95,14 +95,14 @@ namespace HolidayTracker
                     pattern: "{controller=Home}/{action=Landing}/{id?}");
                 endpoints.MapRazorPages();
             });
-            try
-            {
-                CreateRoles(services).Wait();
-            }
-            catch (Exception ae)
-            {
-                throw ae;
-            }
+            //try
+            //{
+            //    CreateRoles(services).Wait();
+            //}
+            //catch (Exception ae)
+            //{
+            //    throw ae;
+            //}
 
         }
 

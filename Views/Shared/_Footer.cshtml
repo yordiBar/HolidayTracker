@@ -3,6 +3,10 @@
         TECHNOLOGICAL UNIVERSITY DUBLIN
     </div>
     <div>
-        &copy; 2020 - HolidayTracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; <span id="year"></span> - HolidayTracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
 </div>
+
+<script>
+    document.getElementById("year").innerHTML = new Date().getFullYear();
+</script>

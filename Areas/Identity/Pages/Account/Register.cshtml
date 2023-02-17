@@ -76,12 +76,14 @@
         </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
             </form>
-            <p class="m-t"> <small>TU DUBLIN Final Project &copy; 2020</small> </p>
+            <p class="m-t"> <small>TU DUBLIN Final Project &copy; <span id="year"></span></small> </p>
         </div>
     </div>
 </body>
 </html>
-
+<script>
+    document.getElementById("year").innerHTML = new Date().getFullYear();
+</script>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
