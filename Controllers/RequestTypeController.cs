@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HolidayTracker.Areas.Identity.Extensions;
+using HolidayTracker.Models.DTO;
 using HolidayTracker.Models.RequestType;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,46 +29,62 @@ namespace HolidayTracker.Controllers
             string currentFilter, string searchString, int? pageIndex)
         {
             HolidayTracker.Views.RequestTypes.IndexModel pageData = new Views.RequestTypes.IndexModel(_context);
-            
+
             int currentUsersCompanyId = User.Identity.GetCompanyId();
-            pageData.CurrentSort = sortOrder;
-            pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            pageData.CodeSort = sortOrder == "Code" ? "code_desc" : "Code";
-            if (searchString != null)
-            {
-                pageIndex = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
 
-            pageData.CurrentFilter = searchString;
+            var requestTypes = await _context.RequestTypes
+                .Where(x => x.CompanyId == currentUsersCompanyId)
+                .ToListAsync();
 
-            IQueryable<RequestType> dbdata = _context.RequestTypes.Where(x => x.CompanyId == currentUsersCompanyId);
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                dbdata = dbdata.Where(s => s.RequestTypeName.Contains(searchString));
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    dbdata = dbdata.OrderByDescending(s => s.RequestTypeName);
-                    break;
-                case "Code":
-                    dbdata = dbdata.OrderBy(s => s.RequestTypeCode);
-                    break;
-                case "code_desc":
-                    dbdata = dbdata.OrderByDescending(s => s.RequestTypeCode);
-                    break;
-                default:
-                    dbdata = dbdata.OrderBy(s => s.RequestTypeName);
-                    break;
-            }
+            var requestTypeDTOs = requestTypes
+                .Select(x => new RequestTypeDTO
+                {
+                    Id = x.Id,
+                    RequestTypeName = x.RequestTypeName,
+                    RequestTypeCode = x.RequestTypeCode,
+                    IsDeleted = x.IsDeleted,
+                    CompanyId = x.CompanyId
+                })
+                .ToList();
 
-            int pageSize = 10;
-            pageData.RequestType = await PaginatedList<RequestType>.CreateAsync(
-                dbdata.AsNoTracking(), pageIndex ?? 1, pageSize);
+            //pageData.CurrentSort = sortOrder;
+            //pageData.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //pageData.CodeSort = sortOrder == "Code" ? "code_desc" : "Code";
+            //if (searchString != null)
+            //{
+            //    pageIndex = 1;
+            //}
+            //else
+            //{
+            //    searchString = currentFilter;
+            //}
+
+            //pageData.CurrentFilter = searchString;
+
+            //IQueryable<RequestType> dbdata = _context.RequestTypes.Where(x => x.CompanyId == currentUsersCompanyId);
+            //if (!String.IsNullOrEmpty(searchString))
+            //{
+            //    dbdata = dbdata.Where(s => s.RequestTypeName.Contains(searchString));
+            //}
+            //switch (sortOrder)
+            //{
+            //    case "name_desc":
+            //        dbdata = dbdata.OrderByDescending(s => s.RequestTypeName);
+            //        break;
+            //    case "Code":
+            //        dbdata = dbdata.OrderBy(s => s.RequestTypeCode);
+            //        break;
+            //    case "code_desc":
+            //        dbdata = dbdata.OrderByDescending(s => s.RequestTypeCode);
+            //        break;
+            //    default:
+            //        dbdata = dbdata.OrderBy(s => s.RequestTypeName);
+            //        break;
+            //}
+
+            //int pageSize = 10;
+            //pageData.RequestType = await PaginatedList<RequestType>.CreateAsync(
+            //    dbdata.AsNoTracking(), pageIndex ?? 1, pageSize);
 
             return View(pageData);
         }
@@ -83,42 +100,49 @@ namespace HolidayTracker.Controllers
 
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
-            RequestType requestType = await _context.RequestTypes.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
+            var requestType = await _context.RequestTypes
+                .FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId);
 
             if (requestType == null)
             {
                 return NotFound();
             }
 
-            return View(requestType);
+            var requestTypeDTO = new RequestTypeDTO
+            {
+                Id = requestType.Id,
+                RequestTypeName = requestType.RequestTypeName,
+                RequestTypeCode = requestType.RequestTypeCode,
+                IsDeleted = requestType.IsDeleted,
+                CompanyId = requestType.CompanyId
+            };
+
+            return View(requestTypeDTO);
         }
 
         // HttpPost method to edit Request Types
         [HttpPost]
-        public async Task<IActionResult> Edit(RequestType reqType)
+        public async Task<IActionResult> Edit(RequestTypeDTO requestTypeDTO)
         {
             if (!ModelState.IsValid)
             {
-                return View(reqType);
+                return View(requestTypeDTO);
             }
 
-            _context.Attach(reqType).State = EntityState.Modified;
+            var requestType = await _context.RequestTypes
+                .FirstOrDefaultAsync(x => x.Id == requestTypeDTO.Id);
 
-            try
+            if (requestType == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RequestTypeExists(reqType.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }                
-            }
+
+            requestType.RequestTypeName = requestTypeDTO.RequestTypeName;
+            requestType.RequestTypeCode = requestTypeDTO.RequestTypeCode;
+            requestType.IsDeleted = requestTypeDTO.IsDeleted;
+
+            _context.RequestTypes.Update(requestType);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
@@ -184,39 +208,30 @@ namespace HolidayTracker.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(new RequestType());
+            return View(new RequestTypeDTO());
         }
 
         // HttpPost method to create Request Types
         [HttpPost]
-        public async Task<IActionResult> Create(RequestType reqType)
+        public async Task<IActionResult> Create(RequestTypeDTO requestTypeDTO)
         {
             if (!ModelState.IsValid)
             {
-                return View(reqType);
+                return View(requestTypeDTO);
             }
 
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
-            reqType.CompanyId = currentUsersCompanyId;
-
-            _context.RequestTypes.Add(reqType);
-
-            try
+            var requestType = new RequestType
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RequestTypeExists(reqType.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                RequestTypeName = requestTypeDTO.RequestTypeName,
+                RequestTypeCode = requestTypeDTO.RequestTypeCode,
+                IsDeleted = requestTypeDTO.IsDeleted,
+                CompanyId = currentUsersCompanyId
+            };
+
+            _context.RequestTypes.Add(requestType);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
@@ -232,13 +247,24 @@ namespace HolidayTracker.Controllers
 
             int currentUsersCompanyId = User.Identity.GetCompanyId();
 
-            RequestType requestType = await _context.RequestTypes.FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
+            var requestType = await _context.RequestTypes
+                .FirstOrDefaultAsync(x => x.Id == id && x.CompanyId == currentUsersCompanyId && x.IsDeleted == false);
 
             if (requestType == null)
             {
                 return NotFound();
             }
-            return View(requestType);
+
+            var requestTypeDTO = new RequestTypeDTO
+            {
+                Id = requestType.Id,
+                RequestTypeName = requestType.RequestTypeName,
+                RequestTypeCode = requestType.RequestTypeCode,
+                IsDeleted = requestType.IsDeleted,
+                CompanyId = requestType.CompanyId
+            };
+
+            return View(requestTypeDTO);
         }
     }
 }
