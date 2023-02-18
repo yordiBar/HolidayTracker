@@ -1,21 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+using HolidayTracker.Areas.Identity.Data;
 using HolidayTracker.Data;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Routing;
-using HolidayTracker.Areas.Identity.Data;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace HolidayTracker
 {
@@ -57,7 +55,8 @@ namespace HolidayTracker
                 options.User.RequireUniqueEmail = true;
             });
             //added
-            services.ConfigureApplicationCookie(options => {
+            services.ConfigureApplicationCookie(options =>
+            {
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(20.0);
                 options.LoginPath = "/Identity/Account/Login";
@@ -88,6 +87,9 @@ namespace HolidayTracker
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // Seed roles before defining endpoints
+            SeedRoles(services).Wait();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -95,83 +97,13 @@ namespace HolidayTracker
                     pattern: "{controller=Home}/{action=Landing}/{id?}");
                 endpoints.MapRazorPages();
             });
-            //try
-            //{
-            //    CreateRoles(services).Wait();
-            //}
-            //catch (Exception ae)
-            //{
-            //    throw ae;
-            //}
-
         }
 
-        // A method to add roles to the database that can be assigned to users
-        private async Task CreateRoles(IServiceProvider serviceProvider)
+        // A method to store CompanyId for logged in users
+        public class MyUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
         {
-            // create RoleManager and UserManager Interfaces
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-            IdentityResult roleResult;
-            
-            //here in this line we are adding SystemAdmin Role
-            var systemAdmin = await RoleManager.RoleExistsAsync("SystemAdmin");
-            if (!systemAdmin)
-            {
-                //here in this line we are creating SystemAdmin role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("SystemAdmin"));
-            }
-
-            //here in this line we are adding SystemAdmin Role
-            var adminRole = await RoleManager.RoleExistsAsync("Admin");
-            if (!adminRole)
-            {
-                //here in this line we are creating admin role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
-            }
-
-            // Creating a System Admin user
-            ApplicationUser user = await UserManager.FindByEmailAsync("admin@admin.com");
-            if (user == null)
-            {
-                var newuser = new ApplicationUser { UserName = "admin@admin.com", Email = "admin@admin.com" };
-                var result = await UserManager.CreateAsync(newuser, "Admin0!");
-                user = await UserManager.FindByEmailAsync("admin@admin.com");
-            }
-
-            await UserManager.AddToRoleAsync(user, "SystemAdmin");
-
-            // Create a manager role
-            var managerRole = await RoleManager.RoleExistsAsync("Manager");
-            if (!managerRole)
-            {
-                //here in this line we are creating Manager role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Manager"));
-            }
-
-
-            //
-            var approverRole = await RoleManager.RoleExistsAsync("Approver");
-            if (!approverRole)
-            {
-                //here in this line we are creating Approver role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Approver"));
-            }
-
-            var employeeRole = await RoleManager.RoleExistsAsync("Employee");
-            if (!employeeRole)
-            {
-                //here in this line we are creating Employee role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Employee"));
-            }
-        }
-
-    // A method to store CompanyId for logged in users
-    public class MyUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
-        {
-            public MyUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager,
-                RoleManager<IdentityRole> roleManager,
+            public MyUserClaimsPrincipalFactory(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager,
+                Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> roleManager,
                 IOptions<IdentityOptions> optionsAssessor)
                 : base(userManager, roleManager, optionsAssessor)
             {
@@ -186,6 +118,74 @@ namespace HolidayTracker
                 new Claim("CompanyId", user.CompanyId.ToString())
             });
                 return principal;
+            }
+        }
+
+        private async Task SeedRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<Microsoft.AspNetCore.Identity.RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<Microsoft.AspNetCore.Identity.UserManager<ApplicationUser>>();
+
+            Microsoft.AspNetCore.Identity.IdentityResult roleResult;
+
+            // Create roles if they don't exist
+            var systemAdminRole = await roleManager.RoleExistsAsync("SystemAdmin");
+            if (!systemAdminRole)
+            {
+                roleResult = await roleManager.CreateAsync(new IdentityRole("SystemAdmin"));
+            }
+
+            var adminRole = await roleManager.RoleExistsAsync("Admin");
+            if (!adminRole)
+            {
+                roleResult = await roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+
+            var managerRole = await roleManager.RoleExistsAsync("Manager");
+            if (!managerRole)
+            {
+                roleResult = await roleManager.CreateAsync(new IdentityRole("Manager"));
+            }
+
+            var approverRole = await roleManager.RoleExistsAsync("Approver");
+            if (!approverRole)
+            {
+                roleResult = await roleManager.CreateAsync(new IdentityRole("Approver"));
+            }
+
+            var employeeRole = await roleManager.RoleExistsAsync("Employee");
+            if (!employeeRole)
+            {
+                roleResult = await roleManager.CreateAsync(new IdentityRole("Employee"));
+            }
+
+            // Create admin user if they don't exist
+            var adminUser = await userManager.FindByEmailAsync("admin@admin.com");
+            if (adminUser == null)
+            {
+                adminUser = new ApplicationUser
+                {
+                    UserName = "admin",
+                    Email = "admin@admin.com"
+                };
+                var result = await userManager.CreateAsync(adminUser, "Admin0!");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(adminUser, "SystemAdmin");
+                }
+            }
+        }
+
+
+        private async Task CreateRole(Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> roleManager, string roleName)
+        {
+            if (!await roleManager.RoleExistsAsync(roleName))
+            {
+                var roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                if (!roleResult.Succeeded)
+                {
+                    throw new Exception($"Error creating role '{roleName}': {roleResult.Errors}");
+                }
             }
         }
     }
